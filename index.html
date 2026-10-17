@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#090c13">
+<title>HISTORY TRADER</title>
+<meta name="description" content="西暦30XX年、18歳・10万円から80歳まで。毎回ちがう“未来の歴史”で動く架空の株を売買して生き抜く無料ブラウザゲーム。全64種の称号、隠されたレア称号あり。日本語 / English / 中文 / 한국어">
+<!-- ===== OGP / Xカード（テンプレート）=====
+     公開後に、promo/05_ogp_1200x630.png を ogp.png としてゲームと同じ場所に置き、
+     下の「https://capital-and-soul.github.io/」を公開URLに置き換えてください（og:image は絶対URL必須）。 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="HISTORY TRADER">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="og:locale:alternate" content="ko_KR">
+<meta property="og:title" content="HISTORY TRADER｜未来史 × 架空の株取引ゲーム">
+<meta property="og:description" content="毎回ちがう未来の歴史を、株で生き抜け。富を取るか、潔白を取るか。無料・登録不要。※ゲーム内の架空の取引です。">
+<meta property="og:url" content="https://capital-and-soul.github.io/">
+<meta property="og:image" content="https://capital-and-soul.github.io/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="HISTORY TRADER — 死神から女神まで64種の称号">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="HISTORY TRADER｜未来史 × 架空の株取引ゲーム">
+<meta name="twitter:description" content="毎回ちがう未来の歴史を、株で生き抜け。富を取るか、潔白を取るか。#キャピタルアンドソウル">
+<meta name="twitter:image" content="https://capital-and-soul.github.io/ogp.png">
+<!-- <meta name="twitter:site" content="@あなたのXアカウント"> -->
+
+<style>
+:root{
+  --bg:#090c13; --panel:#111725; --panel2:#161e30; --line:#232d45; --text:#e8ecf5; --sub:#8b95ad; --dim:#5b6580;
+  --A:#ff5d4f; --B:#2fd89c; --C:#7fb2ff; --gold:#f5c451; --purple:#b48cff; --danger:#ff4d6d;
+  --r:14px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Noto Sans SC","Noto Sans KR","Yu Gothic UI","Malgun Gothic","Microsoft YaHei",sans-serif;-webkit-text-size-adjust:100%}
+body{min-height:100vh;background:radial-gradient(120% 60% at 50% -10%,#1a2340 0%,var(--bg) 60%) fixed}
+button,select,input,textarea{font:inherit;color:inherit;touch-action:manipulation}
+button{cursor:pointer}
+.num{font-variant-numeric:tabular-nums}
+#game{max-width:480px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 8px) 12px calc(env(safe-area-inset-bottom) + 16px)}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.when{display:flex;align-items:baseline;gap:8px;min-width:0}
+.age{font-size:28px;font-weight:800;letter-spacing:-.5px;line-height:1}
+.age small{font-size:12px;color:var(--sub);margin-left:2px;font-weight:600}
+.year{font-size:12.5px;color:var(--sub);font-weight:600;white-space:nowrap}
+.ctrl{display:flex;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:3px;flex:none}
+.cbtn{border:0;background:transparent;border-radius:9px;min-width:36px;height:34px;font-size:13px;font-weight:700;color:var(--sub);padding:0 6px}
+.cbtn.on{background:var(--panel2);color:var(--text);box-shadow:inset 0 0 0 1px #34405f}
+#btnPause{font-size:15px;color:var(--text)}
+#btnPause.paused{background:var(--gold);color:#1a1300}
+#btnAuto{font-size:15px}
+#btnAuto.on{background:linear-gradient(135deg,#7d5cff,#4f7cff);color:#fff;box-shadow:0 0 12px rgba(125,92,255,.6)}
+
+.yearbar{position:relative;height:18px;margin:8px 0 6px;background:var(--panel);border-radius:9px;overflow:hidden;border:1px solid var(--line)}
+#yearFill{position:absolute;inset:0 auto 0 0;width:0;background:linear-gradient(90deg,#2a3866,#4460b0)}
+.yearbar span{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 8px;font-size:10.5px;color:#c9d3ec;font-weight:600}
+.skills{display:flex;flex-wrap:wrap;gap:4px;margin:-2px 0 6px}
+.skills span{font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:6px;background:var(--panel);border:1px solid var(--line);color:#c7cfe2}
+.skills span.off{color:var(--dim)}
+.skills span.autoc{background:linear-gradient(135deg,#3a2a7a,#23366e);border-color:#7d5cff;color:#fff}
+
+/* ticker */
+.ticker{display:flex;align-items:center;height:30px;background:#0d1220;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.tlabel{flex:none;height:100%;display:flex;align-items:center;padding:0 8px;background:var(--danger);color:#fff;font-size:10px;font-weight:900;letter-spacing:1px}
+.tview{flex:1;overflow:hidden;white-space:nowrap}
+#tickerText{display:inline-block;padding-left:100%;font-size:13px;font-weight:600;animation:mq 16s linear infinite}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+
+/* chart */
+.chartbox{position:relative;margin-top:8px;background:linear-gradient(180deg,#0f1524,#0b101b);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.ctabs{position:absolute;top:6px;right:6px;display:flex;gap:3px;z-index:2}
+.ctabs button{border:1px solid var(--line);background:rgba(17,23,37,.85);color:var(--sub);font-size:10.5px;font-weight:700;padding:3px 7px;border-radius:7px}
+.ctabs button.on{color:var(--text);border-color:#4a5a85}
+.ctabs .sp{width:4px}
+#cv{display:block;width:100%;height:210px}
+#toast{position:absolute;left:8px;right:8px;bottom:8px;padding:9px 11px;border-radius:11px;background:rgba(14,19,32,.94);border:1px solid #33405f;font-size:12.5px;line-height:1.45;font-weight:600;transform:translateY(130%);opacity:0;transition:.3s;pointer-events:none;backdrop-filter:blur(6px);white-space:pre-line}
+#toast.show{transform:none;opacity:1}
+.badge{display:inline-block;font-size:10px;font-weight:900;padding:1px 6px;border-radius:5px;margin-right:6px;vertical-align:1px}
+.k-hist{background:var(--gold);color:#241a00}.k-rumor{background:#4c6fd6;color:#fff}.k-life{background:var(--purple);color:#1d0f3a}
+.k-flash{background:var(--danger);color:#fff}.k-fake{background:#566079;color:#fff}.k-sys{background:#2b3a5c;color:#cfe}
+.k-auto{background:linear-gradient(135deg,#7d5cff,#4f7cff);color:#fff}
+
+/* summary */
+.summary{display:grid;grid-template-columns:1.25fr 1fr;gap:8px;margin-top:8px}
+.sbox{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:9px 11px}
+.sbox label{display:block;font-size:10.5px;color:var(--sub);font-weight:700;letter-spacing:.5px}
+#total{font-size:23px;font-weight:800;letter-spacing:-.5px;margin-top:2px}
+#totalChg{font-size:11px;font-weight:700;color:var(--sub)}
+.kbar{height:8px;border-radius:4px;margin:7px 0 4px;background:linear-gradient(90deg,#1b1b1f,#5b6070 50%,#f2f5ff);position:relative}
+#karmaMark{position:absolute;top:-4px;width:4px;height:16px;border-radius:2px;background:var(--gold);box-shadow:0 0 8px var(--gold);transform:translateX(-2px);transition:left .2s}
+#karmaLbl{font-size:12px;font-weight:700}
+#karmaV{font-size:15px;color:var(--text);margin-left:4px}
+.sbox.kb{position:relative;padding-right:52px}
+.avatar{position:absolute;right:7px;top:7px;width:40px;border-radius:8px;overflow:hidden;border:1px solid #3a4870}
+
+/* asset cards */
+.card{margin-top:8px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:10px 11px;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c)}
+.card.a{--c:var(--A)}.card.b{--c:var(--B)}.card.c{--c:var(--C)}
+.chead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.cname{font-size:14px;font-weight:800}
+.cname small{display:block;font-size:10.5px;color:var(--sub);font-weight:600;margin-top:2px}
+.cname i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--c);margin-right:6px;box-shadow:0 0 8px var(--c);vertical-align:1px}
+.cprice{text-align:right;flex:none}
+.cprice b{display:block;font-size:16px;font-weight:800}
+.cprice span{font-size:11px;font-weight:700}
+.chold{font-size:12px;color:var(--sub);margin:6px 0 8px;display:flex;justify-content:space-between}
+.chold b{color:var(--text);font-size:14px}
+.up{color:var(--B)}.down{color:var(--A)}
+.btns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.btns button,.btns2 button{height:42px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);font-size:12px;font-weight:800;line-height:1.15;padding:0 2px}
+.btns button.buy{background:color-mix(in srgb,var(--c) 20%,var(--panel2));border-color:color-mix(in srgb,var(--c) 55%,transparent)}
+.btns button:active,.btns2 button:active{transform:scale(.96)}
+.btns button:disabled,.btns2 button:disabled{opacity:.35}
+.btns2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.sw{display:flex;align-items:center;justify-content:center;gap:8px;height:42px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);font-size:12px;font-weight:800}
+.sw input{appearance:none;-webkit-appearance:none;width:36px;height:20px;border-radius:10px;background:#2a3350;position:relative;margin:0;transition:.2s;flex:none}
+.sw input::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#cbd3ea;transition:.2s}
+.sw input:checked{background:var(--danger)}
+.sw input:checked::after{left:18px;background:#fff}
+.flow{font-size:11.5px;color:var(--sub);margin-top:7px;display:flex;justify-content:space-between}
+
+details.log{margin-top:8px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:8px 11px}
+details.log summary{font-size:12px;font-weight:800;color:var(--sub);cursor:pointer}
+#log{list-style:none;margin:6px 0 0;padding:0;max-height:200px;overflow:auto}
+#log li{font-size:11.5px;line-height:1.45;padding:5px 0;border-top:1px dashed var(--line);color:#c7cfe2;white-space:pre-line}
+#log li em{font-style:normal;color:var(--dim);margin-right:6px}
+.footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px;color:var(--sub)}
+.langsel{display:flex;align-items:center;gap:6px;font-weight:700}
+.langsel select{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:5px 6px;font-size:12px}
+.linkbtn{background:none;border:0;color:var(--C);font-weight:800;font-size:12.5px;padding:8px 4px;text-decoration:underline;text-underline-offset:3px}
+
+/* overlays */
+.overlay{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(5,7,12,.82);backdrop-filter:blur(8px);overflow:auto}
+.hidden{display:none!important}
+.panel{width:100%;max-width:420px;background:linear-gradient(180deg,#141b2c,#0d121e);border:1px solid #2c3858;border-radius:20px;padding:22px 18px;box-shadow:0 20px 60px rgba(0,0,0,.6);margin:auto}
+.langs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.langs button{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:4px 11px;font-size:12px;font-weight:700;color:var(--sub)}
+.langs button.on{border-color:var(--gold);color:var(--gold)}
+.logo{font-size:30px;font-weight:900;letter-spacing:-1px;line-height:1.1;background:linear-gradient(90deg,var(--A),var(--gold) 50%,var(--B));-webkit-background-clip:text;background-clip:text;color:transparent}
+.appsub{font-size:12px;font-weight:800;color:var(--gold);letter-spacing:1px;margin-top:4px}
+.tag{color:var(--sub);font-size:13px;margin:8px 0 16px;line-height:1.6}
+.rules{font-size:12.5px;line-height:1.7;color:#c7cfe2;padding-left:18px;margin:0 0 18px}
+.rules b{color:var(--text)}
+.bigbtn{display:block;width:100%;min-height:52px;border-radius:14px;border:0;font-size:16px;font-weight:900;margin-top:10px;padding:8px}
+.primary{background:linear-gradient(90deg,#4f7cff,#7d5cff);color:#fff;box-shadow:0 8px 24px rgba(90,100,255,.35)}
+.ghost{background:var(--panel2);border:1px solid #33405f!important}
+.xbtn{background:#000;color:#fff;border:1px solid #444!important}
+.note{font-size:11px;color:var(--dim);text-align:center;margin-top:12px;line-height:1.5}
+.center{text-align:center}
+
+/* setup (mode / route) */
+#setupScr{z-index:52}
+.rq{font-size:13px;color:var(--sub);font-weight:700;letter-spacing:1px}
+.rh2{font-size:24px;font-weight:900;margin:4px 0 14px}
+.rcard{display:block;width:100%;text-align:left;border:1px solid #33405f;background:#0f1525;border-radius:16px;padding:14px;margin-top:10px;position:relative}
+.rcard:active{transform:scale(.98)}
+.rcard b{display:block;font-size:17px;font-weight:900;padding-right:96px}
+.rcard .rsub{font-size:11.5px;color:var(--sub);font-weight:700;margin-top:2px}
+.rcard ul{margin:8px 0 0;padding-left:18px;font-size:12px;line-height:1.65;color:#c7cfe2}
+.rcard li.minus{color:#ff9a8f}
+.rcard .rtag{position:absolute;top:12px;right:12px;font-size:10.5px;font-weight:900;padding:2px 8px;border-radius:999px;max-width:110px;text-align:center}
+.rcard.blue{border-color:#4a6aa8}.rcard.blue .rtag{background:var(--C);color:#0a1020}
+.rcard.gold{border-color:#8a6a20}.rcard.gold .rtag{background:var(--gold);color:#2a1c00}
+.rcard.red{border-color:#8a3040}.rcard.red .rtag{background:var(--danger);color:#fff}
+.rcard.green{border-color:#2a7a5a}.rcard.green .rtag{background:var(--B);color:#062a1c}
+.rcard.purple{border-color:#7d5cff;background:linear-gradient(135deg,#1a1440,#0f1525)}.rcard.purple .rtag{background:linear-gradient(90deg,#ff5d8f,#7d5cff);color:#fff}
+/* 実績・記録・小物 */
+.verline{font-size:10.5px;color:var(--dim);text-align:center;margin-top:6px}
+.streamok{font-size:10.5px;color:#8fd0a8;font-weight:700;text-align:center;margin-top:4px}
+details.chlog{margin-top:12px;font-size:11.5px;color:var(--sub)}
+details.chlog summary{cursor:pointer;font-weight:800}
+details.chlog p{margin:6px 0 0;line-height:1.55}
+.achgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.ach{background:#0d1220;border:1px solid var(--line);border-radius:12px;padding:10px;min-height:92px}
+.ach.on{border-color:var(--gold);background:linear-gradient(160deg,rgba(245,196,81,.14),#0d1220)}
+.ach .ai{font-size:24px;line-height:1}
+.ach b{display:block;font-size:13px;margin:6px 0 2px}
+.ach small{display:block;font-size:10.5px;color:var(--sub);line-height:1.45}
+.ach:not(.on) .ai{filter:grayscale(1);opacity:.4}
+.ach:not(.on) b{color:var(--dim)}
+.hist{list-style:none;margin:12px 0 0;padding:0}
+.hist li{display:flex;gap:10px;align-items:center;background:#0d1220;border:1px solid var(--line);border-radius:12px;padding:8px;margin-top:6px}
+.hist li .hi{width:44px;flex:none;border-radius:8px;overflow:hidden}
+.hist li b{display:block;font-size:13px}
+.hist li small{display:block;font-size:10.5px;color:var(--sub);line-height:1.45}
+.newach{margin-top:10px;padding:9px 10px;border-radius:12px;border:1px solid var(--gold);background:rgba(245,196,81,.1);font-size:12px;font-weight:700;line-height:1.6;text-align:left}
+.tiplink{display:block;text-align:right;font-size:11px;color:var(--sub);margin-top:10px;text-decoration:none}
+.sprow{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:6px;margin-top:8px}
+.sprow button{padding:0;border:1px solid var(--line);background:#0d1220;border-radius:8px;overflow:hidden;color:var(--sub);font-size:10.5px;font-weight:700}
+.sprow button.own{border-color:#8fd0a8}
+.sprow button span{display:block;padding:4px 2px}
+.rback{background:none;border:0;color:var(--sub);font-size:13px;font-weight:700;padding:6px 0}
+
+/* result */
+.rhead{text-align:center}
+.rhead .rk{font-size:12px;color:var(--sub);font-weight:700;letter-spacing:1px}
+.rtitle{font-size:27px;font-weight:900;margin:6px 0 4px;letter-spacing:-.5px}
+.rdesc{font-size:12.5px;color:#c7cfe2;line-height:1.6}
+.rstatus{display:inline-block;font-size:13px;font-weight:900;letter-spacing:3px;padding:4px 14px;border-radius:999px;margin-bottom:8px}
+.rstatus.clear{color:#1a1300;background:linear-gradient(90deg,var(--gold),#ffe28a);box-shadow:0 0 18px rgba(245,196,81,.5)}
+.rstatus.over{color:#fff;background:var(--danger);box-shadow:0 0 18px rgba(255,77,109,.5)}
+.evalcard{margin:6px auto 4px;display:inline-flex;flex-direction:column;align-items:center;padding:8px 22px;border-radius:14px;border:2px solid var(--c,#4a5a85);background:color-mix(in srgb,var(--c,#4a5a85) 14%,#0d1220)}
+.evalcard small{font-size:10.5px;color:var(--sub);font-weight:800;letter-spacing:2px}
+.evalcard b{font-size:24px;font-weight:900;color:var(--c,#fff)}
+.rlbl{display:block;font-size:10.5px;color:var(--sub);font-weight:700;margin-top:10px;letter-spacing:1px}
+.rmain{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0 4px}
+.rmain div{background:#0d1220;border:1px solid #33405f;border-radius:14px;padding:10px 12px}
+.rmain label{display:block;font-size:11px;color:var(--sub);font-weight:800}
+.rmain b{display:block;font-size:21px;font-weight:900;margin-top:2px}
+.rmain b small{font-size:12px;color:var(--sub)}
+.rmain span{font-size:11px;color:var(--sub);font-weight:700}
+.rstats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
+.rstats div{background:#0d1220;border:1px solid var(--line);border-radius:12px;padding:8px 10px}
+.rstats label{display:block;font-size:10.5px;color:var(--sub);font-weight:700}
+.rstats b{font-size:17px}
+svg{display:block;width:100%;height:auto}
+.rchar{position:relative;width:170px;margin:10px auto 2px;border-radius:18px;overflow:hidden;border:1px solid #3a4870;box-shadow:0 10px 30px rgba(0,0,0,.55)}
+.newb{position:absolute;top:8px;right:8px;background:var(--danger);color:#fff;font-size:11px;font-weight:900;padding:3px 9px;border-radius:999px;animation:pop .6s .2s ease-out both}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.3)}100%{transform:scale(1)}}
+.rarebanner{margin:10px 0 0;padding:10px;border-radius:14px;font-size:17px;font-weight:900;color:#fff;background:linear-gradient(90deg,#ff5d8f,#f5c451,#2fd89c,#7fb2ff,#b48cff);background-size:200%;animation:rainbow 3s linear infinite;text-shadow:0 1px 3px #0009}
+.bragbtn{display:block;width:100%;min-height:72px;margin:14px 0 4px;border-radius:18px;border:3px solid #fff;font-size:22px;font-weight:900;color:#fff;background:#000;box-shadow:0 0 0 4px rgba(245,196,81,.35),0 0 30px rgba(180,140,255,.7);animation:bragpulse 1.4s ease-in-out infinite}
+.bragbtn small{display:block;font-size:12px;font-weight:700;color:#f5c451;margin-top:2px}
+@keyframes bragpulse{50%{transform:scale(1.03);box-shadow:0 0 0 6px rgba(245,196,81,.5),0 0 44px rgba(255,93,143,.8)}}
+.dexbar{display:flex;align-items:center;gap:10px;margin-top:10px;background:#0d1220;border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:12px;font-weight:700}
+.dexbar b{color:var(--gold);font-size:15px}
+.dexbar .pbar{flex:1}
+.dexbar button{border:1px solid #4a5a85;background:var(--panel2);border-radius:8px;padding:7px 10px;font-size:12px;font-weight:800;flex:none}
+.pbar{height:6px;background:#1d2538;border-radius:3px;overflow:hidden}
+.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#ffe9a0)}
+#rcv{width:100%;height:160px;display:block;margin-top:12px;background:#0d1220;border:1px solid var(--line);border-radius:12px}
+.trial{margin:10px 0 4px;padding:9px 10px;border-radius:12px;font-size:12px;line-height:1.55;font-weight:700}
+.trial.win{background:linear-gradient(90deg,rgba(245,196,81,.25),rgba(180,140,255,.25));border:1px solid var(--gold);color:#fff3c0}
+.trial.lose{background:#151a28;border:1px dashed #4a5a85;color:#aab3c8}
+.modetag{display:inline-block;font-size:10.5px;font-weight:900;padding:2px 8px;border-radius:999px;background:#23366e;color:#cfe;margin-left:4px}
+
+/* rarity */
+.rar{display:inline-block;font-size:10.5px;font-weight:900;padding:2px 8px;border-radius:999px;letter-spacing:.5px}
+.rar.r-N{background:#232d45;color:#aab3c8}
+.rar.r-SR{background:linear-gradient(90deg,#f5c451,#ffe9a0);color:#3a2600}
+.rar.r-LEGEND{background:linear-gradient(90deg,#ff5d8f,#f5c451,#2fd89c,#7fb2ff,#b48cff);background-size:200%;color:#fff;text-shadow:0 1px 2px #0008;animation:rainbow 3s linear infinite}
+@keyframes rainbow{to{background-position:200% 0}}
+.rhead .rar{margin-top:10px;font-size:12px;padding:3px 12px}
+.rchar.rare-SR{border:2px solid var(--gold);box-shadow:0 0 26px rgba(245,196,81,.6)}
+.rchar.rare-LEGEND{border:2px solid #fff;box-shadow:0 0 18px #ff5d8f,0 0 36px #7fb2ff,0 0 60px #f5c451;animation:legend 2s ease-in-out infinite alternate}
+@keyframes legend{to{box-shadow:0 0 26px #b48cff,0 0 46px #2fd89c,0 0 70px #ff5d8f}}
+
+/* dex */
+#dexScr{z-index:55;align-items:flex-start}
+.dexpanel{padding:16px 10px}
+.dexhead{display:flex;align-items:center;gap:10px;margin-bottom:8px;padding:0 4px;flex-wrap:wrap}
+.dexhead b{font-size:18px}
+.dexhead span{color:var(--gold);font-weight:800;font-size:12.5px}
+.xclose{margin-left:auto;border:0;background:var(--panel2);width:36px;height:36px;border-radius:50%;font-size:14px}
+.dexaxis{display:flex;justify-content:space-between;font-size:9.5px;color:var(--sub);font-weight:700;margin:10px 2px 0 32px}
+.dexgrid{display:grid;grid-template-columns:30px repeat(8,1fr);gap:2px;margin-top:4px}
+.dexgrid .dh{font-size:8px;color:var(--sub);font-weight:800;text-align:center;display:flex;align-items:center;justify-content:center;line-height:1.1;padding:2px 0;word-break:break-word}
+.dexgrid button{padding:0;border:1px solid var(--line);background:#0d1220;border-radius:5px;overflow:hidden;aspect-ratio:6/7;color:#3a4560;font-size:13px;font-weight:900;position:relative}
+.dexgrid button.own{border-color:#4a5a85}
+.dexgrid button.sel{outline:2px solid var(--gold);outline-offset:-1px}
+.dexgrid button.r-SR{border-color:#8a6a20;color:#e0b040}
+.dexgrid button.r-LEGEND{border-color:#b48cff;color:#e8d8ff}
+.dexdetail{display:flex;gap:12px;align-items:center;margin-top:12px;background:#0d1220;border:1px solid var(--line);border-radius:12px;padding:10px;min-height:120px}
+.dexdetail .dimg{width:96px;flex:none;border-radius:10px;overflow:hidden;border:1px solid #3a4870}
+.dexdetail .lock{height:112px;display:flex;align-items:center;justify-content:center;font-size:34px;color:#e0b040;background:#090c14}
+.dexdetail b{display:block;font-size:16px;margin:2px 0 4px}
+.dexdetail p{margin:4px 0 6px;font-size:11.5px;line-height:1.5;color:#c7cfe2}
+.dexdetail small{font-size:10.5px;color:var(--sub);line-height:1.5}
+.dimg.rare-SR{border-color:var(--gold)!important}
+.dimg.rare-LEGEND{border:2px solid #fff!important;box-shadow:0 0 14px #b48cff}
+.dhint{font-size:12px;color:var(--sub);line-height:1.6;text-align:center;width:100%}
+.dexrates{margin-top:12px;background:#0d1220;border:1px solid var(--line);border-radius:12px;padding:10px}
+.dexrates h4{margin:0 0 6px;font-size:13px}
+.dexrates table{width:100%;border-collapse:collapse;font-size:11px}
+.dexrates th{color:var(--sub);font-weight:700;text-align:left;padding:4px 2px;border-bottom:1px solid var(--line)}
+.dexrates td{padding:6px 2px;border-bottom:1px dashed var(--line)}
+.dexrates p{font-size:10.5px;color:var(--sub);line-height:1.6;margin:8px 0 0}
+
+/* feedback */
+#fbScr{z-index:70}
+.fb label{display:block;font-size:12px;font-weight:800;color:var(--sub);margin:12px 0 5px}
+.fb select,.fb textarea,.fb input[type=text]{width:100%;background:#0d1220;border:1px solid #33405f;border-radius:10px;padding:10px;font-size:14px}
+.fb textarea{min-height:120px;resize:vertical}
+.fb .chk{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:#c7cfe2;font-weight:600;margin-top:12px}
+.fb .chk input{margin-top:2px}
+.fbrow{display:grid;grid-template-columns:1fr 1.4fr;gap:8px;margin-top:6px}
+.flashmsg{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);background:rgba(20,26,42,.96);border:1px solid #3a4870;padding:10px 16px;border-radius:12px;font-size:13px;font-weight:700;z-index:80;pointer-events:none;transition:opacity .3s;max-width:88vw;text-align:center}
+</style>
+</head>
+<body>
+<div id="game">
+  <header class="top">
+    <div class="when">
+      <div class="age num" id="age">18</div>
+      <div class="year num" id="year"></div>
+    </div>
+    <div class="ctrl">
+      <button id="btnPause" class="cbtn">⏸</button>
+      <button class="cbtn spd" data-s="1">1x</button>
+      <button class="cbtn spd" data-s="2">2x</button>
+      <button class="cbtn spd" data-s="4">4x</button>
+      <button id="btnAuto" class="cbtn">🤖</button>
+    </div>
+  </header>
+  <div class="yearbar"><div id="yearFill"></div><span><b id="stage"></b><em id="remain" class="num" style="font-style:normal"></em></span></div>
+  <div id="skills" class="skills"></div>
+  <div class="ticker"><span class="tlabel">NEWS</span><div class="tview"><div id="tickerText"></div></div></div>
+
+  <div class="chartbox">
+    <div class="ctabs">
+      <button data-m="price" class="on" data-i="tabPrice"></button><button data-m="asset" data-i="tabAsset"></button>
+      <span class="sp"></span>
+      <button data-r="3y" class="on" data-i="tab3y"></button><button data-r="all" data-i="tabAll"></button>
+    </div>
+    <canvas id="cv"></canvas>
+    <div id="toast"></div>
+  </div>
+
+  <div class="summary">
+    <div class="sbox">
+      <label data-i="total"></label>
+      <div id="total" class="num"></div>
+      <div id="totalChg" class="num"></div>
+    </div>
+    <div class="sbox kb">
+      <div id="avatar" class="avatar"></div>
+      <label><span data-i="karma"></span><b id="karmaV" class="num">50</b></label>
+      <div class="kbar"><div id="karmaMark"></div></div>
+      <div id="karmaLbl"></div>
+    </div>
+  </div>
+
+  <div class="card a">
+    <div class="chead">
+      <div class="cname"><i></i><span data-i="aName"></span><small data-i="aDesc"></small></div>
+      <div class="cprice num"><b id="pA">100.0</b><span id="cA">—</span></div>
+    </div>
+    <div class="chold"><span><span data-i="hold"></span> <b id="vA" class="num"></b></span><span id="rA" class="num"></span></div>
+    <div class="btns">
+      <button class="buy" data-act="buy" data-k="A" data-f="1" data-i="buyAll"></button>
+      <button class="buy" data-act="buy" data-k="A" data-f="0.5" data-i="buyHalf"></button>
+      <button data-act="sell" data-k="A" data-f="0.5" data-i="sellHalf"></button>
+      <button data-act="sell" data-k="A" data-f="1" data-i="sellAll"></button>
+    </div>
+  </div>
+
+  <div class="card b">
+    <div class="chead">
+      <div class="cname"><i></i><span data-i="bName"></span><small data-i="bDesc"></small></div>
+      <div class="cprice num"><b id="pB">100.0</b><span id="cB">—</span></div>
+    </div>
+    <div class="chold"><span><span data-i="hold"></span> <b id="vB" class="num"></b></span><span id="rB" class="num"></span></div>
+    <div class="btns">
+      <button class="buy" data-act="buy" data-k="B" data-f="1" data-i="buyAll"></button>
+      <button class="buy" data-act="buy" data-k="B" data-f="0.5" data-i="buyHalf"></button>
+      <button data-act="sell" data-k="B" data-f="0.5" data-i="sellHalf"></button>
+      <button data-act="sell" data-k="B" data-f="1" data-i="sellAll"></button>
+    </div>
+  </div>
+
+  <div class="card c">
+    <div class="chead">
+      <div class="cname"><i></i><span data-i="cName"></span><small id="cDesc"></small></div>
+      <div class="cprice num"><b id="vC"></b><span style="color:var(--sub)" data-i="buyPower"></span></div>
+    </div>
+    <div class="btns2">
+      <button data-act="cashall" data-i="cashAll"></button>
+      <label class="sw"><input type="checkbox" id="margin"><span data-i="margin"></span></label>
+    </div>
+    <div class="flow"><span id="flow"></span><span id="power" class="num"></span></div>
+  </div>
+
+  <details class="log"><summary data-i="log"></summary><ul id="log"></ul></details>
+  <div class="footer">
+    <label class="langsel">🌐 <select id="langSel"></select></label>
+    <button class="linkbtn" data-fb data-i="feedbackBtn"></button>
+  </div>
+  <div class="streamok" data-i="streamOk"></div>
+  <div class="verline" id="verGame"></div>
+</div>
+
+<!-- タイトル -->
+<div id="titleScr" class="overlay">
+  <div class="panel">
+    <div class="langs" id="langRow"></div>
+    <div class="logo">HISTORY<br>TRADER</div>
+    <div class="appsub" data-i="appSub"></div>
+    <div class="tag" id="tagLine"></div>
+    <ul class="rules" id="rulesList"></ul>
+    <button id="btnContinue" class="bigbtn primary hidden"></button>
+    <button id="btnNew" class="bigbtn primary" data-i="newGame"></button>
+    <button id="btnDex" class="bigbtn ghost"></button>
+    <div class="fbrow" style="grid-template-columns:1fr 1fr"><button id="btnAch" class="bigbtn ghost" data-open="ach" style="font-size:13px"></button><button class="bigbtn ghost" data-open="hist" data-i="histBtn" style="font-size:13px"></button></div>
+    <div class="center"><button class="linkbtn" data-fb data-i="feedbackBtn"></button></div>
+    <details class="chlog"><summary data-i="changelog"></summary><div id="chlogBody"></div></details>
+    <div class="note" data-i="offline"></div>
+    <div class="streamok" data-i="streamOk"></div>
+    <div class="verline" id="verTitle"></div>
+  </div>
+</div>
+
+<!-- モード・進路選択 -->
+<div id="setupScr" class="overlay hidden"><div class="panel" id="setupPanel"></div></div>
+
+<!-- 称号図鑑 -->
+<div id="dexScr" class="overlay hidden">
+  <div class="panel dexpanel">
+    <div class="dexhead"><b data-i="dexTitle"></b><span id="dexCnt"></span><button id="dexClose" class="xclose">✕</button></div>
+    <div class="pbar"><i id="dexBar"></i></div>
+    <div class="dexaxis"><span data-i="axisL"></span><span data-i="axisM"></span><span data-i="axisR"></span></div>
+    <div id="dexGrid" class="dexgrid"></div>
+    <div id="dexDetail" class="dexdetail"></div>
+    <div id="dexSp" class="dexrates"></div>
+    <div id="dexRates" class="dexrates"></div>
+  </div>
+</div>
+
+<!-- 結果 -->
+<div id="resultScr" class="overlay hidden"><div class="panel" id="resultPanel"></div></div>
+
+<!-- 実績図鑑・歴代記録 -->
+<div id="subScr" class="overlay hidden" style="z-index:56;align-items:flex-start"><div class="panel dexpanel" id="subPanel"></div></div>
+
+<!-- 意見を送る -->
+<div id="fbScr" class="overlay hidden"><div class="panel fb" id="fbPanel"></div></div>
+
+<script>
+(() => {
+'use strict';
+/* ==================== 設定（公開前にここだけ書き換え） ==================== */
+// Xシェア時の宣伝リンク（空なら表示中のページURL）
+const GAME_URL = 'https://capital-and-soul.github.io/';
+// 「意見を送る」の送信先。どちらか一方を設定（両方空なら、内容をクリップボードにコピー）
+//  FEEDBACK_EMAIL: 受け取り用メールアドレス（mailto でメールアプリが開く）
+//  FEEDBACK_FORM : Googleフォーム等の事前入力URL。{category} {message} {contact} {meta} が置き換わる
+//    例）'https://docs.google.com/forms/d/e/XXXX/viewform?usp=pp_url&entry.111={category}&entry.222={message}&entry.333={contact}&entry.444={meta}'
+const FEEDBACK_EMAIL = '';
+const FEEDBACK_FORM = '';
+// 投げ銭（Ko-fi / BuyMeACoffee / OFUSE など）のURL。空ならリンクを表示しない
+const TIP_URL = '';
+// Xシェアのハッシュタグ
+const SHARE_HASHTAG = '#キャピタルアンドソウル';
+const VERSION = '2.0.0';
+
+/* =====================================================================
+   データ定義（データ駆動）：2週間ごとのアップデートは、この下の配列に1行足すだけ。
+   ・CONST_EVENTS / CONST_RUMORS / CONST_LIFE … 出来事（追加すると自動で抽選対象に）
+   ・CONST_MODES … モード選択画面に自動で並ぶ（limited:true＋期間で限定チャレンジ）
+   ・CONST_SEASON_EVENTS … 期間 or enabled フラグで、全モードに出来事の出やすさ・強制ニュースを差し込む
+   ・CONST_TITLES.special … 条件を満たすと獲得できる特別称号（図鑑に自動で枠が増える）
+   ・CONST_ACHIEVEMENTS … 実績（実績図鑑にカードが自動生成される）
+   ・CONST_CHANGELOG … タイトル画面の「更新情報」
+   テキストは {ja, en, zh, ko}。未翻訳の言語は日本語で表示される。
+   ===================================================================== */
+const CONST_CHANGELOG = [
+  {v:'2.0.0', date:'2026-10-18', text:{ja:'未来史（西暦30XX年）に刷新／毎回ランダムな出来事／イージーモード・おまかせ売買／4言語対応／実績図鑑・歴代記録／限定チャレンジ', en:'Future-history reboot (year 30XX) / random events every game / Easy mode & Autopilot / 4 languages / achievements & history / limited challenge', zh:'改版为未来史（公元30XX年）／每局随机事件／简单模式・托管交易／支持4种语言／成就图鉴・历代记录／限时挑战', ko:'미래사(서기 30XX년)로 리뉴얼／매번 랜덤 사건／이지 모드・자동 매매／4개 언어／업적 도감・역대 기록／한정 챌린지'}},
+];
+// 時代ニュース：a/b＝見出しが示す軍需(A)・グリーン(B)への影響の向きと強さ（-1〜1）、w＝出やすさ
+const CONST_EVENTS = [
+  {id:'aiwar', a:1, b:-.4, w:1, text:{ja:'{p}でAI兵器同士の衝突が発生。「AI戦争」へ拡大の恐れ', en:'AI weapons clash in {p} — fears of a full-scale “AI War”', zh:'{p}爆发AI武器冲突，恐演变为“AI战争”', ko:'{p}에서 AI 무기 간 충돌 발생. 「AI 전쟁」으로 번질 우려'}},
+  {id:'energy', a:-.8, b:.6, w:1, text:{ja:'{p}で無尽蔵の新エネルギー源を発見との報', en:'A limitless new energy source is reportedly found in {p}', zh:'据报{p}发现取之不尽的新能源', ko:'{p}에서 무한한 신에너지원을 발견했다는 소식'}},
+  {id:'treaty', a:-.8, b:.5, w:1, text:{ja:'惑星間平和条約の調印が目前に', en:'An interplanetary peace treaty is about to be signed', zh:'星际和平条约即将签署', ko:'행성 간 평화 조약 서명 임박'}},
+  {id:'virus', a:-.5, b:.4, w:1, text:{ja:'{p}で新型ウイルスが流行。医療需要が急増', en:'A new virus spreads in {p}; demand for medicine surges', zh:'{p}新型病毒流行，医疗需求激增', ko:'{p}에서 신종 바이러스 유행. 의료 수요 급증'}},
+  {id:'crash', a:-.9, b:-.6, w:1, text:{ja:'量子取引所でシステム障害。市場全体に暴落の気配', en:'Quantum exchange glitch — a market-wide crash looms', zh:'量子交易所系统故障，市场全面暴跌在即', ko:'양자 거래소 시스템 장애. 시장 전체에 폭락 조짐'}},
+  {id:'bubble', a:.5, b:.5, w:1, text:{ja:'宇宙開発バブル到来。あらゆる銘柄に資金が殺到', en:'Space-race bubble: money floods into every sector', zh:'太空开发泡沫来袭，资金涌入各类资产', ko:'우주 개발 버블 도래. 모든 종목에 자금 몰려'}},
+  {id:'indep', a:1, b:-.3, w:1, text:{ja:'{p}が独立を宣言。武力衝突は避けられないか', en:'{p} declares independence — armed conflict seems inevitable', zh:'{p}宣布独立，武装冲突恐难避免', ko:'{p}가 독립을 선언. 무력 충돌은 피할 수 없나'}},
+  {id:'asteroid', a:.8, b:0, w:1, text:{ja:'小惑星資源の争奪戦が激化。軍需・資源株に思惑', en:'The scramble for asteroid resources intensifies', zh:'小行星资源争夺战白热化，军需资源股受关注', ko:'소행성 자원 쟁탈전 격화. 군수・자원주에 기대감'}},
+  {id:'climate', a:-.4, b:.9, w:1, text:{ja:'気候再生プロジェクトに世界が巨額出資へ', en:'The world pledges trillions to climate restoration', zh:'全球将巨资投入气候修复计划', ko:'세계가 기후 재생 프로젝트에 거액 투자'}},
+  {id:'longevity', a:0, b:.9, w:1, text:{ja:'不老治療が実用化目前。医療ファンドに注目', en:'Anti-aging therapy nears approval; medical funds in focus', zh:'抗衰老疗法即将实用化，医疗基金受关注', ko:'불로 치료 실용화 임박. 의료 펀드 주목'}},
+  {id:'cyber', a:.5, b:-.5, w:1, text:{ja:'大規模サイバー攻撃で{p}の都市機能が停止', en:'A massive cyberattack shuts down {p}', zh:'大规模网络攻击致{p}城市功能瘫痪', ko:'대규모 사이버 공격으로 {p}의 도시 기능 마비'}},
+  {id:'disarm', a:-.9, b:.3, w:1, text:{ja:'軍縮AI協定が発効へ。兵器生産に上限', en:'An AI disarmament pact takes effect; arms output capped', zh:'AI裁军协定即将生效，武器生产设上限', ko:'AI 군축 협정 발효. 무기 생산에 상한'}},
+  {id:'fusion', a:-.3, b:-.5, w:1, text:{ja:'{p}の核融合炉で重大事故。エネルギー市場が混乱', en:'Major accident at a fusion reactor in {p}; energy markets in turmoil', zh:'{p}核聚变堆发生重大事故，能源市场混乱', ko:'{p} 핵융합로에서 중대 사고. 에너지 시장 혼란'}},
+  {id:'moon', a:.4, b:.4, w:1, text:{ja:'月面都市の建設ラッシュ。景気は過熱気味', en:'Lunar city construction boom; the economy overheats', zh:'月球城市建设热潮，经济略显过热', ko:'달 도시 건설 붐. 경기 과열 기미'}},
+  {id:'famine', a:.4, b:-.2, w:1, text:{ja:'{p}で食料危機。資源をめぐる緊張が高まる', en:'Food crisis in {p}; tensions over resources rise', zh:'{p}爆发粮食危机，资源争端升温', ko:'{p}에서 식량 위기. 자원을 둘러싼 긴장 고조'}},
+  {id:'robot', a:-.3, b:.3, w:1, text:{ja:'ロボット権利運動が世界に拡大。軍事AIへの批判強まる', en:'The robot-rights movement goes global; backlash against military AI', zh:'机器人权利运动席卷全球，军事AI遭批评', ko:'로봇 권리 운동 전 세계 확산. 군사 AI 비판 고조'}},
+];
+// 噂（7割は本物、3割はデマ）
+const CONST_RUMORS = [
+  {id:'civil', a:.6, b:-.1, w:1, text:{ja:'{p}で内戦の兆しとの噂', en:'Rumor: civil war is brewing in {p}', zh:'传闻{p}内战一触即发', ko:'{p}에 내전 조짐이 있다는 소문'}},
+  {id:'peace', a:-.6, b:.3, w:1, text:{ja:'{p}が和平交渉を始めたとの報道', en:'Report: {p} has opened peace talks', zh:'据报{p}已开启和平谈判', ko:'{p}가 평화 협상을 시작했다는 보도'}},
+  {id:'drug', a:0, b:.6, w:1, text:{ja:'大手医療企業が画期的な新薬を開発中との噂', en:'Rumor: a medical giant has a breakthrough drug', zh:'传闻医疗巨头正研发突破性新药', ko:'대형 의료 기업이 획기적 신약을 개발 중이라는 소문'}},
+  {id:'arms', a:.6, b:0, w:1, text:{ja:'巨大な兵器輸出契約がまとまる見通し', en:'A huge arms export deal is reportedly near', zh:'巨额武器出口合同据称即将达成', ko:'대형 무기 수출 계약 성사 전망'}},
+  {id:'fraud', a:0, b:-.6, w:1, text:{ja:'グリーン基金に不正会計の疑惑', en:'Accounting scandal alleged at the green fund', zh:'绿色基金涉嫌财务造假', ko:'그린 펀드 회계 부정 의혹'}},
+  {id:'recall', a:-.6, b:0, w:1, text:{ja:'軍需大手で大規模リコール発覚の噂', en:'Rumor: mass recall at a defense giant', zh:'传闻军工巨头大规模召回', ko:'군수 대기업 대규모 리콜 소문'}},
+  {id:'sail', a:-.3, b:.5, w:1, text:{ja:'超効率ソーラー帆の量産化が近いとの観測', en:'Ultra-efficient solar sails said to be near mass production', zh:'超高效太阳帆据称即将量产', ko:'초고효율 태양 돛 양산 임박 관측'}},
+  {id:'drone', a:.5, b:-.2, w:1, text:{ja:'{p}の国境付近でドローン衝突', en:'Drone clash near the border of {p}', zh:'{p}边境附近发生无人机冲突', ko:'{p} 국경 부근에서 드론 충돌'}},
+];
+// 人生のイベント：cost＞0は出費（その時の資産の半分が上限）、cost＜0は臨時収入
+const CONST_LIFE = [
+  {id:'marry', min:25,max:34,p:0.15,once:1,cost:3e6, text:{ja:'結婚！ 式と新生活の費用', en:'Married! Wedding and new-home costs', zh:'结婚！婚礼和新生活开销', ko:'결혼! 예식과 신혼 비용'}},
+  {id:'house', min:32,max:45,p:0.12,once:1,cost:5e6, text:{ja:'住まいを購入。頭金とローン', en:'Bought a home: down payment', zh:'购房，首付与贷款', ko:'집 구입. 계약금과 대출'}},
+  {id:'edu',   min:40,max:55,p:0.15,once:1,cost:3e6, text:{ja:'子どもの進学。教育費', en:'Your child goes to college: tuition', zh:'孩子升学，教育费用', ko:'자녀 진학. 교육비'}},
+  {id:'care',  min:45,max:62,p:0.10,once:1,cost:2e6, text:{ja:'親の介護が始まる', en:'Caring for an aging parent', zh:'开始照顾年迈父母', ko:'부모님 간병 시작'}},
+  {id:'sick',  min:18,max:79,p:0.06,once:0,cost:1e6, text:{ja:'病気で入院。医療費', en:'Hospitalized: medical bills', zh:'生病住院，医疗费', ko:'병으로 입원. 의료비'}},
+  {id:'lotto', min:18,max:79,p:0.012,once:0,cost:-3e6, text:{ja:'宝くじが当たった！', en:'Won the lottery!', zh:'中彩票了！', ko:'복권 당첨!'}},
+];
+/* ゲームモード：モード選択画面に自動で並ぶ。
+   bankrupt:'end'（即終了）| 'insure'（保険で半額復活）
+   limited:true ＋ from/to（YYYY-MM-DD）で期間限定。eventWeights で出来事の出やすさ倍率、scripted で決まった年齢に強制ニュース */
+const CONST_MODES = [
+  {id:'normal', color:'red', bankrupt:'end',
+    name:{ja:'⚔ ノーマル', en:'⚔ Normal', zh:'⚔ 普通', ko:'⚔ 노멀'}, tag:{ja:'破産＝即終了', en:'Bankrupt = game over', zh:'破产＝立即结束', ko:'파산＝즉시 종료'},
+    pts:{ja:['資産が0以下になった瞬間に人生終了','本気の勝負で称号を狙おう'], en:['Your life ends the moment your assets hit zero','The real challenge for title hunters'], zh:['资产归零的瞬间人生结束','认真挑战称号'], ko:['자산이 0 이하가 되는 순간 인생 종료','진심 승부로 칭호를 노리자']}},
+  {id:'easy', color:'green', bankrupt:'insure',
+    name:{ja:'🛡 イージー', en:'🛡 Easy', zh:'🛡 简单', ko:'🛡 이지'}, tag:{ja:'倒産防止保険', en:'Bankruptcy insurance', zh:'破产保险', ko:'파산 방지 보험'},
+    pts:{ja:['破産しても保険が発動。前年末の資産の半額で何度でもやり直せる','初めての人・のんびり遊びたい人に'], en:['If you go bankrupt, insurance pays out half of last year’s assets — retry as often as you like','Great for first-timers and relaxed play'], zh:['破产时保险生效，领取上年末资产的一半，可无限次重来','适合新手和想轻松玩的人'], ko:['파산해도 보험 발동. 전년 말 자산의 절반으로 몇 번이든 다시 시작','처음이거나 느긋하게 즐기고 싶은 분께']}},
+  {id:'ch_ai_storm', color:'purple', bankrupt:'end', limited:true, from:'2026-10-18', to:'2026-11-01',
+    eventWeights:{aiwar:4, cyber:3, robot:2, disarm:2},
+    scripted:[{age:40, kind:'hist', a:-.55, b:-.15, text:{ja:'AI株バブルが崩壊寸前との警告が相次ぐ', en:'Warnings mount that the AI stock bubble is about to burst', zh:'接连有人警告AI股泡沫即将破裂', ko:'AI주 버블이 붕괴 직전이라는 경고가 잇따라'}}],
+    name:{ja:'🔥 限定チャレンジ：AI動乱の時代', en:'🔥 Limited Challenge: The AI Upheaval', zh:'🔥 限时挑战：AI动乱时代', ko:'🔥 한정 챌린지: AI 동란의 시대'},
+    tag:{ja:'期間限定', en:'Limited time', zh:'限时', ko:'기간 한정'},
+    pts:{ja:['AI関連ニュースが通常の3〜4倍','40歳の年に「AIバブル崩壊」の警告が必ず流れる','破産＝即終了'], en:['AI-related news appears 3–4× more often','At 40 a warning of an “AI bubble burst” always appears','Bankrupt = game over'], zh:['AI相关新闻出现频率为平时的3～4倍','40岁那年必定出现“AI泡沫破裂”的警告','破产＝立即结束'], ko:['AI 관련 뉴스가 평소의 3～4배','40세에 「AI 버블 붕괴」 경고가 반드시 나온다','파산＝즉시 종료']}},
+];
+/* 季節イベント（全モード共通）：enabled:true か、from/to の期間中だけ有効。
+   weights で出来事の出やすさ倍率、scripted で特定株の暴騰・暴落ニュースを強制発生（age は年齢） */
+const CONST_SEASON_EVENTS = [
+  {id:'sample_harvest', enabled:false, from:'', to:'',
+    weights:{longevity:2, climate:2},
+    scripted:[{age:35, kind:'hist', a:.0, b:.35, text:{ja:'収穫祭特需！ 平和・医療グリーン基金に資金が流入', en:'Harvest-festival boom! Money pours into the green fund', zh:'丰收节特需！资金涌入绿色基金', ko:'수확제 특수! 그린 펀드에 자금 유입'}}]},
+];
+/* 特別称号：64種の通常・レア称号とは別に、条件を満たすと「スペシャル称号」として追加で獲得（図鑑に自動で枠が増える）
+   check(c) の c = { S:状態, T:最終資産, bankrupt, karma } */
+const CONST_TITLES = {
+  special: [
+    {id:'phoenix', art:[6,5], name:{ja:'不死鳥の投資家', en:'Phoenix Investor', zh:'不死鸟投资家', ko:'불사조 투자가'},
+      desc:{ja:'保険で一度は破産から甦り、10億円以上を築いて引退した。', en:'Rose from bankruptcy with insurance and retired with ¥1B or more.', zh:'曾靠保险从破产中复活，最终带着10亿円以上退休。', ko:'보험으로 파산에서 되살아나 10억 엔 이상을 쌓고 은퇴했다.'},
+      check:c => c.S.insured > 0 && !c.bankrupt && c.T >= 1e9},
+    {id:'pacifist100', art:[7,7], name:{ja:'不殺の百億長者', en:'Pacifist Ten-Billionaire', zh:'不杀的百亿富翁', ko:'불살의 백억장자'},
+      desc:{ja:'一度も軍事株を買わずに100億円を達成した。', en:'Reached ¥10B without ever buying the military fund.', zh:'从未买过军事股，却达成了100亿円。', ko:'군사주를 한 번도 사지 않고 100억 엔을 달성했다.'},
+      check:c => !c.S.boughtA && c.T >= 1e10},
+  ],
+};
+/* 実績：check(c) が true になると解除（c = { S, T, bankrupt, karma, r:称号結果, dex:図鑑, recs:歴代記録 }） */
+const CONST_ACHIEVEMENTS = [
+  {id:'clear', icon:'🏁', name:{ja:'人生完走', en:'Full Life', zh:'走完人生', ko:'인생 완주'}, desc:{ja:'80歳まで生き抜く', en:'Survive to age 80', zh:'活到80岁', ko:'80세까지 살아남기'}, check:c => !c.bankrupt},
+  {id:'broke', icon:'💀', name:{ja:'はじめての破産', en:'First Bankruptcy', zh:'第一次破产', ko:'첫 파산'}, desc:{ja:'破産してゲームオーバーになる', en:'Go bankrupt', zh:'破产导致游戏结束', ko:'파산해서 게임 오버'}, check:c => c.bankrupt},
+  {id:'oku', icon:'💴', name:{ja:'億り人', en:'Hundred-Millionaire', zh:'亿元户', ko:'억대 자산가'}, desc:{ja:'資産1億円を突破する', en:'Reach ¥100M in assets', zh:'资产突破1亿円', ko:'자산 1억 엔 돌파'}, check:c => c.S.peak >= 1e8},
+  {id:'juoku', icon:'💰', name:{ja:'十億の壁', en:'The Billion Wall', zh:'十亿之壁', ko:'10억의 벽'}, desc:{ja:'資産10億円を突破する', en:'Reach ¥1B in assets', zh:'资产突破10亿円', ko:'자산 10억 엔 돌파'}, check:c => c.S.peak >= 1e9},
+  {id:'hyakuoku', icon:'🏦', name:{ja:'百億の景色', en:'Ten-Billion View', zh:'百亿风景', ko:'100억의 풍경'}, desc:{ja:'資産100億円を突破する', en:'Reach ¥10B in assets', zh:'资产突破100亿円', ko:'자산 100억 엔 돌파'}, check:c => c.S.peak >= 1e10},
+  {id:'pacifist', icon:'🕊', name:{ja:'不殺の百億', en:'Bloodless Billions', zh:'不杀百亿', ko:'불살의 100억'}, desc:{ja:'1度も軍事株を買わずに100億円達成', en:'Reach ¥10B without ever buying military stock', zh:'从未买过军事股达成100亿円', ko:'군사주를 한 번도 사지 않고 100억 엔 달성'}, check:c => !c.S.boughtA && c.T >= 1e10},
+  {id:'saint', icon:'😇', name:{ja:'聖者の生涯', en:'Life of a Saint', zh:'圣者的一生', ko:'성자의 생애'}, desc:{ja:'潔白さ90以上で80歳を迎える', en:'Reach 80 with Integrity 90+', zh:'以清白度90以上活到80岁', ko:'결백도 90 이상으로 80세 맞이하기'}, check:c => !c.bankrupt && c.karma >= 90},
+  {id:'reaper', icon:'☠', name:{ja:'死神の生涯', en:'Life of a Reaper', zh:'死神的一生', ko:'사신의 생애'}, desc:{ja:'潔白さ10以下で80歳を迎える', en:'Reach 80 with Integrity 10 or less', zh:'以清白度10以下活到80岁', ko:'결백도 10 이하로 80세 맞이하기'}, check:c => !c.bankrupt && c.karma <= 10},
+  {id:'mattress', icon:'🛏', name:{ja:'タンス預金の達人', en:'Mattress Saver', zh:'藏钱高手', ko:'장롱 예금의 달인'}, desc:{ja:'一度も株を買わずに80歳を迎える', en:'Reach 80 without ever buying stock', zh:'从未买股票活到80岁', ko:'주식을 한 번도 사지 않고 80세 맞이하기'}, check:c => !c.bankrupt && !c.S.boughtA && !c.S.boughtB},
+  {id:'leverage', icon:'🎢', name:{ja:'レバレッジの罠', en:'Leverage Trap', zh:'杠杆陷阱', ko:'레버리지의 함정'}, desc:{ja:'信用取引を使って破産する', en:'Go bankrupt after using margin', zh:'使用融资交易后破产', ko:'신용 거래를 쓰고 파산하기'}, check:c => c.bankrupt && c.S.marginEver},
+  {id:'phoenix', icon:'🔥', name:{ja:'不死鳥', en:'Phoenix', zh:'不死鸟', ko:'불사조'}, desc:{ja:'保険で復活して80歳を迎える', en:'Revive via insurance and reach 80', zh:'靠保险复活并活到80岁', ko:'보험으로 부활해 80세 맞이하기'}, check:c => !c.bankrupt && c.S.insured > 0},
+  {id:'autopilot', icon:'🤖', name:{ja:'全部おまかせ', en:'Full Autopilot', zh:'全程托管', ko:'전부 자동'}, desc:{ja:'自分で一度も売買せず、おまかせだけで80歳を迎える', en:'Reach 80 using only Autopilot, no manual trades', zh:'一次也不手动交易，仅靠托管活到80岁', ko:'직접 매매 없이 자동만으로 80세 맞이하기'}, check:c => !c.bankrupt && c.S.autoEver && !c.S.manual},
+  {id:'lucky', icon:'🍀', name:{ja:'強運', en:'Lucky Break', zh:'鸿运当头', ko:'강운'}, desc:{ja:'宝くじに当選する', en:'Win the lottery', zh:'中彩票', ko:'복권 당첨'}, check:c => c.S.lotto},
+  {id:'rare', icon:'✨', name:{ja:'隠された称号', en:'Hidden Title', zh:'隐藏称号', ko:'숨겨진 칭호'}, desc:{ja:'レア称号を獲得する', en:'Earn a rare title', zh:'获得稀有称号', ko:'레어 칭호 획득'}, check:c => c.r.rarity !== 'N'},
+  {id:'legend', icon:'🌈', name:{ja:'伝説', en:'Legend', zh:'传说', ko:'전설'}, desc:{ja:'LEGEND称号を獲得する', en:'Earn a LEGEND title', zh:'获得LEGEND称号', ko:'LEGEND 칭호 획득'}, check:c => c.r.rarity === 'LEGEND'},
+  {id:'selfmade', icon:'🔧', name:{ja:'叩き上げの星', en:'Self-made Star', zh:'白手起家之星', ko:'자수성가의 별'}, desc:{ja:'高卒ルートで資産10億円を達成', en:'Reach ¥1B on the high-school path', zh:'高中毕业路线达成10亿円', ko:'고졸 루트로 자산 10억 엔 달성'}, check:c => c.S.route === 'high' && c.T >= 1e9},
+  {id:'allroutes', icon:'🎓', name:{ja:'すべての道', en:'Every Path', zh:'所有道路', ko:'모든 길'}, desc:{ja:'5つの進路すべてで80歳を迎える（歴代記録から判定）', en:'Reach 80 on all 5 paths (from your history)', zh:'5条出路全部活到80岁（根据历代记录）', ko:'5개 진로 모두에서 80세 맞이하기(역대 기록 기준)'},
+    check:c => new Set(c.recs.filter(x => !x.bankrupt).map(x => x.route)).size >= 5},
+  {id:'challenge', icon:'🔥', name:{ja:'限定チャレンジ制覇', en:'Challenge Conquered', zh:'征服限时挑战', ko:'한정 챌린지 제패'}, desc:{ja:'限定チャレンジモードで80歳を迎える', en:'Reach 80 in a limited challenge mode', zh:'在限时挑战模式中活到80岁', ko:'한정 챌린지 모드에서 80세 맞이하기'}, check:c => !c.bankrupt && !!modeById(c.S.mode).limited},
+  {id:'dexhalf', icon:'📖', name:{ja:'図鑑の半分', en:'Half the Collection', zh:'图鉴过半', ko:'도감 절반'}, desc:{ja:'称号図鑑を32種集める', en:'Collect 32 titles', zh:'收集32种称号', ko:'칭호 32종 수집'}, check:c => dexCount(c.dex) >= 32},
+  {id:'dexfull', icon:'👑', name:{ja:'コンプリート', en:'Complete', zh:'全部收集', ko:'컴플리트'}, desc:{ja:'64種すべての称号を集める', en:'Collect all 64 titles', zh:'收集全部64种称号', ko:'64종 칭호 모두 수집'}, check:c => dexCount(c.dex) >= 64},
+];
+
+/* ==================== 定数 ==================== */
+const START_AGE = 18, END_AGE = 80, TPY = 60, BASE_MS = 250; // 60tick × 250ms = 1年15秒
+const SAVE_KEY = 'historyTrader_save_v2', DEX_KEY = 'historyTrader_dex_v1', LANG_KEY = 'historyTrader_lang';
+const COL = { A:'#ff5d4f', B:'#2fd89c', T:'#7fb2ff', gold:'#f5c451', rumor:'#6f8ff0', life:'#b48cff', K:'#b48cff' };
+const MKT = { A:{mu:0.08, sig:0.26}, B:{mu:0.028, sig:0.09}, evB:0.6 }; // evB：出来事がB（平和基金）に与える影響の縮小率（ローリスク）
+
+const ROUTES = {
+  high:       { startAge:18, cash:1e5,   kBias:0, pay:[[18,5e5],[22,8e5],[30,1e6],[50,1.2e6]], skill:{ana:0,trade:0,earn:1} },
+  uni_study:  { startAge:22, cash:2e5,   kBias:0, pay:[[22,8e5],[30,1.15e6],[50,1.4e6]], skill:{ana:2,trade:0,earn:1} },
+  uni_work:   { startAge:22, cash:1.8e6, kBias:0, pay:[[22,8e5],[30,1.15e6],[50,1.4e6]], skill:{ana:0,trade:0,earn:1} },
+  uni_invest: { startAge:22, cash:6e5,   kBias:0, pay:[[22,8e5],[30,1.15e6],[50,1.4e6]], skill:{ana:1,trade:1,earn:1} },
+  uni_abroad: { startAge:22, cash:3e5,   kBias:8, pay:[[22,8e5],[30,1.15e6],[50,1.4e6]], skill:{ana:0,trade:0,earn:1.1} },
+};
+
+/* ===== 称号：資産ランク8段階 × 潔白さ8段階 = 64種 =====
+   潔白さの帯ごとに資産ランクの基準額が違う（平和投資は利回りが低いぶん基準も低い）。
+   基準額と推定出現率は、さまざまな戦略のBotによる約5万回のシミュレーションで調整。 */
+const K_EDGES = [13, 39, 48, 50, 51, 54, 60];
+const W_TH = [
+  [1.5e7, 8.0e7, 2.1e8, 4.3e8, 8.5e8, 1.9e9, 5.4e9],
+  [3.4e7, 9.7e7, 1.9e8, 3.2e8, 5.4e8, 9.7e8, 2.4e9],
+  [7.4e7, 1.4e8, 2.2e8, 3.5e8, 5.5e8, 8.9e8, 1.7e9],
+  [1.2e8, 2.0e8, 2.9e8, 4.2e8, 6.2e8, 9.6e8, 1.7e9],
+  [1.8e7, 3.2e7, 1.9e8, 3.4e8, 5.6e8, 8.7e8, 1.5e9],
+  [7.6e7, 1.3e8, 2.0e8, 2.8e8, 4.0e8, 5.7e8, 9.4e8],
+  [4.3e7, 1.0e8, 1.8e8, 2.8e8, 4.3e8, 6.8e8, 1.3e9],
+  [5.7e7, 9.0e7, 1.3e8, 1.7e8, 2.3e8, 3.1e8, 4.9e8],
+];
+const RATE_EST = [0.00102,1.11,2.23,1.67,2.57,1.16,1.22,0.00101,1.11,1.13,1.1,1.54,2.79,1.09,1.15,5.01,1.15,1.13,1.07,1.46,2.6,1.26,1.35,2.73,1.08,1.07,1.13,1.6,2.74,1.09,1.14,2.28,1.13,1.14,1.15,1.66,2.78,1.23,1.28,2.67,1.14,1.1,1.8,1.55,2.63,1.13,1.17,4.02,0.361,1.14,2.28,1.5,2.59,1.17,3.75,0.87,0.00102,0.22,1.94,1.63,2.8,2.25,0.135,0.00101];
+const RATE_NORMAL = [1.07, 5.0]; // 通常称号の推定出現率の範囲（%）
+/* レア称号：条件のマスに到達し「運命の審判」に当選すると獲得。外れると fb の通常称号に */
+const RARE = {
+  '7-0':{r:'LEGEND', q:1/1100, fb:'6-2'}, '7-7':{r:'LEGEND', q:1/2500, fb:'6-6'},
+  '0-0':{r:'LEGEND', q:1/1100, fb:'0-2'}, '0-7':{r:'LEGEND', q:1/2500, fb:'1-7'},
+  '6-0':{r:'SR', q:1/3, fb:'5-2'}, '6-7':{r:'SR', q:1/3, fb:'5-7'},
+  '7-1':{r:'SR', q:1/5, fb:'7-2'}, '7-6':{r:'SR', q:1/9, fb:'7-5'},
+};
+const RARE_N = Object.keys(RARE).length, NORMAL_N = 64 - RARE_N;
+
+/* ==================== 多言語 ==================== */
+const LANGS = { ja:'日本語', en:'English', zh:'简体中文', ko:'한국어' };
+const I18N = {
+ja: {
+  appSub:'未来史 × 架空の株取引シミュレーション',
+  tag:'西暦30XX年、18歳。毎回ちがう“未来の歴史”を、<br>「株」で生き抜け。富を取るか、潔白を取るか――。',
+  rules:[
+    '最初に<b>モード</b>（ノーマル／イージー）と<b>進路</b>（高卒／大学）を選ぶ。',
+    '<b>1年＝15秒</b>で時が流れ、80歳で引退。速度は1x/2x/4x、<b>🤖おまかせ</b>で自動売買も。',
+    '<b>A 軍事・エネルギー</b>：値動き大。持つほど潔白さ↓',
+    '<b>B 平和・医療グリーン</b>：安定。持つほど潔白さ↑',
+    '<b>時代ニュース</b>は毎回ランダム。見出しどおりに動くとは限らない。噂はデマのことも。',
+    '給料・結婚・病気・老後の出費あり。ノーマルは<b>資産0以下で破産</b>。',
+    '資産ランク×潔白さで<b>64種の称号</b>。名前の出ていない<b>★レア称号</b>を探し出せ！',
+    '進行は1年ごとに自動セーブ。',
+  ],
+  continue:'つづきから（{age}歳・{year}年）', newGame:'はじめから', dexBtn:'称号図鑑（{n} / 64）',
+  feedbackBtn:'💬 意見を送る', offline:'ゲームは完全オフラインで動作します（通信なし）', confirmNew:'セーブデータを消して最初から始めますか？',
+  modeQ:'STEP 1 ／ ゲームモード', modeTitle:'難易度を選ぼう',
+  routeQ:'STEP 2 ／ 西暦{year}年・18歳・所持金10万円', routeTitle:'最初の進路を選ぼう',
+  highName:'高卒で働き始める', highTag:'18歳スタート', highSub:'即給与獲得・叩き上げ',
+  highPts:['4年早く投資を始められる','18歳から年 +50万円 → 22歳 +80万 → 30歳 +100万 → 50歳 +120万','現場経験で30歳・45歳に分析力がLvアップ'], highMinus:'給与の伸びは大卒より控えめ。最初は分析力なし',
+  uniName:'大学に進学する', uniTag:'22歳スタート', uniSub:'4年間の過ごし方でスキル・資金にボーナス',
+  uniPts:['22歳から年 +80万円 → 30歳 +115万 → 50歳 +140万（大卒給与）','4年間の過ごし方を選んで、初期スキルや資金を獲得'], uniMinus:'22歳からの開始（最初の4年間の相場には参加できない）',
+  back:'← 戻る', planQ:'STEP 3 ／ 大学の4年間', planTitle:'どう過ごした？',
+  plans:{
+    uni_study:{name:'📚 経済学を猛勉強', tag:'分析力 Lv2', sub:'22歳時点：資金 20万円', pts:['最初から分析力Lv2。ニュースで軍需・グリーン両方の本当の値動きの向きが読める／噂の真偽も見抜きやすい']},
+    uni_work:{name:'💴 バイト三昧', tag:'資金 180万円', sub:'22歳時点：資金 180万円', pts:['4年間で貯めた180万円を元手に、最初から大きく運用できる'], minus:'スキルはなし'},
+    uni_invest:{name:'📈 投資研究会', tag:'取引力', sub:'22歳時点：資金 60万円', pts:['分析力Lv1（軍需の本当の値動きの向きが読める）','売買手数料ゼロ・信用取引の金利が年3%に']},
+    uni_abroad:{name:'✈️ 留学・ボランティア', tag:'給与×1.1', sub:'22歳時点：資金 30万円', pts:['語学と国際経験で給与が一生1.1倍','人々の役に立った経験で、潔白さ +8 からスタート']},
+  },
+  routeNames:{high:'高卒・叩き上げ', uni_study:'大卒（経済学を猛勉強）', uni_work:'大卒（バイト三昧）', uni_invest:'大卒（投資研究会）', uni_abroad:'大卒（留学・ボランティア）'},
+  planShort:{uni_study:'経済学を猛勉強', uni_work:'バイト三昧', uni_invest:'投資研究会', uni_abroad:'留学・ボランティア'},
+  stage:{newbie:'高卒・新人', tataki:'叩き上げ社員', uni:'大卒社員', pension:'年金生活'},
+  ageFmt:'{a}<small>歳</small>', yearFmt:'西暦{y}年', remain:'引退まで{n}年', tickerInit:'時代ニュースを読んで、暴騰・暴落を先読みせよ。',
+  tabPrice:'株価', tabAsset:'資産', tab3y:'3年', tabAll:'全期間', legA:'軍需', legB:'グリーン', legT:'総資産',
+  total:'総資産', chgPrefix:'年初比 ', karma:'潔白さ',
+  aName:'A 軍事・エネルギー複合体', aDesc:'ハイリスク・ハイリターン／保有中は潔白さ↓',
+  bName:'B 平和・医療グリーン基金', bDesc:'ローリスク・ローリターン／保有中は潔白さ↑',
+  cName:'C 現金（無リスク）', cDesc:'預金金利 年0.5%／借入（マイナス）は年{r}%',
+  buyAll:'全額買い', buyHalf:'半分買い', sellHalf:'半分売り', sellAll:'全売却', hold:'保有', pnl:'損益 ', y1:'1年 ',
+  cashAll:'すべて現金化', margin:'信用取引 2倍', buyPower:'買付余力', flow:'年間収支 {v}', power:'余力 {v}', loan:'借入 {v}', log:'ニュース履歴',
+  autoOn:'🤖 おまかせON：AIが自動で売買し、人生が進みます', autoOff:'おまかせOFF：自分で売買します', autoChip:'🤖 おまかせ中',
+  autoLog:'配分を調整：軍需 {a}% ／ グリーン {b}%',
+  kinds:{hist:'時代ニュース', rumor:'噂', life:'人生', flash:'市場反応', fake:'デマ', sys:'人生', auto:'おまかせ'},
+  react:'市場が反応：軍需 {a}　グリーン {b}', fake:'「{t}」はデマだった模様',
+  promoWhat:['正社員として一人前に','昇進','管理職に'], promo:'{what}。年間収支が +{v} に',
+  skillUp:'現場で揉まれて相場観が身についた！ 分析力Lv{n}（ニュースに読みが表示される）',
+  retire:'定年退職。年金生活で毎年 −{v} の赤字に',
+  startHigh:'西暦{y}年、18歳で就職。給料をもらいながら、今日から投資を始められる！',
+  startUni:'大学を卒業し、西暦{y}年・22歳で社会人に。「{plan}」の4年間が武器だ。',
+  resume:'{age}歳（{y}年）から再開。▶で時間が動き出す',
+  insured:'🛡 倒産防止保険が発動！ 負債を清算し、{v} で再スタート（{n}回目）',
+  noPower:'買付余力がありません', marginOn:'信用取引ON：資産の2倍まで買える（借入は年{r}%）',
+  ana:'🔍分析Lv{l}：{p}', anaA:'軍需{d}', anaB:'グリーン{d}', big:'大', cred:'／信憑性：{v}', credHi:'高い', credLo:'低い',
+  skillAna:'🔍 分析Lv{n}', feeZero:'💹 手数料0・信用金利3%', feeStd:'💹 手数料0.1%', earn:'💼 給与×{n}', chipEasy:'🛡 イージー', chipNormal:'⚔ ノーマル',
+  over:'GAME OVER', clear:'GAME CLEAR', bankruptAt:'{age}歳 ／ {y}年に破産', retired:'80歳 ／ {y}年 無事に引退',
+  evalLbl:'総合評価', evals:['破産者','庶民','小金持ち','億万長者','大富豪','伝説の大富豪'],
+  trialWin:'⚖ 運命の審判……<b>当選！</b><br>隠されたレア称号を引き当てた！', trialLose:'⚖ 運命の審判……外れ。<br>あと一歩で隠された{r}称号だった！',
+  rareBanner:'✨ 隠されたレア称号を発見！ ✨', brag:'𝕏 で自慢する！', bragSub:'この幸運をみんなに見せつけよう', share:'𝕏 で結果をシェアする',
+  titleNo:'称号 No.{no}　推定出現率 {rate}', rankLine:'資産ランク {w} × 潔白さ {k}',
+  finalAssets:'最終総資産', peak:'最高資産', years:'生き抜いた年数', yearsV:'{n}年', insuredN:'保険の使用', timesV:'{n}回',
+  chartAssets:'資産（対数）', chartKarma:'潔白さ', again:'もう一度人生をやり直す',
+  rarity:{LEGEND:'★★★★★ LEGEND', SR:'★★★★ SR', N:'★★ ノーマル'},
+  dexTitle:'称号図鑑', dexCount:'通常 {n}/{N} ・ レア称号 残り {r}種', axisL:'← 漆黒（死神）', axisM:'潔白さ', axisR:'神聖（女神） →',
+  dexHint:'マスをタップすると詳細が見られます。名前の出ている{N}種と、隠された★レア称号{R}種をコンプリートしよう！',
+  cond:'条件：潔白さ {k}（{kl}）で、最終資産 {w}', wUnder:'{v}未満 または破産', wOver:'{v}以上', wBetween:'{a}〜{b}',
+  got:'獲得 {n}回／最高 {v}', notYet:'まだ獲得していない称号。', rareSecret:'隠されたレア称号。名前も条件もひみつ。見つけた人だけが知っている。',
+  estRate:'推定出現率 {v}', about:'約{v}%',
+  ratesTitle:'出現率の公開', thRarity:'レア度', thTitle:'称号', thRate:'推定出現率',
+  ratesNote:'レア称号は、ある条件を満たしたうえで「運命の審判」（抽選）に当選すると獲得できます。推定出現率は、さまざまな戦略のプレイヤー（Bot）による約5万回のシミュレーションから求めた参考値で、遊び方によって変わります。通常称号の推定出現率は1種あたり約{lo}〜{hi}%です。',
+  dexBar:'称号図鑑 <b>{n}</b>/64', dexView:'図鑑を見る',
+  fbTitle:'💬 意見を送る', fbIntro:'バグ報告・改善のアイデア・感想など、なんでも送ってください。今後のアップデートの参考にします。',
+  fbCat:'種類', fbCats:['感想','改善のアイデア','バグ報告','翻訳の誤り','その他'], fbMsg:'メッセージ', fbMsgPh:'ここに入力…',
+  fbContact:'連絡先（任意・返信が必要な場合）', fbAttach:'直前のプレイ情報（モード・進路・結果）を添える', fbSend:'送信する', fbCancel:'キャンセル',
+  fbEmpty:'メッセージを入力してください', fbCopied:'送信先が未設定のため、内容をクリップボードにコピーしました',
+  fbOpened:'送信画面を開きました。ご協力ありがとうございます！', fbNote:'送信すると、メールアプリまたは送信フォームが開きます。個人情報は入力しないでください。',
+  shareOver:'【GAME OVER】{route}ルート、{age}歳（西暦{y}年）で破産…', shareClear:'【GAME CLEAR】{route}ルートで{n}年を生き抜き、80歳で引退！',
+  shareRare:'🎉隠された{r}称号を引き当てた！（推定出現率 {rate}）', shareTitle:'🏅称号：No.{no}『{t}』', shareNew:'（NEW!）',
+  shareLose:'⚖運命の審判に外れた…{r}まであと一歩', shareEval:'🏷評価：{e}', shareAssets:'💰最終総資産：{v}', shareKarma:'🕊潔白さ：{k}/100（{kl}）', shareDex:'📖称号図鑑：{n}/64',
+  streamOk:'配信・動画での使用歓迎！商用利用OK', tip:'☕ 開発者にコーヒーを奢る（投げ銭）', changelog:'更新情報',
+  histBtn:'📜 歴代投資家記録', histTitle:'📜 歴代投資家記録', histEmpty:'まだ記録がありません。', histNote:'直近10回分をこの端末に保存しています。',
+  achBtn:'🏆 実績図鑑（{n} / {N}）', achTitle:'🏆 実績図鑑', achRate:'達成 {n}/{N}（{p}%）', achLocked:'未達成', achNew:'🏆 実績解除！',
+  spTitle:'🎖 スペシャル称号', spGot:'🎖 スペシャル称号を獲得：{t}', spCount:'スペシャル {n}/{N}', chipLimited:'🔥 限定', seasonOn:'🎉 開催中のイベント：{n}',
+  drama:{legend:'まさかの伝説を引き当てた！', boom:'軍事株で大爆死した…', broke:'{age}歳で力尽きた…', saved:'保険に救われ、なんとか80歳へ！', rich:'百億の富を築いて大往生！', saint:'清く正しく80歳まで逃げ切った！', clear:'80歳まで逃げ切った！'},
+  shareLbls:{title:'【称号】', assets:'【最終総資産】', karma:'【最終潔白さ】'},
+  titles:[
+    ['奈落の死神王','地獄に堕ちた悪魔','破滅した闇商人','自業自得の破産者','夢破れし凡人','報われぬ善人','翼をなくした天使','殉教の女神'],
+    ['さまよう死神','腹ペコの小悪魔','しがない闇商人','小悪党','つつましい庶民','清貧の善人','貧しき天使','清貧の聖女'],
+    ['死神見習い','いたずら小悪魔','裏通りの相場師','ずる賢い小市民','平凡な市民','善良な市民','地上の天使','癒やしの女神'],
+    ['死の商人','小悪魔トレーダー','影の投資家','ずる賢い小金持ち','堅実な小金持ち','慎ましき篤志家','見習い天使','微笑みの女神'],
+    ['死神の代理人','取引する悪魔','夜の投機家','戦争成金','そこそこの資産家','誠実な資産家','守護天使','慈愛の女神'],
+    ['戦場の死神','硝煙の悪魔','エネルギーの吸血鬼','悪徳財閥','老獪な投資家','緑の資本家','富める天使','豊穣の女神'],
+    ['死の商人王','戦争の魔王','闇の財閥総帥','黒幕フィクサー','冷徹なる大資本家','篤志の大富豪','祝福の天使長','世界を救う女神'],
+    ['冥府の死神皇帝','魔界の大公','影の世界支配者','国家を買う黒幕','時代の覇者','世紀の大慈善家','黄金の大天使','富と慈愛の創世神'],
+  ],
+  wdesc:['時代の波に呑まれ、どん底で人生を終えた。','同じ道を歩んだ者たちより、財布は軽かった。','慎ましく暮らせるだけの蓄えを残した。','老後は安泰と言える財を築いた。','同じ道を歩んだ者の中でも、上々の財を築いた。','人々が羨む富豪となった。','国をも動かす富を手にした。','歴史に名を刻むほどの富を築いた。'],
+  kdesc:['魂は漆黒に染まり、死神すら道を譲る。','争いを糧に笑う悪魔と呼ばれた。','闇の取引にも眉ひとつ動かさなかった。','少しばかり手を汚して生きた。','善も悪も、ほどほどに。','誇れる投資を選び続けた。','その手は人々を救い続けた。','その清らかさは、まさに女神。'],
+  arch:['死神','悪魔','闇商人','悪徳商人','市民','善人','天使','女神'],
+  klbl:['漆黒','暗黒','黒','灰色','中立','白','純白','神聖'],
+  wlbl:['どん底','下流','中流の下','中流','中流の上','富裕','大富豪','頂点'],
+  places:['火星連邦','木星圏','ネオ東京','月面共和国','海底都市アトランティカ','北極経済圏','第七コロニー','オービタル・シティ'],
+},
+en: {
+  appSub:'Future history × fictional stock trading',
+  tag:'Year 30XX. You are 18. Every game brings a different future history —<br>survive it with stocks. Wealth or a clean conscience?',
+  rules:[
+    'First choose a <b>mode</b> (Normal / Easy) and a <b>path</b> (work after high school / go to college).',
+    '<b>1 year = 15 seconds</b>; you retire at 80. Speed 1x/2x/4x, or let <b>🤖 Autopilot</b> trade for you.',
+    '<b>A Military &amp; Energy</b>: volatile. Holding it lowers your Integrity.',
+    '<b>B Peace &amp; Medical Green Fund</b>: stable. Holding it raises your Integrity.',
+    '<b>Breaking news</b> is random every game — markets don’t always move as the headline suggests. Rumors may be fake.',
+    'Salary, marriage, illness and retirement costs. In Normal mode, <b>assets ≤ 0 means bankruptcy</b>.',
+    'Asset rank × Integrity = <b>64 titles</b>. Hunt for the <b>★ hidden rare titles</b>!',
+    'Progress is auto-saved every year.',
+  ],
+  continue:'Continue (age {age}, {year})', newGame:'New game', dexBtn:'Title collection ({n} / 64)',
+  feedbackBtn:'💬 Send feedback', offline:'The game runs fully offline (no network access).', confirmNew:'Delete your saved game and start over?',
+  modeQ:'STEP 1 / Game mode', modeTitle:'Choose a difficulty',
+  routeQ:'STEP 2 / Year {year} · age 18 · ¥100K', routeTitle:'Choose your first path',
+  highName:'Start working after high school', highTag:'Start at 18', highSub:'Paid from day one · self-made',
+  highPts:['Start investing 4 years earlier','+¥500K/yr from 18 → +¥800K at 22 → +¥1M at 30 → +¥1.2M at 50','Analysis skill levels up at 30 and 45 from on-the-job experience'], highMinus:'Lower pay growth than graduates; no analysis skill at first',
+  uniName:'Go to college', uniTag:'Start at 22', uniSub:'Skill or money bonus depending on your 4 years',
+  uniPts:['+¥800K/yr from 22 → +¥1.15M at 30 → +¥1.4M at 50 (graduate pay)','Choose how you spent 4 years to gain starting skills or cash'], uniMinus:'You start at 22 and miss the first 4 years of the market',
+  back:'← Back', planQ:'STEP 3 / Your 4 college years', planTitle:'How did you spend them?',
+  plans:{
+    uni_study:{name:'📚 Studied economics hard', tag:'Analysis Lv2', sub:'At 22: ¥200K', pts:['Analysis Lv2 from the start: news shows the true direction for both funds, and you spot fake rumors more easily']},
+    uni_work:{name:'💴 Part-time jobs nonstop', tag:'¥1.8M cash', sub:'At 22: ¥1.8M', pts:['Invest big from day one with ¥1.8M saved over 4 years'], minus:'No skills'},
+    uni_invest:{name:'📈 Investment club', tag:'Trading skill', sub:'At 22: ¥600K', pts:['Analysis Lv1 (true direction of the military fund)','Zero trading fees; margin interest only 3%/yr']},
+    uni_abroad:{name:'✈️ Study abroad & volunteering', tag:'Pay ×1.1', sub:'At 22: ¥300K', pts:['Languages and global experience: lifetime pay ×1.1','Helping people: start with +8 Integrity']},
+  },
+  routeNames:{high:'High-school grad', uni_study:'College (Economics)', uni_work:'College (Part-time jobs)', uni_invest:'College (Investment club)', uni_abroad:'College (Study abroad)'},
+  planShort:{uni_study:'studying economics', uni_work:'part-time jobs', uni_invest:'the investment club', uni_abroad:'study abroad'},
+  stage:{newbie:'New hire', tataki:'Self-made worker', uni:'Graduate employee', pension:'Retired'},
+  ageFmt:'<small>age</small> {a}', yearFmt:'Year {y}', remain:'{n} yrs to retirement', tickerInit:'Read the news and predict the next boom or crash.',
+  tabPrice:'Prices', tabAsset:'Assets', tab3y:'3 yrs', tabAll:'All', legA:'Military', legB:'Green', legT:'Total assets',
+  total:'Total assets', chgPrefix:'YTD ', karma:'Integrity',
+  aName:'A Military & Energy Complex', aDesc:'High risk, high return · lowers Integrity while held',
+  bName:'B Peace & Medical Green Fund', bDesc:'Low risk, low return · raises Integrity while held',
+  cName:'C Cash (risk-free)', cDesc:'Deposit 0.5%/yr · borrowing (negative cash) {r}%/yr',
+  buyAll:'Buy max', buyHalf:'Buy half', sellHalf:'Sell half', sellAll:'Sell all', hold:'Holding', pnl:'P/L ', y1:'1y ',
+  cashAll:'Sell everything', margin:'Margin 2×', buyPower:'Buying power', flow:'Yearly cash flow {v}', power:'Available {v}', loan:'Debt {v}', log:'News log',
+  autoOn:'🤖 Autopilot ON: the AI trades for you and life goes on', autoOff:'Autopilot OFF: you trade yourself', autoChip:'🤖 Autopilot',
+  autoLog:'Rebalanced: Military {a}% / Green {b}%',
+  kinds:{hist:'Breaking', rumor:'Rumor', life:'Life', flash:'Market', fake:'Fake', sys:'Life', auto:'Autopilot'},
+  react:'Market reacts: Military {a}  Green {b}', fake:'“{t}” turned out to be fake',
+  promoWhat:['Now a full-fledged employee','Promoted','Became a manager'], promo:'{what}. Yearly cash flow is now +{v}',
+  skillUp:'Years on the job sharpened your market sense! Analysis Lv{n} (hints now appear on news)',
+  retire:'Retired. Living on a pension costs −{v} per year',
+  startHigh:'Year {y}: you start working at 18. Earn a salary and start investing today!',
+  startUni:'You graduate and start work in year {y}, at 22. Your 4 years of {plan} are your weapon.',
+  resume:'Resuming at age {age} (year {y}). Press ▶ to start the clock.',
+  insured:'🛡 Bankruptcy insurance paid out! Debts cleared — restart with {v} (#{n})',
+  noPower:'No buying power', marginOn:'Margin ON: buy up to 2× your assets (borrowing {r}%/yr)',
+  ana:'🔍 Analysis Lv{l}: {p}', anaA:'Military {d}', anaB:'Green {d}', big:' big', cred:' / Credibility: {v}', credHi:'high', credLo:'low',
+  skillAna:'🔍 Analysis Lv{n}', feeZero:'💹 No fees · 3% margin', feeStd:'💹 Fee 0.1%', earn:'💼 Pay ×{n}', chipEasy:'🛡 Easy', chipNormal:'⚔ Normal',
+  over:'GAME OVER', clear:'GAME CLEAR', bankruptAt:'Bankrupt at {age} (year {y})', retired:'Retired safely at 80 (year {y})',
+  evalLbl:'RATING', evals:['Bankrupt','Commoner','Well-off','Millionaire','Tycoon','Legendary Tycoon'],
+  trialWin:'⚖ The Judgment of Fate… <b>WON!</b><br>You drew a hidden rare title!', trialLose:'⚖ The Judgment of Fate… lost.<br>You were one step away from a hidden {r} title!',
+  rareBanner:'✨ Hidden rare title discovered! ✨', brag:'Brag on 𝕏!', bragSub:'Show everyone your luck', share:'Share your result on 𝕏',
+  titleNo:'Title No.{no} · est. rate {rate}', rankLine:'Asset rank: {w} × Integrity: {k}',
+  finalAssets:'Final assets', peak:'Peak assets', years:'Years survived', yearsV:'{n} yrs', insuredN:'Insurance used', timesV:'{n}×',
+  chartAssets:'Assets (log)', chartKarma:'Integrity', again:'Live another life',
+  rarity:{LEGEND:'★★★★★ LEGEND', SR:'★★★★ SR', N:'★★ Normal'},
+  dexTitle:'Title collection', dexCount:'Normal {n}/{N} · {r} hidden rares left', axisL:'← Pitch-black (Reaper)', axisM:'Integrity', axisR:'Holy (Goddess) →',
+  dexHint:'Tap a cell for details. Collect all {N} named titles and the {R} hidden ★ rare titles!',
+  cond:'Condition: Integrity {k} ({kl}) and final assets {w}', wUnder:'below {v} or bankrupt', wOver:'{v} or more', wBetween:'{a}–{b}',
+  got:'Earned {n}× · best {v}', notYet:'Not earned yet.', rareSecret:'A hidden rare title. Its name and condition are secret — known only to those who find it.',
+  estRate:'Est. rate {v}', about:'~{v}%',
+  ratesTitle:'Published drop rates', thRarity:'Rarity', thTitle:'Title', thRate:'Est. rate',
+  ratesNote:'Rare titles are earned by meeting a hidden condition and then winning the “Judgment of Fate” lottery. Estimated rates come from ~50,000 simulated lives played by bots with various strategies and will vary with your play style. Each normal title appears about {lo}–{hi}% of the time.',
+  dexBar:'Collection <b>{n}</b>/64', dexView:'Open',
+  fbTitle:'💬 Send feedback', fbIntro:'Bug reports, ideas, impressions — anything helps us improve the game.',
+  fbCat:'Type', fbCats:['Impressions','Idea','Bug report','Translation error','Other'], fbMsg:'Message', fbMsgPh:'Type here…',
+  fbContact:'Contact (optional, if you want a reply)', fbAttach:'Attach info about my last game (mode, path, result)', fbSend:'Send', fbCancel:'Cancel',
+  fbEmpty:'Please enter a message', fbCopied:'No destination is set yet, so your message was copied to the clipboard',
+  fbOpened:'Opened the send screen. Thank you for your feedback!', fbNote:'Sending opens your mail app or a form. Please don’t include personal information.',
+  shareOver:'[GAME OVER] {route} path — bankrupt at {age} (year {y})…', shareClear:'[GAME CLEAR] Survived {n} years on the {route} path and retired at 80!',
+  shareRare:'🎉 I drew a hidden {r} title! (est. rate {rate})', shareTitle:'🏅 Title: No.{no} “{t}”', shareNew:' (NEW!)',
+  shareLose:'⚖ Lost the Judgment of Fate… one step from {r}', shareEval:'🏷 Rating: {e}', shareAssets:'💰 Final assets: {v}', shareKarma:'🕊 Integrity: {k}/100 ({kl})', shareDex:'📖 Collection: {n}/64',
+  streamOk:'Streaming & videos welcome! Commercial use OK', tip:'☕ Buy the developer a coffee (tip)', changelog:'Updates',
+  histBtn:'📜 Investor history', histTitle:'📜 Investor history', histEmpty:'No records yet.', histNote:'Your last 10 games are saved on this device.',
+  achBtn:'🏆 Achievements ({n} / {N})', achTitle:'🏆 Achievements', achRate:'Unlocked {n}/{N} ({p}%)', achLocked:'Locked', achNew:'🏆 Achievement unlocked!',
+  spTitle:'🎖 Special titles', spGot:'🎖 Special title earned: {t}', spCount:'Special {n}/{N}', chipLimited:'🔥 Limited', seasonOn:'🎉 Live event: {n}',
+  drama:{legend:'I actually drew a LEGEND!', boom:'Blew it all up on military stocks…', broke:'Ran out of steam at {age}…', saved:'Saved by insurance and limped to 80!', rich:'Built ¥10B and lived happily ever after!', saint:'Made it to 80 with clean hands!', clear:'Made it to 80!'},
+  shareLbls:{title:'[Title] ', assets:'[Final assets] ', karma:'[Final Integrity] '},
+  titles:[
+    ['Abyssal Reaper King','Fallen Demon','Ruined Black Marketeer','Bankrupt by Own Hand','Dreamer Undone','Unrewarded Good Soul','Wingless Angel','Martyred Goddess'],
+    ['Wandering Reaper','Hungry Imp','Petty Smuggler','Small-time Crook','Humble Commoner','Poor but Kind','Penniless Angel','Saint of Poverty'],
+    ['Apprentice Reaper','Mischievous Imp','Back-alley Speculator','Cunning Clerk','Ordinary Citizen','Good Neighbor','Angel on Earth','Goddess of Healing'],
+    ['Merchant of Death','Imp Trader','Shadow Investor','Sly Saver','Steady Saver','Modest Philanthropist','Angel in Training','Smiling Goddess'],
+    ["Reaper's Agent",'Dealmaking Devil','Night Speculator','War Profiteer','Comfortable Investor','Honest Investor','Guardian Angel','Goddess of Mercy'],
+    ['Reaper of the Battlefield','Devil of Gunsmoke','Energy Vampire','Corrupt Conglomerate','Seasoned Investor','Green Capitalist','Wealthy Angel','Goddess of Plenty'],
+    ['King of Death Merchants','Demon Lord of War','Shadow Tycoon','Kingmaker in the Dark','Cold-blooded Magnate','Benevolent Billionaire','Archangel of Blessings','Goddess Who Saves the World'],
+    ['Reaper Emperor of the Underworld','Archduke of Hell','Shadow Ruler of the World','Puppetmaster Who Buys Nations','Conqueror of the Age','Philanthropist of the Century','Golden Archangel','Creator of Wealth and Mercy'],
+  ],
+  wdesc:['Swallowed by the tides of the age, you ended at rock bottom.','Your wallet stayed lighter than your peers’.','You saved enough to live modestly.','You built enough for a secure retirement.','Among those on the same path, you did well.','You became a fortune the world envied.','Your fortune could move nations.','Your wealth will be remembered by history.'],
+  kdesc:['Your soul is pitch-black; even Death steps aside.','They called you the devil who feeds on conflict.','You never flinched at a shady deal.','You got your hands a little dirty.','Good and bad, in moderation.','You kept choosing investments to be proud of.','Your money kept saving people.','Your purity is truly divine.'],
+  arch:['Reaper','Demon','Black Marketeer','Crooked Merchant','Citizen','Good Soul','Angel','Goddess'],
+  klbl:['Pitch-black','Dark','Black','Gray','Neutral','White','Pure','Holy'],
+  wlbl:['Rock bottom','Low','Lower-mid','Middle','Upper-mid','Rich','Tycoon','Apex'],
+  places:['the Martian Federation','the Jovian Belt','Neo Tokyo','the Lunar Republic','Atlantica Undersea City','the Arctic Bloc','Colony Seven','Orbital City'],
+},
+zh: {
+  appSub:'未来史 × 虚拟股票交易模拟',
+  tag:'公元30XX年，18岁。每局都是不同的“未来历史”——<br>用股票活下去。要财富，还是要清白？',
+  rules:[
+    '先选择<b>模式</b>（普通／简单）和<b>出路</b>（高中毕业就业／上大学）。',
+    '<b>1年＝15秒</b>，80岁退休。可切换1x/2x/4x速度，也可用<b>🤖托管</b>自动交易。',
+    '<b>A 军事・能源</b>：波动大，持有越多清白度越低。',
+    '<b>B 和平・医疗绿色基金</b>：稳定，持有越多清白度越高。',
+    '<b>时代新闻</b>每局随机，行情不一定照标题走。传闻也可能是假的。',
+    '有工资、结婚、生病、养老等开销。普通模式下<b>资产≤0即破产</b>。',
+    '资产等级×清白度＝<b>64种称号</b>。去寻找<b>★隐藏稀有称号</b>吧！',
+    '每年自动存档。',
+  ],
+  continue:'继续游戏（{age}岁・{year}年）', newGame:'新游戏', dexBtn:'称号图鉴（{n} / 64）',
+  feedbackBtn:'💬 发送意见', offline:'游戏完全离线运行（不联网）', confirmNew:'删除存档并重新开始吗？',
+  modeQ:'第1步 ／ 游戏模式', modeTitle:'选择难度',
+  routeQ:'第2步 ／ 公元{year}年・18岁・本金10万円', routeTitle:'选择你的第一条路',
+  highName:'高中毕业后就业', highTag:'18岁开始', highSub:'立即领工资・白手起家',
+  highPts:['提前4年开始投资','18岁起每年 +50万円 → 22岁 +80万 → 30岁 +100万 → 50岁 +120万','凭工作经验在30岁、45岁提升分析力'], highMinus:'工资涨幅低于大学毕业生；起初没有分析力',
+  uniName:'上大学', uniTag:'22岁开始', uniSub:'根据4年的度过方式获得技能或资金奖励',
+  uniPts:['22岁起每年 +80万円 → 30岁 +115万 → 50岁 +140万（大学毕业工资）','选择4年的度过方式，获得初始技能或资金'], uniMinus:'22岁才开始（错过最初4年的行情）',
+  back:'← 返回', planQ:'第3步 ／ 大学4年', planTitle:'你是怎么度过的？',
+  plans:{
+    uni_study:{name:'📚 苦读经济学', tag:'分析力 Lv2', sub:'22岁时：资金20万円', pts:['一开始就是分析力Lv2：新闻会显示两只基金的真实涨跌方向，也更容易识破假传闻']},
+    uni_work:{name:'💴 拼命打工', tag:'资金180万円', sub:'22岁时：资金180万円', pts:['用4年攒下的180万円一开始就大举投资'], minus:'没有技能'},
+    uni_invest:{name:'📈 投资研究会', tag:'交易力', sub:'22岁时：资金60万円', pts:['分析力Lv1（能看出军需的真实涨跌方向）','交易手续费为零，融资利率仅年3%']},
+    uni_abroad:{name:'✈️ 留学・志愿者', tag:'工资×1.1', sub:'22岁时：资金30万円', pts:['语言和国际经验让终身工资×1.1','帮助他人的经历：清白度+8起步']},
+  },
+  routeNames:{high:'高中毕业・白手起家', uni_study:'大学（苦读经济学）', uni_work:'大学（拼命打工）', uni_invest:'大学（投资研究会）', uni_abroad:'大学（留学・志愿者）'},
+  planShort:{uni_study:'苦读经济学', uni_work:'拼命打工', uni_invest:'投资研究会', uni_abroad:'留学・志愿者'},
+  stage:{newbie:'高中毕业新人', tataki:'白手起家的员工', uni:'大学毕业员工', pension:'退休生活'},
+  ageFmt:'{a}<small>岁</small>', yearFmt:'公元{y}年', remain:'距退休{n}年', tickerInit:'读懂时代新闻，预判暴涨暴跌。',
+  tabPrice:'股价', tabAsset:'资产', tab3y:'3年', tabAll:'全部', legA:'军需', legB:'绿色', legT:'总资产',
+  total:'总资产', chgPrefix:'年初以来 ', karma:'清白度',
+  aName:'A 军事・能源复合体', aDesc:'高风险高回报／持有期间清白度↓',
+  bName:'B 和平・医疗绿色基金', bDesc:'低风险低回报／持有期间清白度↑',
+  cName:'C 现金（无风险）', cDesc:'存款年利率0.5%／借款（负现金）年{r}%',
+  buyAll:'全部买入', buyHalf:'买入一半', sellHalf:'卖出一半', sellAll:'全部卖出', hold:'持有', pnl:'盈亏 ', y1:'1年 ',
+  cashAll:'全部变现', margin:'融资交易 2倍', buyPower:'可用资金', flow:'年度收支 {v}', power:'可用 {v}', loan:'借款 {v}', log:'新闻记录',
+  autoOn:'🤖 托管开启：AI自动交易，人生继续前进', autoOff:'托管关闭：自己交易', autoChip:'🤖 托管中',
+  autoLog:'调整配置：军需 {a}% ／ 绿色 {b}%',
+  kinds:{hist:'时代新闻', rumor:'传闻', life:'人生', flash:'市场反应', fake:'假消息', sys:'人生', auto:'托管'},
+  react:'市场反应：军需 {a}　绿色 {b}', fake:'“{t}”原来是假消息',
+  promoWhat:['成为独当一面的正式员工','升职','成为管理层'], promo:'{what}。年度收支变为 +{v}',
+  skillUp:'在一线历练出了市场直觉！分析力Lv{n}（新闻会显示分析）',
+  retire:'正式退休。养老生活每年亏损 −{v}',
+  startHigh:'公元{y}年，18岁参加工作。一边领工资，今天就能开始投资！',
+  startUni:'大学毕业，公元{y}年・22岁步入社会。“{plan}”的4年就是你的武器。',
+  resume:'从{age}岁（{y}年）继续。按▶时间开始流动',
+  insured:'🛡 破产保险生效！清偿债务，以 {v} 重新开始（第{n}次）',
+  noPower:'没有可用资金', marginOn:'融资开启：最多可买入资产的2倍（借款年{r}%）',
+  ana:'🔍分析Lv{l}：{p}', anaA:'军需{d}', anaB:'绿色{d}', big:'大', cred:'／可信度：{v}', credHi:'高', credLo:'低',
+  skillAna:'🔍 分析Lv{n}', feeZero:'💹 零手续费・融资3%', feeStd:'💹 手续费0.1%', earn:'💼 工资×{n}', chipEasy:'🛡 简单', chipNormal:'⚔ 普通',
+  over:'GAME OVER', clear:'GAME CLEAR', bankruptAt:'{age}岁 ／ {y}年破产', retired:'80岁 ／ {y}年 平安退休',
+  evalLbl:'综合评价', evals:['破产者','平民','小富翁','亿万富翁','大富豪','传奇富豪'],
+  trialWin:'⚖ 命运的审判……<b>中选！</b><br>抽中了隐藏稀有称号！', trialLose:'⚖ 命运的审判……落选。<br>差一点就得到隐藏的{r}称号！',
+  rareBanner:'✨ 发现隐藏稀有称号！ ✨', brag:'在 𝕏 上炫耀！', bragSub:'让大家看看你的好运', share:'在 𝕏 分享结果',
+  titleNo:'称号 No.{no}　预估出现率 {rate}', rankLine:'资产等级 {w} × 清白度 {k}',
+  finalAssets:'最终总资产', peak:'最高资产', years:'存活年数', yearsV:'{n}年', insuredN:'保险使用', timesV:'{n}次',
+  chartAssets:'资产（对数）', chartKarma:'清白度', again:'再活一次人生',
+  rarity:{LEGEND:'★★★★★ LEGEND', SR:'★★★★ SR', N:'★★ 普通'},
+  dexTitle:'称号图鉴', dexCount:'普通 {n}/{N} ・ 稀有称号剩余 {r}种', axisL:'← 漆黑（死神）', axisM:'清白度', axisR:'神圣（女神） →',
+  dexHint:'点击格子查看详情。集齐公开名称的{N}种和隐藏的★稀有称号{R}种吧！',
+  cond:'条件：清白度 {k}（{kl}），最终资产 {w}', wUnder:'低于{v}或破产', wOver:'{v}以上', wBetween:'{a}～{b}',
+  got:'获得{n}次／最高 {v}', notYet:'尚未获得的称号。', rareSecret:'隐藏稀有称号。名称和条件都是秘密，只有发现的人才知道。',
+  estRate:'预估出现率 {v}', about:'约{v}%',
+  ratesTitle:'出现率公示', thRarity:'稀有度', thTitle:'称号', thRate:'预估出现率',
+  ratesNote:'稀有称号需要满足某个条件，并在“命运的审判”（抽选）中中选才能获得。预估出现率是根据各种策略的玩家（Bot）约5万次模拟得出的参考值，会因玩法而变化。每种普通称号的预估出现率约为{lo}～{hi}%。',
+  dexBar:'称号图鉴 <b>{n}</b>/64', dexView:'查看图鉴',
+  fbTitle:'💬 发送意见', fbIntro:'欢迎发送错误报告、改进建议、感想等，我们会作为更新的参考。',
+  fbCat:'类型', fbCats:['感想','改进建议','错误报告','翻译错误','其他'], fbMsg:'内容', fbMsgPh:'请在此输入…',
+  fbContact:'联系方式（可选，需要回复时填写）', fbAttach:'附上上一局的信息（模式・出路・结果）', fbSend:'发送', fbCancel:'取消',
+  fbEmpty:'请输入内容', fbCopied:'尚未设置接收地址，已将内容复制到剪贴板',
+  fbOpened:'已打开发送页面，感谢你的反馈！', fbNote:'发送时会打开邮件应用或表单。请不要填写个人信息。',
+  shareOver:'【GAME OVER】{route}路线，{age}岁（公元{y}年）破产…', shareClear:'【GAME CLEAR】{route}路线，撑过{n}年，80岁退休！',
+  shareRare:'🎉抽中了隐藏的{r}称号！（预估出现率 {rate}）', shareTitle:'🏅称号：No.{no}「{t}」', shareNew:'（NEW!）',
+  shareLose:'⚖命运的审判落选…离{r}只差一步', shareEval:'🏷评价：{e}', shareAssets:'💰最终总资产：{v}', shareKarma:'🕊清白度：{k}/100（{kl}）', shareDex:'📖称号图鉴：{n}/64',
+  streamOk:'欢迎直播・视频使用！可商用', tip:'☕ 请开发者喝杯咖啡（打赏）', changelog:'更新信息',
+  histBtn:'📜 历代投资家记录', histTitle:'📜 历代投资家记录', histEmpty:'还没有记录。', histNote:'在本设备上保存最近10局。',
+  achBtn:'🏆 成就图鉴（{n} / {N}）', achTitle:'🏆 成就图鉴', achRate:'达成 {n}/{N}（{p}%）', achLocked:'未达成', achNew:'🏆 成就解锁！',
+  spTitle:'🎖 特别称号', spGot:'🎖 获得特别称号：{t}', spCount:'特别 {n}/{N}', chipLimited:'🔥 限时', seasonOn:'🎉 活动进行中：{n}',
+  drama:{legend:'竟然抽中了传说！', boom:'在军事股上彻底爆仓了…', broke:'{age}岁时撑不下去了…', saved:'靠保险救命，好歹活到80岁！', rich:'坐拥百亿，寿终正寝！', saint:'清清白白地撑到了80岁！', clear:'成功撑到80岁！'},
+  shareLbls:{title:'【称号】', assets:'【最终总资产】', karma:'【最终清白度】'},
+  titles:[
+    ['深渊死神王','堕入地狱的恶魔','破灭的黑市商人','自作自受的破产者','梦碎的凡人','未得善报的好人','失去翅膀的天使','殉道的女神'],
+    ['游荡的死神','饥饿的小恶魔','落魄的黑市商人','小恶棍','朴素的平民','清贫的好人','贫穷的天使','清贫的圣女'],
+    ['死神学徒','顽皮的小恶魔','后巷投机客','精明的小市民','平凡的市民','善良的市民','人间天使','治愈女神'],
+    ['死亡商人','小恶魔交易员','影子投资家','狡猾的小富翁','稳健的小富翁','低调的慈善家','见习天使','微笑女神'],
+    ['死神代理人','做交易的恶魔','暗夜投机者','战争暴发户','小有资产者','诚实的资产家','守护天使','慈爱女神'],
+    ['战场死神','硝烟恶魔','能源吸血鬼','黑心财阀','老练的投资家','绿色资本家','富有的天使','丰饶女神'],
+    ['死亡商人之王','战争魔王','暗影财阀总帅','幕后黑手','冷酷的大资本家','乐善好施的大富豪','祝福天使长','拯救世界的女神'],
+    ['冥府死神皇帝','魔界大公','暗影世界统治者','收购国家的黑幕','时代霸主','世纪大慈善家','黄金大天使','财富与慈爱的创世神'],
+  ],
+  wdesc:['被时代浪潮吞没，人生跌入谷底。','比同路人更囊中羞涩。','留下了足以安稳度日的积蓄。','攒下了安享晚年的财富。','在同路人中也算成绩不俗。','成为人人羡慕的富豪。','坐拥足以撼动国家的财富。','财富之巨，足以载入史册。'],
+  kdesc:['灵魂漆黑，连死神都要让路。','被称为以战乱为食的恶魔。','面对黑市交易也面不改色。','稍微弄脏了双手。','善恶皆有，恰到好处。','始终选择问心无愧的投资。','你的钱一直在拯救他人。','纯洁得宛如女神。'],
+  arch:['死神','恶魔','黑市商人','奸商','市民','好人','天使','女神'],
+  klbl:['漆黑','暗黑','黑','灰','中立','白','纯白','神圣'],
+  wlbl:['谷底','下层','中下层','中层','中上层','富裕','大富豪','巅峰'],
+  places:['火星联邦','木星圈','新东京','月面共和国','海底城市亚特兰蒂卡','北极经济圈','第七殖民地','轨道城'],
+},
+ko: {
+  appSub:'미래사 × 가상 주식 거래 시뮬레이션',
+  tag:'서기 30XX년, 18세. 매번 다른 “미래의 역사”를<br>주식으로 살아남아라. 부를 택할 것인가, 결백을 택할 것인가?',
+  rules:[
+    '먼저 <b>모드</b>(노멀／이지)와 <b>진로</b>(고졸 취업／대학 진학)를 고른다.',
+    '<b>1년＝15초</b>로 시간이 흐르고 80세에 은퇴. 속도 1x/2x/4x, <b>🤖 자동</b>으로 자동 매매도 가능.',
+    '<b>A 군사・에너지</b>: 변동이 크다. 많이 가질수록 결백도↓',
+    '<b>B 평화・의료 그린 펀드</b>: 안정적. 많이 가질수록 결백도↑',
+    '<b>시대 뉴스</b>는 매번 랜덤. 헤드라인대로 움직인다는 보장은 없다. 소문은 가짜일 수도.',
+    '급여・결혼・질병・노후 지출이 있다. 노멀은 <b>자산 0 이하면 파산</b>.',
+    '자산 랭크×결백도로 <b>64종 칭호</b>. <b>★숨겨진 레어 칭호</b>를 찾아내라!',
+    '진행은 1년마다 자동 저장.',
+  ],
+  continue:'이어하기（{age}세・{year}년）', newGame:'처음부터', dexBtn:'칭호 도감（{n} / 64）',
+  feedbackBtn:'💬 의견 보내기', offline:'게임은 완전히 오프라인으로 동작합니다(통신 없음)', confirmNew:'저장 데이터를 지우고 처음부터 시작할까요?',
+  modeQ:'STEP 1 ／ 게임 모드', modeTitle:'난이도를 고르세요',
+  routeQ:'STEP 2 ／ 서기 {year}년・18세・소지금 10만 엔', routeTitle:'첫 진로를 고르세요',
+  highName:'고졸로 바로 취업', highTag:'18세 시작', highSub:'즉시 급여・자수성가',
+  highPts:['4년 일찍 투자를 시작할 수 있다','18세부터 연 +50만 엔 → 22세 +80만 → 30세 +100만 → 50세 +120만','현장 경험으로 30세・45세에 분석력 레벨업'], highMinus:'급여 상승은 대졸보다 완만. 처음엔 분석력 없음',
+  uniName:'대학 진학', uniTag:'22세 시작', uniSub:'4년을 보낸 방식에 따라 스킬・자금 보너스',
+  uniPts:['22세부터 연 +80만 엔 → 30세 +115만 → 50세 +140만(대졸 급여)','4년을 보낸 방식을 골라 초기 스킬이나 자금 획득'], uniMinus:'22세부터 시작(처음 4년간의 시장에는 참가 불가)',
+  back:'← 돌아가기', planQ:'STEP 3 ／ 대학 4년', planTitle:'어떻게 보냈나요?',
+  plans:{
+    uni_study:{name:'📚 경제학 열공', tag:'분석력 Lv2', sub:'22세 시점: 자금 20만 엔', pts:['처음부터 분석력 Lv2. 뉴스에 두 펀드의 진짜 등락 방향이 표시되고, 소문의 진위도 잘 간파한다']},
+    uni_work:{name:'💴 알바 삼매경', tag:'자금 180만 엔', sub:'22세 시점: 자금 180만 엔', pts:['4년간 모은 180만 엔으로 처음부터 크게 운용'], minus:'스킬 없음'},
+    uni_invest:{name:'📈 투자 동아리', tag:'거래력', sub:'22세 시점: 자금 60만 엔', pts:['분석력 Lv1(군수의 진짜 등락 방향을 읽는다)','매매 수수료 0・신용 거래 금리 연 3%']},
+    uni_abroad:{name:'✈️ 유학・봉사활동', tag:'급여×1.1', sub:'22세 시점: 자금 30만 엔', pts:['어학과 국제 경험으로 평생 급여 1.1배','사람들을 도운 경험으로 결백도 +8에서 시작']},
+  },
+  routeNames:{high:'고졸・자수성가', uni_study:'대졸(경제학 열공)', uni_work:'대졸(알바 삼매경)', uni_invest:'대졸(투자 동아리)', uni_abroad:'대졸(유학・봉사)'},
+  planShort:{uni_study:'경제학 열공', uni_work:'알바 삼매경', uni_invest:'투자 동아리', uni_abroad:'유학・봉사'},
+  stage:{newbie:'고졸 신입', tataki:'자수성가 사원', uni:'대졸 사원', pension:'연금 생활'},
+  ageFmt:'{a}<small>세</small>', yearFmt:'서기 {y}년', remain:'은퇴까지 {n}년', tickerInit:'시대 뉴스를 읽고 폭등・폭락을 예측하라.',
+  tabPrice:'주가', tabAsset:'자산', tab3y:'3년', tabAll:'전체', legA:'군수', legB:'그린', legT:'총자산',
+  total:'총자산', chgPrefix:'연초 대비 ', karma:'결백도',
+  aName:'A 군사・에너지 복합체', aDesc:'하이 리스크・하이 리턴／보유 중 결백도↓',
+  bName:'B 평화・의료 그린 펀드', bDesc:'로우 리스크・로우 리턴／보유 중 결백도↑',
+  cName:'C 현금(무위험)', cDesc:'예금 금리 연 0.5%／차입(마이너스)은 연 {r}%',
+  buyAll:'전액 매수', buyHalf:'절반 매수', sellHalf:'절반 매도', sellAll:'전량 매도', hold:'보유', pnl:'손익 ', y1:'1년 ',
+  cashAll:'전부 현금화', margin:'신용 거래 2배', buyPower:'매수 여력', flow:'연간 수지 {v}', power:'여력 {v}', loan:'차입 {v}', log:'뉴스 기록',
+  autoOn:'🤖 자동 ON: AI가 자동으로 매매하고 인생이 진행됩니다', autoOff:'자동 OFF: 직접 매매합니다', autoChip:'🤖 자동 진행 중',
+  autoLog:'비중 조정: 군수 {a}% ／ 그린 {b}%',
+  kinds:{hist:'시대 뉴스', rumor:'소문', life:'인생', flash:'시장 반응', fake:'가짜 뉴스', sys:'인생', auto:'자동'},
+  react:'시장 반응: 군수 {a}　그린 {b}', fake:'「{t}」는 가짜 뉴스였던 모양',
+  promoWhat:['어엿한 정사원이 되었다','승진','관리직이 되었다'], promo:'{what}. 연간 수지가 +{v}(으)로',
+  skillUp:'현장에서 단련되어 시장 감각이 생겼다! 분석력 Lv{n}(뉴스에 분석이 표시됨)',
+  retire:'정년 퇴직. 연금 생활로 매년 −{v} 적자',
+  startHigh:'서기 {y}년, 18세에 취업. 월급을 받으며 오늘부터 투자를 시작할 수 있다!',
+  startUni:'대학을 졸업하고 서기 {y}년・22세에 사회인이 되었다. 「{plan}」의 4년이 무기다.',
+  resume:'{age}세({y}년)부터 재개. ▶를 누르면 시간이 흐른다',
+  insured:'🛡 파산 방지 보험 발동! 부채를 청산하고 {v}(으)로 재시작({n}회째)',
+  noPower:'매수 여력이 없습니다', marginOn:'신용 거래 ON: 자산의 2배까지 매수 가능(차입 연 {r}%)',
+  ana:'🔍분석 Lv{l}: {p}', anaA:'군수{d}', anaB:'그린{d}', big:'대', cred:'／신빙성: {v}', credHi:'높음', credLo:'낮음',
+  skillAna:'🔍 분석 Lv{n}', feeZero:'💹 수수료 0・신용 3%', feeStd:'💹 수수료 0.1%', earn:'💼 급여×{n}', chipEasy:'🛡 이지', chipNormal:'⚔ 노멀',
+  over:'GAME OVER', clear:'GAME CLEAR', bankruptAt:'{age}세 ／ {y}년에 파산', retired:'80세 ／ {y}년 무사히 은퇴',
+  evalLbl:'종합 평가', evals:['파산자','서민','부자','억만장자','대부호','전설의 대부호'],
+  trialWin:'⚖ 운명의 심판…… <b>당첨!</b><br>숨겨진 레어 칭호를 뽑았다!', trialLose:'⚖ 운명의 심판…… 꽝.<br>한 걸음 차이로 숨겨진 {r} 칭호를 놓쳤다!',
+  rareBanner:'✨ 숨겨진 레어 칭호 발견! ✨', brag:'𝕏에서 자랑하기!', bragSub:'이 행운을 모두에게 보여주자', share:'𝕏에 결과 공유하기',
+  titleNo:'칭호 No.{no}　추정 출현율 {rate}', rankLine:'자산 랭크 {w} × 결백도 {k}',
+  finalAssets:'최종 총자산', peak:'최고 자산', years:'살아남은 햇수', yearsV:'{n}년', insuredN:'보험 사용', timesV:'{n}회',
+  chartAssets:'자산(로그)', chartKarma:'결백도', again:'다시 한 번 인생 살기',
+  rarity:{LEGEND:'★★★★★ LEGEND', SR:'★★★★ SR', N:'★★ 노멀'},
+  dexTitle:'칭호 도감', dexCount:'노멀 {n}/{N} ・ 레어 칭호 남은 {r}종', axisL:'← 칠흑(사신)', axisM:'결백도', axisR:'신성(여신) →',
+  dexHint:'칸을 탭하면 상세 정보를 볼 수 있습니다. 이름이 공개된 {N}종과 숨겨진 ★레어 칭호 {R}종을 모두 모으자!',
+  cond:'조건: 결백도 {k}({kl})이고 최종 자산 {w}', wUnder:'{v} 미만 또는 파산', wOver:'{v} 이상', wBetween:'{a}～{b}',
+  got:'획득 {n}회／최고 {v}', notYet:'아직 획득하지 않은 칭호.', rareSecret:'숨겨진 레어 칭호. 이름도 조건도 비밀. 찾아낸 사람만 안다.',
+  estRate:'추정 출현율 {v}', about:'약 {v}%',
+  ratesTitle:'출현율 공개', thRarity:'레어도', thTitle:'칭호', thRate:'추정 출현율',
+  ratesNote:'레어 칭호는 어떤 조건을 만족한 뒤 「운명의 심판」(추첨)에 당첨되면 획득합니다. 추정 출현율은 다양한 전략의 플레이어(봇)로 약 5만 회 시뮬레이션한 참고치이며 플레이 방식에 따라 달라집니다. 노멀 칭호는 1종당 약 {lo}～{hi}%입니다.',
+  dexBar:'칭호 도감 <b>{n}</b>/64', dexView:'도감 보기',
+  fbTitle:'💬 의견 보내기', fbIntro:'버그 신고, 개선 아이디어, 감상 등 무엇이든 보내주세요. 앞으로의 업데이트에 참고하겠습니다.',
+  fbCat:'종류', fbCats:['감상','개선 아이디어','버그 신고','번역 오류','기타'], fbMsg:'메시지', fbMsgPh:'여기에 입력…',
+  fbContact:'연락처(선택・답장이 필요한 경우)', fbAttach:'직전 플레이 정보(모드・진로・결과) 첨부', fbSend:'보내기', fbCancel:'취소',
+  fbEmpty:'메시지를 입력해 주세요', fbCopied:'받는 곳이 아직 설정되지 않아 내용을 클립보드에 복사했습니다',
+  fbOpened:'전송 화면을 열었습니다. 협조해 주셔서 감사합니다!', fbNote:'보내기를 누르면 메일 앱 또는 전송 폼이 열립니다. 개인정보는 입력하지 마세요.',
+  shareOver:'【GAME OVER】{route} 루트, {age}세(서기 {y}년)에 파산…', shareClear:'【GAME CLEAR】{route} 루트로 {n}년을 살아남아 80세에 은퇴!',
+  shareRare:'🎉숨겨진 {r} 칭호를 뽑았다!(추정 출현율 {rate})', shareTitle:'🏅칭호: No.{no}『{t}』', shareNew:'(NEW!)',
+  shareLose:'⚖운명의 심판에서 꽝…{r}까지 한 걸음', shareEval:'🏷평가: {e}', shareAssets:'💰최종 총자산: {v}', shareKarma:'🕊결백도: {k}/100({kl})', shareDex:'📖칭호 도감: {n}/64',
+  streamOk:'방송・영상 사용 환영! 상업적 이용 OK', tip:'☕ 개발자에게 커피 사주기(후원)', changelog:'업데이트 정보',
+  histBtn:'📜 역대 투자가 기록', histTitle:'📜 역대 투자가 기록', histEmpty:'아직 기록이 없습니다.', histNote:'최근 10회를 이 기기에 저장합니다.',
+  achBtn:'🏆 업적 도감（{n} / {N}）', achTitle:'🏆 업적 도감', achRate:'달성 {n}/{N}（{p}%）', achLocked:'미달성', achNew:'🏆 업적 해제!',
+  spTitle:'🎖 스페셜 칭호', spGot:'🎖 스페셜 칭호 획득: {t}', spCount:'스페셜 {n}/{N}', chipLimited:'🔥 한정', seasonOn:'🎉 개최 중인 이벤트: {n}',
+  drama:{legend:'설마 전설을 뽑았다!', boom:'군사주로 대폭망했다…', broke:'{age}세에 힘이 다했다…', saved:'보험 덕에 겨우 80세까지!', rich:'100억의 부를 쌓고 천수를 누렸다!', saint:'깨끗하게 80세까지 버텼다!', clear:'80세까지 버텼다!'},
+  shareLbls:{title:'【칭호】', assets:'【최종 총자산】', karma:'【최종 결백도】'},
+  titles:[
+    ['나락의 사신왕','지옥에 떨어진 악마','파멸한 암상인','자업자득 파산자','꿈이 꺾인 범인','보답받지 못한 선인','날개를 잃은 천사','순교의 여신'],
+    ['방황하는 사신','배고픈 꼬마 악마','초라한 암상인','좀도둑','소박한 서민','청빈한 선인','가난한 천사','청빈한 성녀'],
+    ['견습 사신','장난꾸러기 꼬마 악마','뒷골목 투기꾼','약삭빠른 소시민','평범한 시민','선량한 시민','지상의 천사','치유의 여신'],
+    ['죽음의 상인','꼬마 악마 트레이더','그림자 투자가','교활한 부자','착실한 부자','겸손한 독지가','견습 천사','미소의 여신'],
+    ['사신의 대리인','거래하는 악마','밤의 투기꾼','전쟁 졸부','그럭저럭 자산가','성실한 자산가','수호천사','자애의 여신'],
+    ['전장의 사신','화약 연기의 악마','에너지 흡혈귀','악덕 재벌','노련한 투자가','녹색 자본가','부유한 천사','풍요의 여신'],
+    ['죽음의 상인왕','전쟁의 마왕','어둠의 재벌 총수','흑막의 조종자','냉철한 대자본가','독지가 대부호','축복의 대천사장','세상을 구하는 여신'],
+    ['명부의 사신 황제','마계의 대공','그림자 세계 지배자','국가를 사는 흑막','시대의 패자','세기의 대자선가','황금 대천사','부와 자애의 창조신'],
+  ],
+  wdesc:['시대의 파도에 휩쓸려 밑바닥에서 생을 마쳤다.','같은 길을 걸은 이들보다 지갑이 가벼웠다.','소박하게 살 만큼의 저축을 남겼다.','노후가 든든한 재산을 쌓았다.','같은 길을 걸은 이들 중에서도 꽤 잘했다.','모두가 부러워하는 부호가 되었다.','나라도 움직일 부를 손에 넣었다.','역사에 이름을 남길 만한 부를 쌓았다.'],
+  kdesc:['영혼은 칠흑에 물들어 사신조차 길을 비킨다.','분쟁을 먹고 웃는 악마라 불렸다.','어둠의 거래에도 눈썹 하나 까딱하지 않았다.','손을 조금 더럽히며 살았다.','선도 악도 적당히.','자랑스러운 투자를 계속 골랐다.','그 돈은 사람들을 계속 구했다.','그 순수함은 그야말로 여신.'],
+  arch:['사신','악마','암상인','악덕 상인','시민','선인','천사','여신'],
+  klbl:['칠흑','암흑','흑','회색','중립','백','순백','신성'],
+  wlbl:['밑바닥','하류','중하류','중류','중상류','부유','대부호','정점'],
+  places:['화성 연방','목성권','네오 도쿄','월면 공화국','해저 도시 아틀란티카','북극 경제권','제7 콜로니','오비탈 시티'],
+},
+};
+function detectLang(){
+  try{ const s = localStorage.getItem(LANG_KEY); if(s && I18N[s]) return s; }catch(e){}
+  const n = (navigator.language || 'en').toLowerCase();
+  return n.startsWith('ja') ? 'ja' : n.startsWith('zh') ? 'zh' : n.startsWith('ko') ? 'ko' : 'en';
+}
+let LANG = detectLang();
+const D = () => I18N[LANG];
+function tr(key, p){
+  let s = D()[key]; if(s === undefined) s = I18N.ja[key];
+  if(typeof s !== 'string') return s === undefined ? key : s;
+  return p ? s.replace(/\{(\w+)\}/g, (m, k) => p[k] !== undefined ? p[k] : m) : s;
+}
+/* 金額表示（言語別） */
+function money(v){
+  const s = v<0 ? '-' : ''; v = Math.abs(v);
+  const f = (x, d) => x.toFixed(d).replace(/\.0+$/, '');
+  if(LANG==='ja'){
+    if(v>=1e8) return s+(v/1e8).toFixed(v>=1e10?0:2)+'億円';
+    if(v>=1e4) return s+(v<1e6?(v/1e4).toFixed(1):Math.floor(v/1e4).toLocaleString())+'万円';
+    return s+Math.floor(v).toLocaleString()+'円';
+  }
+  if(LANG==='zh' || LANG==='ko'){
+    const oku = LANG==='zh' ? '亿' : '억', man = LANG==='zh' ? '万' : '만';
+    if(v>=1e8) return s+'¥'+(v/1e8).toFixed(v>=1e10?0:2)+oku;
+    if(v>=1e4) return s+'¥'+(v<1e6?(v/1e4).toFixed(1):Math.floor(v/1e4).toLocaleString())+man;
+    return s+'¥'+Math.floor(v).toLocaleString();
+  }
+  if(v>=1e9) return s+'¥'+f(v/1e9, 2)+'B';
+  if(v>=1e6) return s+'¥'+f(v/1e6, 2)+'M';
+  if(v>=1e3) return s+'¥'+f(v/1e3, 1)+'K';
+  return s+'¥'+Math.floor(v);
+}
+function moneyShort(v){
+  const s = v<0 ? '-' : ''; v = Math.abs(v);
+  if(LANG==='en'){ if(v>=1e9) return s+(v/1e9).toFixed(v>=1e10?0:1)+'B'; if(v>=1e6) return s+Math.round(v/1e6)+'M'; if(v>=1e3) return s+Math.round(v/1e3)+'K'; return s+Math.round(v); }
+  const oku = LANG==='zh' ? '亿' : LANG==='ko' ? '억' : '億', man = LANG==='zh' ? '万' : LANG==='ko' ? '만' : '万';
+  if(v>=1e8) return s+(v/1e8).toFixed(v>=1e9?0:1)+oku;
+  if(v>=1e4) return s+Math.round(v/1e4)+man;
+  return s+Math.round(v);
+}
+
+/* ==================== ユーティリティ ==================== */
+const $ = id => document.getElementById(id);
+const rint = (a,b) => a + Math.floor(Math.random()*(b-a+1));
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+function gauss(){ let u=0,v=0; while(!u)u=Math.random(); while(!v)v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+const pct = v => (v>=0?'+':'')+(v*100).toFixed(1)+'%';
+const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const yearOf = age => (S ? S.y0 : 3000) + (age - START_AGE);
+const kIdx = k => { k = Math.round(k); let c = 0; while(c<7 && k>=K_EDGES[c]) c++; return c; };
+const kRange = k => { const lo = k ? K_EDGES[k-1] : 0, hi = k<7 ? K_EDGES[k]-1 : 100; return lo===hi ? `${lo}` : `${lo}–${hi}`; };
+function tierOf(T, k){ let t = 0; for(let i=0;i<7;i++) if(T>=W_TH[k][i]) t = i+1; return t; }
+const wRange = (t, k) => t===0 ? tr('wUnder',{v:money(W_TH[k][0])}) : t===7 ? tr('wOver',{v:money(W_TH[k][6])}) : tr('wBetween',{a:money(W_TH[k][t-1]), b:money(W_TH[k][t])});
+const titleNo = (t,k) => String(t*8+k+1).padStart(2,'0');
+const rarityOf = key => RARE[key] ? RARE[key].r : 'N';
+const estOf = key => { const [t,k] = key.split('-').map(Number); return RATE_EST[t*8+k]; };
+const rateText = p => tr('about', {v: p < 0.01 ? p.toFixed(3) : p.toFixed(p<1?2:1)});
+const titleColor = k => k<=1 ? '#ff8a7a' : k<=3 ? '#f0b080' : k===4 ? '#f5c451' : k===7 ? '#fff3c0' : '#c8ffe8';
+
+/* ==================== キャラクターイラスト（SVG生成） ==================== */
+let svgUid = 0;
+const mirror = s => `<g transform="translate(120 0) scale(-1 1)">${s}</g>`;
+function charSVG(t, k, sil){
+  const u = 'cs' + (++svgUid), P = [];
+  const BG = [['#3a0a12','#0b0206'],['#4a1020','#14040a'],['#262a40','#0b0c16'],['#3d3020','#120e08'],
+              ['#2a3650','#0f1422'],['#1f5040','#0b1a15'],['#6a8ad0','#1d2a4a'],['#ffeaa8','#8a6ad8']][k];
+  const gold = '#f5c451';
+  const sad = t===0, rich = t>=5, crown = t>=6;
+  const mood = t===0 ? 'sad' : t===1 ? 'worry' : k<=3 ? (t>=4 ? 'grin' : 'smirk') : 'smile';
+  P.push(`<rect width="120" height="140" fill="url(#${u}b)"/>`);
+  if(t===7){
+    let r=''; for(let i=0;i<16;i++){ const a=i*Math.PI/8, f=v=>v.toFixed(1);
+      r+=`<path d="M60 70L${f(60+95*Math.cos(a-.09))} ${f(70+95*Math.sin(a-.09))}L${f(60+95*Math.cos(a+.09))} ${f(70+95*Math.sin(a+.09))}Z"/>`; }
+    P.push(`<g fill="#ffe27a" opacity=".22">${r}</g>`);
+  }
+  if(t>=6) P.push(`<circle cx="60" cy="72" r="58" fill="url(#${u}g)"/>`);
+  if(rich) [[16,30],[104,22],[100,58],[14,64],[26,16]].forEach(([x,y],i)=>
+    P.push(`<g opacity="${.5+i%2*.3}"><circle cx="${x}" cy="${y}" r="4" fill="${gold}" stroke="#b8862a"/><text x="${x}" y="${y+2}" font-size="5" text-anchor="middle" fill="#7a5418" font-weight="900">¥</text></g>`));
+  if(k===0) P.push(`<g fill="#5a1a40" opacity=".35"><ellipse cx="30" cy="110" rx="30" ry="10"/><ellipse cx="92" cy="118" rx="34" ry="9"/></g>`);
+  if(t===7) P.push(`<path d="M26 128V46Q26 28 40 28H80Q94 28 94 46V128Z" fill="#7a1a2a" stroke="${gold}" stroke-width="3"/><circle cx="26" cy="44" r="4" fill="${gold}"/><circle cx="94" cy="44" r="4" fill="${gold}"/><path d="M48 28L60 18L72 28Z" fill="${gold}"/>`);
+  P.push(`<ellipse cx="60" cy="130" rx="32" ry="5" fill="#000" opacity=".35"/>`);
+  const bodyFrom = P.length; // ここから下がキャラ本体（シルエット用）
+  const C = [
+    {robe:'#1c1626', skin:'#e6e1d6'},{robe:'#3a0d18', skin:'#d8443a'},{robe:'#262b38', skin:'#caa384'},{robe:'#3e2c22', skin:'#f0c49a'},
+    {robe:'#3c5a86', skin:'#f2d0ae'},{robe:'#e8efec', skin:'#f4d6b8'},{robe:'#f6f8ff', skin:'#ffe2c8'},{robe:'#fbf8f0', skin:'#ffe6d2'},
+  ][k];
+  if(k===1){
+    const w = `<path d="M50 72L12 40L18 58L6 62L16 74L8 88L46 86Z" fill="#5a1020" stroke="#2a0610"/>`;
+    P.push(w + mirror(w));
+    P.push(`<path d="M74 120Q102 126 98 102" stroke="#c0342c" stroke-width="3" fill="none"/><path d="M98 100l-5 4l7-1z" fill="#c0342c" stroke="#c0342c" stroke-width="2"/>`);
+  }
+  if(k===6){
+    const w = `<path d="M50 72Q18 48 10 64Q12 74 20 76Q10 84 18 92Q28 93 33 88Q29 100 40 99Q48 93 52 82Z" fill="#fff" stroke="#cfd8f0"/>`;
+    P.push(sad ? `<g opacity=".35">${w}</g>` : w + mirror(w));
+  }
+  if(k===7){
+    if(!sad) P.push(`<circle cx="60" cy="44" r="28" fill="url(#${u}h)"/><circle cx="60" cy="44" r="21" fill="none" stroke="#ffe08a" stroke-width="1.5"/>`);
+    P.push(`<path d="M42 44Q37 72 33 102Q46 98 50 88H70Q74 98 87 102Q83 72 78 44Q60 30 42 44Z" fill="#f8e2a0"/>`);
+  }
+  const hem = t<=1 ? 'L86 122L81 129L75 121L69 128L63 122L57 129L51 121L45 128L39 122L34 129L30 128' : 'Q60 134 30 128';
+  P.push(`<path d="M48 64Q60 58 72 64Q86 84 90 128${hem}Q34 84 48 64Z" fill="${C.robe}"/>`);
+  if(k===3||k===4) P.push(`<path d="M54 63L60 76L66 63Z" fill="#f2efe8"/><path d="M59 65h2l1 8l-2 3l-2-3z" fill="${k===3?'#b02030':'#2a3a5a'}"/>`);
+  if(k===5) P.push(`<path d="M53 64L50 128M67 64L70 128" stroke="#2fd89c" stroke-width="5"/><path d="M57 82h6M60 79v6" stroke="#2fd89c" stroke-width="2.4"/>`);
+  if(k===7 || (k===6 && t>=4)) P.push(`<path d="M47 68Q60 92 73 68" stroke="${gold}" stroke-width="2" fill="none"/>`);
+  if(rich && k!==7) P.push(`<path d="M60 70V128" stroke="${gold}" stroke-width="2"/><path d="M33 124Q60 131 87 124" stroke="${gold}" stroke-width="2" fill="none"/>`);
+  if(t<=1) P.push(`<rect x="38" y="98" width="8" height="8" fill="#8a7a5a" transform="rotate(14 42 102)"/><rect x="70" y="110" width="7" height="6" fill="#6a6a7a" transform="rotate(-10 73 113)"/>`);
+  const arm = `<path d="M48 67Q37 80 35 100" stroke="${C.robe}" stroke-width="9" stroke-linecap="round" fill="none"/>`;
+  P.push(arm + mirror(arm));
+  P.push(`<circle cx="35" cy="102" r="4.5" fill="${C.skin}"/><circle cx="85" cy="102" r="4.5" fill="${C.skin}"/>`);
+  if(rich) P.push(`<circle cx="85" cy="104" r="1.8" fill="none" stroke="${gold}" stroke-width="1.4"/>`);
+  const eyes = (style) => {
+    if(mood==='sad') return `<path d="M51 43L57 45M69 43L63 45" stroke="#3a2a20" stroke-width="1.2"/><ellipse cx="54.5" cy="48" rx="1.6" ry="2" fill="#2a1a14"/><ellipse cx="65.5" cy="48" rx="1.6" ry="2" fill="#2a1a14"/>`;
+    if(style==='arc') return `<path d="M51.5 48Q54.5 44.5 57.5 48M62.5 48Q65.5 44.5 68.5 48" stroke="#3a2a20" stroke-width="1.4" fill="none" stroke-linecap="round"/>`;
+    if(style==='narrow') return `<path d="M51 47.5h6M63 47.5h6" stroke="#2a1a14" stroke-width="1.6" stroke-linecap="round"/><path d="M50 44L57 45.5M70 44L63 45.5" stroke="#2a1a14" stroke-width="1.2"/>`;
+    return `<ellipse cx="54.5" cy="47.5" rx="1.9" ry="2.5" fill="#2a1a14"/><ellipse cx="65.5" cy="47.5" rx="1.9" ry="2.5" fill="#2a1a14"/><circle cx="55.2" cy="46.6" r=".7" fill="#fff"/><circle cx="66.2" cy="46.6" r=".7" fill="#fff"/>`;
+  };
+  const mouth = () => ({
+    sad:'<path d="M55 57Q60 53 65 57" stroke="#3a2020" stroke-width="1.4" fill="none"/>',
+    worry:'<path d="M55 56Q57.5 54.5 60 56T65 56" stroke="#3a2020" stroke-width="1.3" fill="none"/>',
+    grin:'<path d="M53 53Q60 60.5 67 53Q60 56 53 53Z" fill="#fff" stroke="#3a2020" stroke-width="1.1"/>',
+    smirk:'<path d="M55 55Q61 57 66 53" stroke="#3a2020" stroke-width="1.4" fill="none"/>',
+    smile:'<path d="M55 54Q60 58.5 65 54" stroke="#3a2020" stroke-width="1.4" fill="none" stroke-linecap="round"/>',
+  })[mood];
+  const blush = `<ellipse cx="50.5" cy="53" rx="2.6" ry="1.4" fill="#ff8aa0" opacity=".55"/><ellipse cx="69.5" cy="53" rx="2.6" ry="1.4" fill="#ff8aa0" opacity=".55"/>`;
+  const tear = sad ? `<path d="M53 51q-1.6 3.5 0 5.2q1.6-1.7 0-5.2z" fill="#8fd0ff"/>` : t===1 ? `<path d="M75 37q2.2 4 0 6q-2.2-2 0-6z" fill="#8fd0ff"/>` : '';
+  let headY = 0;
+  switch(k){
+    case 0:
+      P.push(`<path d="M60 23C39 23 37 52 41 70H79C83 52 81 23 60 23Z" fill="${C.robe}"/><path d="M60 27C46 27 44 48 47 62" stroke="#2e2440" stroke-width="2" fill="none"/>`);
+      P.push(`<circle cx="60" cy="47" r="11.5" fill="${C.skin}"/><rect x="54" y="53" width="12" height="8" rx="2.5" fill="${C.skin}"/>`);
+      P.push(`<circle cx="55.5" cy="46.5" r="3.3" fill="#120c16"/><circle cx="64.5" cy="46.5" r="3.3" fill="#120c16"/>`);
+      if(!sad) P.push(`<circle cx="55.5" cy="46.5" r="2.4" fill="#ff3348" opacity=".35"/><circle cx="64.5" cy="46.5" r="2.4" fill="#ff3348" opacity=".35"/><circle cx="55.5" cy="46.5" r="1.2" fill="#ff5a6a"/><circle cx="64.5" cy="46.5" r="1.2" fill="#ff5a6a"/>`);
+      P.push(`<path d="M60 50.5l-1.6 3h3.2z" fill="#120c16"/><path d="M56.5 57.5V61M59 57.5V61.5M61.5 57.5V61.5M64 57.5V61" stroke="#120c16" stroke-width=".8"/>`);
+      headY = 5; break;
+    case 1: {
+      P.push(`<circle cx="60" cy="46" r="15" fill="${C.skin}"/>`);
+      P.push(`<path d="M45 42L48 30L53 36L57 27L61 35L66 28L69 36L74 31L75 44Q60 34 45 42Z" fill="#1a0a0e"/>`);
+      const horn = `<path d="M48 35Q39 23 43 13Q47 27 54 32Z" fill="#f0e2c0" stroke="#8a7a5a" stroke-width=".6"/>`;
+      P.push(horn + mirror(horn));
+      P.push(mood==='sad' ? eyes('dot') : `<path d="M50.5 45L58 47.5L52 49.5Z" fill="#ffd23a"/><path d="M69.5 45L62 47.5L68 49.5Z" fill="#ffd23a"/><circle cx="54.5" cy="47.5" r=".9" fill="#2a0a0a"/><circle cx="65.5" cy="47.5" r=".9" fill="#2a0a0a"/>`);
+      P.push(mouth());
+      if(mood==='grin'||mood==='smirk') P.push(`<path d="M56.5 54.6l1 2.6l1-2.2zM61.5 54.6l1 2.2l1-2.6z" fill="#fff"/>`);
+      break; }
+    case 2:
+      P.push(`<path d="M60 24C40 24 38 50 42 68H78C82 50 80 24 60 24Z" fill="${C.robe}"/>`);
+      P.push(`<circle cx="60" cy="47" r="12.5" fill="${C.skin}"/><path d="M47 49Q60 45 73 49L71 59Q60 65 49 59Z" fill="#14161d"/>`);
+      P.push(mood==='sad' ? eyes('dot') : `<path d="M51 45.5L58 46.5L52 48.5Z" fill="#e8f0ff"/><path d="M69 45.5L62 46.5L68 48.5Z" fill="#e8f0ff"/><circle cx="54.5" cy="47" r="1" fill="#101018"/><circle cx="65.5" cy="47" r="1" fill="#101018"/>`);
+      headY = 4; break;
+    case 3:
+      P.push(`<circle cx="60" cy="47" r="16" fill="${C.skin}"/>`);
+      P.push(`<path d="M44 45Q45 30 60 30Q75 30 76 45Q68 36 60 37Q52 36 44 45Z" fill="#2a1d14"/>`);
+      P.push(eyes('narrow'), mouth());
+      P.push(`<path d="M60 52Q54 48.5 48.5 53Q53 55.5 60 53Q67 55.5 71.5 53Q66 48.5 60 52Z" fill="#2a1d14"/>`);
+      P.push(`<circle cx="65.5" cy="47.5" r="3.8" fill="none" stroke="${gold}" stroke-width="1"/><path d="M69.3 48Q72 56 70 62" stroke="${gold}" stroke-width=".6" fill="none"/>`);
+      if(t>=3) P.push(`<rect x="63" y="55" width="11" height="2.6" rx="1" fill="#8a5a30" transform="rotate(8 63 55)"/><circle cx="74" cy="57.6" r="1.4" fill="#ff7a30"/>`);
+      if(!crown) P.push(`<rect x="47" y="13" width="26" height="19" rx="2" fill="#16121a"/><rect x="41" y="30" width="38" height="4" rx="2" fill="#16121a"/><rect x="47" y="26" width="26" height="3" fill="#b02030"/>`);
+      break;
+    case 4:
+      P.push(`<circle cx="60" cy="46" r="15" fill="${C.skin}"/>`);
+      P.push(`<path d="M45 46Q44 30 60 30Q76 30 75 46Q72 38 66 37Q58 41 50 38Q46 40 45 46Z" fill="#5a3a22"/>`);
+      P.push(eyes('dot'), mouth()); break;
+    case 5:
+      P.push(`<circle cx="60" cy="46" r="15" fill="${C.skin}"/>`);
+      P.push(`<path d="M44 50Q41 29 60 29Q79 29 76 50Q75 39 68 35Q60 40 52 35Q46 39 44 50Z" fill="#2c2420"/>`);
+      P.push(eyes('arc'), mouth(), blush); break;
+    case 6:
+      P.push(`<circle cx="60" cy="46" r="15" fill="${C.skin}"/>`);
+      P.push(`<path d="M44 48Q40 28 60 27Q80 28 76 48Q76 38 70 35Q62 38 56 34Q48 36 44 48Z" fill="#f5d36b"/><circle cx="45" cy="44" r="3.2" fill="#f5d36b"/><circle cx="75" cy="44" r="3.2" fill="#f5d36b"/>`);
+      P.push(eyes('dot'), mouth(), blush);
+      if(!sad) P.push(`<ellipse cx="60" cy="${crown?12:22}" rx="12" ry="3.4" fill="none" stroke="#ffd860" stroke-width="2.6"/>`);
+      break;
+    case 7:
+      P.push(`<circle cx="60" cy="46" r="14.5" fill="${C.skin}"/>`);
+      P.push(`<path d="M45 47Q44 30 60 29Q76 30 75 47Q70 36 60 38Q50 36 45 47Z" fill="#f8e2a0"/>`);
+      P.push(eyes('arc'), `<path d="M51 46.5l-1.5-1M69 46.5l1.5-1" stroke="#3a2a20" stroke-width=".9"/>`, mouth(), blush);
+      if(!crown) P.push(`<path d="M45 37Q60 27 75 37" stroke="#6aa84f" stroke-width="3" fill="none" stroke-dasharray="3.5 1.5"/>`);
+      break;
+  }
+  P.push(tear);
+  const metal = rich ? gold : '#cfd5e0';
+  if(k===0){
+    P.push(`<line x1="90" y1="34" x2="86" y2="128" stroke="#5a4632" stroke-width="3.5" stroke-linecap="round"/>`);
+    P.push(sad ? `<path d="M90 34l-6-5l-3 4z" fill="#8a93a6"/>` : `<path d="M90 36C76 21 52 21 37 36C54 29 74 31 90 45Z" fill="${metal}" stroke="#6a7386"/>`);
+  }
+  if(k===1) P.push(`<line x1="88" y1="30" x2="86" y2="128" stroke="#2a2a30" stroke-width="3"/><path d="M80 35V25M88 33V18M96 35V25M80 35H96" stroke="${rich?gold:'#9aa0ad'}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`);
+  if(k===2) P.push(`<path d="M35 104V100" stroke="#8a6a3a" stroke-width="1.5"/><circle cx="33" cy="112" r="10" fill="#ffcf5a" opacity="${sad?0:.25}"/><rect x="27" y="104" width="12" height="15" rx="2" fill="#2a2015" stroke="#8a6a3a"/><rect x="29.5" y="106.5" width="7" height="10" fill="${sad?'#4a4030':'#ffcf5a'}"/>`);
+  if(k===3) P.push(`<g transform="rotate(-18 86 100)"><rect x="82" y="86" width="18" height="10" fill="#9fd29a" stroke="#4a7a46"/><rect x="84" y="89" width="18" height="10" fill="#b5e0ae" stroke="#4a7a46"/></g>`);
+  if(k===4) P.push(`<rect x="24" y="104" width="18" height="13" rx="2" fill="#5a3a22"/><path d="M29 104v-3h8v3" stroke="#3a2412" stroke-width="1.5" fill="none"/>`);
+  if(k===5){
+    P.push(`<path d="M85 101Q93 86 98 70" stroke="#5a7a3a" stroke-width="1.6" fill="none"/>`);
+    [[90,92,-30],[95,82,30],[94,76,-35],[98,70,20]].forEach(([x,y,r]) => P.push(`<ellipse cx="${x}" cy="${y}" rx="4" ry="1.8" fill="#6abf5a" transform="rotate(${r} ${x} ${y})"/>`));
+  }
+  if(k===6 && !sad) P.push(`<path d="M96 84c-3-4-9-1-6 4l6 6l6-6c3-5-3-8-6-4z" fill="#ff7aa8"/>`);
+  if(k===7){
+    P.push(`<line x1="90" y1="44" x2="88" y2="128" stroke="${gold}" stroke-width="2.5"/>`);
+    if(!sad) P.push(`<circle cx="90" cy="38" r="10" fill="#bfe8ff" opacity=".3"/>`);
+    P.push(`<circle cx="90" cy="38" r="6" fill="${sad?'#7a8494':'#bfe8ff'}" stroke="${gold}" stroke-width="1.5"/>`);
+  }
+  if(t>=4 && k!==0) P.push(`<path d="M50 64Q60 77 70 64" stroke="${gold}" stroke-width="1.8" fill="none"/><circle cx="60" cy="71" r="2.6" fill="#ff4d6d" stroke="${gold}"/>`);
+  const coinStack = (x, n) => { let s=''; for(let i=0;i<n;i++) s+=`<ellipse cx="${x}" cy="${126-i*3}" rx="7" ry="2.6" fill="${gold}" stroke="#b8862a" stroke-width=".8"/>`; return s; };
+  if(t>=3) P.push(coinStack(16, t>=5 ? 6 : 3));
+  if(t>=5) P.push(coinStack(104, t>=7 ? 7 : 4));
+  if(t>=4) P.push(`<path d="M${t>=5?92:96} 128Q88 112 ${t>=5?96:100} 108l-2-4h8l-2 4Q${t>=5?108:112} 112 ${t>=5?104:108} 128Z" fill="#c9a050" stroke="#7a5a20"/><text x="${t>=5?98:102}" y="122" font-size="8" text-anchor="middle" fill="#5a3a10" font-weight="900">¥</text>`);
+  if(crown) P.push(`<g transform="translate(0 ${headY})"><path d="M48 30V19L54 25L60 15L66 25L72 19V30Z" fill="${gold}" stroke="#b8862a"/><circle cx="60" cy="18" r="1.9" fill="#ff4d6d"/><circle cx="51" cy="27" r="1.3" fill="#4dd8ff"/><circle cx="69" cy="27" r="1.3" fill="#4dd8ff"/></g>`);
+  if(t===7) [[18,44,'#4dd8ff'],[102,38,'#ff4d6d'],[12,86,'#2fd89c'],[108,80,'#b48cff']].forEach(([x,y,c]) =>
+    P.push(`<path d="M${x} ${y-5}l4 5l-4 5l-4-5z" fill="${c}" stroke="#fff" stroke-width=".6"/>`));
+  if(sad){
+    P.push(`<rect width="120" height="140" fill="#0a0c14" opacity=".38"/>`);
+    let r=''; for(let i=0;i<14;i++){ const x=(i*37)%120, y=(i*53)%120; r+=`<path d="M${x} ${y}l-3 9"/>`; }
+    P.push(`<g stroke="#8fb0d8" stroke-width=".9" opacity=".55">${r}</g>`);
+  }
+  const defs = `<defs><linearGradient id="${u}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${BG[0]}"/><stop offset="1" stop-color="${BG[1]}"/></linearGradient>`
+    + `<radialGradient id="${u}g"><stop offset="0" stop-color="#ffd860" stop-opacity=".8"/><stop offset="1" stop-color="#ffd860" stop-opacity="0"/></radialGradient>`
+    + `<radialGradient id="${u}h"><stop offset="0" stop-color="#fff8d0" stop-opacity=".95"/><stop offset="1" stop-color="#fff8d0" stop-opacity="0"/></radialGradient>`
+    + (sil ? `<filter id="${u}s"><feColorMatrix type="matrix" values="0 0 0 0 .32  0 0 0 0 .36  0 0 0 0 .5  0 0 0 1 0"/></filter>` : '') + `</defs>`;
+  const body = sil
+    ? P.slice(0, bodyFrom).join('') + `<rect width="120" height="140" fill="#05070c" opacity=".72"/><g filter="url(#${u}s)">${P.slice(bodyFrom).join('')}</g>`
+    : P.join('');
+  return `<svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeHtml(D().arch[k])}">${defs}${body}</svg>`;
+}
+
+/* ==================== 図鑑（localStorage） ==================== */
+function loadDex(){ try{ return JSON.parse(localStorage.getItem(DEX_KEY)) || {}; }catch(e){ return {}; } }
+function saveDex(d){ try{ localStorage.setItem(DEX_KEY, JSON.stringify(d)); }catch(e){} }
+const dexCount = d => Object.keys(d).length;
+const dexSplit = d => { let n = 0, r = 0; for(const k in d) RARE[k] ? r++ : n++; return {n, r}; };
+
+/* ==================== 状態 ==================== */
+let S = null;
+const ui = { mode:'price', range:'3y', paused:true, running:false };
+const route = () => ROUTES[S.route] || ROUTES.high;
+
+function newState(routeId = 'high', mode = 'normal'){
+  const R = ROUTES[routeId] || ROUTES.high;
+  S = { v:2, route:routeId, mode, startAge:R.startAge, skill:{...R.skill}, kBias:R.kBias, y0: 3000 + rint(10, 89),
+        age:R.startAge, tick:0, t:0, cash:R.cash, shA:0, shB:0, costA:0, costB:0, pA:100, pB:100,
+        karma:50+R.kBias, kAcc:0, kN:0, margin:false, auto:false, insured:0, speed:1,
+        hA:[100], hB:[100], hT:[R.cash], marks:[], pending:[], log:[],
+        yearly:[R.cash], yearlyK:[50+R.kBias], yearStart:R.cash, peak:R.cash, lifeDone:{}, sched:[], over:false };
+  S.sched = scheduleYear(S.age);
+}
+function income(age){
+  if(age>=65) return -1.5e6;
+  let v = 0; for(const [a, p] of route().pay) if(age>=a) v = p;
+  return v * S.skill.earn;
+}
+function stageName(age){ const s = D().stage; return age>=65 ? s.pension : S.route==='high' ? (age<22 ? s.newbie : s.tataki) : s.uni; }
+const feeRate = () => S.skill.trade ? 0 : 0.001;
+const loanRate = () => S.skill.trade ? 0.03 : 0.06;
+const valA = () => S.shA*S.pA, valB = () => S.shB*S.pB;
+const total = () => S.cash + valA() + valB();
+const power = () => S.margin ? Math.max(0, S.cash + total()) : Math.max(0, S.cash);
+
+/* ===== データ参照のヘルパー ===== */
+const txt = o => o ? (o[LANG] !== undefined ? o[LANG] : o.ja) : '';
+const today = () => { const d = new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+const inPeriod = x => (!x.from || today() >= x.from) && (!x.to || today() <= x.to);
+const modeById = id => CONST_MODES.find(m => m.id===id) || CONST_MODES[0];
+const availableModes = () => CONST_MODES.filter(m => m.enabled !== false && (!m.limited || inPeriod(m)));
+const activeSeasons = () => CONST_SEASON_EVENTS.filter(s => s.enabled || ((s.from || s.to) && inPeriod(s)));
+const findDef = ev => (ev.kind==='hist' ? CONST_EVENTS : CONST_RUMORS).find(d => d.id===ev.id);
+function weightedPick(list, mult){
+  const ws = list.map(d => (d.w ?? 1) * mult.reduce((x, m) => x * ((m && m[d.id]) ?? 1), 1));
+  let r = Math.random() * ws.reduce((a, b) => a + b, 0);
+  for(let i=0;i<list.length;i++){ r -= ws[i]; if(r <= 0) return list[i]; }
+  return list[list.length-1];
+}
+
+/* 1年分の出来事を毎回ランダムに生成（順序・タイミング・変動幅すべて）。モード・季節イベントの倍率や強制ニュースもここで反映 */
+function scheduleYear(age){
+  const ev = [], r = Math.random(), mode = modeById(S.mode), seasons = activeSeasons();
+  const mult = [mode.eventWeights, ...seasons.map(s => s.weights)];
+  const nMajor = r < .35 ? 0 : r < .85 ? 1 : 2;
+  for(let i=0;i<nMajor;i++){
+    const d = weightedPick(CONST_EVENTS, mult), M = .12 + Math.random()*.38;
+    const f = Math.random() < .2 ? (-.6 + Math.random()*.9) : 1; // 2割は見出しと違う動き（サプライズ）
+    ev.push({tk:rint(3,50), kind:'hist', id:d.id, p:rint(0,7), ia:d.a, ib:d.b, a:d.a*M*f, b:d.b*M*f*MKT.evB, real:true});
+  }
+  const nR = rint(0, 2);
+  for(let i=0;i<nR;i++){
+    const d = weightedPick(CONST_RUMORS, mult), m = .1 + Math.random()*.15;
+    ev.push({tk:rint(3,50), kind:'rumor', id:d.id, p:rint(0,7), ia:d.a, ib:d.b, a:d.a*m, b:d.b*m*MKT.evB, real:Math.random()<.7});
+  }
+  // 強制ニュース（モード／季節イベントの scripted）
+  for(const sc of [...(mode.scripted||[]), ...seasons.flatMap(s => s.scripted||[])]){
+    if(sc.age !== age) continue;
+    ev.push({tk:rint(8,40), kind:sc.kind||'hist', custom:sc.text, p:rint(0,7), ia:Math.sign(sc.a||0), ib:Math.sign(sc.b||0), a:sc.a||0, b:sc.b||0, real:sc.real !== false});
+  }
+  for(const L of CONST_LIFE){
+    if(age>=L.min && age<=L.max && !(L.once && S.lifeDone[L.id]) && Math.random()<L.p){
+      ev.push({tk:rint(5,55), kind:'life', id:L.id, cost:L.cost * (L.id==='sick' && age>=60 ? 2 : 1)});
+      if(L.once) S.lifeDone[L.id] = 1;
+    }
+  }
+  return ev;
+}
+const evText = ev => (ev.custom ? txt(ev.custom) : txt((findDef(ev) || {}).text)).replace('{p}', D().places[ev.p || 0]);
+
+// 分析力によるニュースの読み（Lv1：軍需の本当の向き／Lv2：両方／Lv3：大きさも。噂は真偽の見抜き率UP）
+function analysis(ev){
+  const L = S.skill.ana; if(!L) return '';
+  const dir = x => x>.03 ? '▲' : x<-.03 ? '▼' : '→';
+  const size = x => Math.abs(x)>=.25 ? tr('big') : '';
+  const p = [tr('anaA',{d:dir(ev.a)+(L>=3?size(ev.a):'')})];
+  if(L>=2) p.push(tr('anaB',{d:dir(ev.b)+(L>=3?size(ev.b):'')}));
+  let s = tr('ana',{l:L, p:p.join(' ')});
+  if(ev.kind==='rumor'){
+    const right = Math.random() < Math.min(.95, .55 + .15*L);
+    s += tr('cred',{v: (ev.real === right) ? tr('credHi') : tr('credLo')});
+  }
+  return s;
+}
+
+/* ==================== シミュレーション ==================== */
+function step(){
+  S.t++; S.tick++;
+  const m = gauss();
+  let rA = MKT.A.mu/TPY + MKT.A.sig/Math.sqrt(TPY)*(.4*m + .92*gauss());
+  let rB = MKT.B.mu/TPY + MKT.B.sig/Math.sqrt(TPY)*(.4*m + .92*gauss());
+  for(const p of S.pending){
+    if(S.t===p.s){
+      if(p.real) news('flash', tr('react',{a:arrow(p.a), b:arrow(p.b)}));
+      else news('fake', tr('fake',{t:evText(p.ev)}));
+    }
+    if(S.t>=p.s && S.t<p.e){ rA += p.a/(p.e-p.s); rB += p.b/(p.e-p.s); }
+  }
+  S.pending = S.pending.filter(p => S.t < p.e);
+  S.pA = Math.max(.5, S.pA*Math.exp(rA));
+  S.pB = Math.max(.5, S.pB*Math.exp(rB));
+
+  S.cash *= 1 + (S.cash>=0 ? .005 : loanRate())/TPY;
+  S.cash += income(S.age)/TPY;
+
+  // 潔白さ＝人生全体の「平和寄り − 軍需寄り」の平均（最初の10年分は中立として加重）
+  const E = Math.max(total(), 1);
+  const fA = clamp(valA()/E, 0, 2), fB = clamp(valB()/E, 0, 2);
+  S.kAcc += clamp(fB - fA, -1, 1); S.kN++;
+  S.karma = clamp(50 + (S.kBias||0) + 50*S.kAcc/(S.kN + 10*TPY), 0, 100);
+
+  for(const ev of S.sched){
+    if(ev.tk!==S.tick) continue;
+    if(ev.kind==='life'){
+      const cost = ev.cost>0 ? Math.min(ev.cost, Math.max(0, total())*.5) : ev.cost;
+      S.cash -= cost;
+      if(ev.id==='lotto') S.lotto = true;
+      news('life', `${txt((CONST_LIFE.find(l => l.id===ev.id) || {}).text)} ${cost>0?'−':'+'}${money(Math.abs(cost))}`);
+    } else {
+      const d = ev.kind==='hist' ? rint(8,16) : rint(6,12), dur = rint(14,28);
+      const la = Math.log(1+ev.a), lb = Math.log(1+ev.b);
+      S.pending.push({s:S.t+d, e:S.t+d+dur, real:ev.real, ev:{kind:ev.kind, id:ev.id, p:ev.p, custom:ev.custom},
+        a: ev.real ? la : -.3*la, b: ev.real ? lb : -.3*lb});
+      const hint = analysis(ev);
+      news(ev.kind, evText(ev) + (hint ? '\n' + hint : ''));
+      if(S.auto) autoTrade(ev);
+    }
+    S.marks.push({t:S.t, k:ev.kind});
+  }
+
+  let T = total();
+  if(T<=0){
+    if(modeById(S.mode).bankrupt==='insure'){ insure(); T = total(); }
+    else { pushHist(T); finish(true); return; }
+  }
+  pushHist(T);
+
+  if(S.tick>=TPY){
+    S.tick = 0; S.age++;
+    S.yearly.push(Math.round(T)); S.yearlyK.push(Math.round(S.karma*10)/10); S.yearStart = T;
+    if(S.age>=END_AGE){ finish(false); return; }
+    const st = route().pay.find(([a]) => a===S.age);
+    if(st && S.age!==S.startAge) news('sys', tr('promo',{what:D().promoWhat[S.age>=50?2:S.age>=30?1:0], v:money(income(S.age))}));
+    if(S.route==='high' && (S.age===30 || S.age===45)){ S.skill.ana++; news('sys', tr('skillUp',{n:S.skill.ana})); }
+    if(S.age===65) news('sys', tr('retire',{v:money(1.5e6)}));
+    S.sched = scheduleYear(S.age);
+    if(S.auto) autoTrade(null);
+    save();
+  }
+}
+function pushHist(T){
+  S.peak = Math.max(S.peak, T);
+  S.hA.push(Math.round(S.pA*100)/100);
+  S.hB.push(Math.round(S.pB*100)/100);
+  S.hT.push(Math.round(T));
+}
+const arrow = x => x>.02 ? '▲' : x<-.02 ? '▼' : '→';
+
+/* イージー：倒産防止保険（負債清算＋前年末資産の半額で再スタート） */
+function insure(){
+  S.insured = (S.insured||0) + 1;
+  const base = Math.max(1e5, (S.yearStart||0) * .5);
+  S.shA = S.shB = S.costA = S.costB = 0; S.margin = false; S.cash = base;
+  news('sys', tr('insured',{v:money(base), n:S.insured}));
+  flash(tr('insured',{v:money(base), n:S.insured}));
+}
+
+/* 売買 */
+function trade(act, k, f){
+  if(!ui.running || S.over) return;
+  if(act==='cashall'){ trade('sell','A',1); trade('sell','B',1); return; }
+  const sk = 'sh'+k, ck = 'cost'+k, price = S['p'+k];
+  if(act==='buy'){
+    const amt = power()*f;
+    if(amt<1){ flash(tr('noPower')); return; }
+    S[sk] += amt*(1-feeRate())/price; S[ck] += amt; S.cash -= amt;
+    if(k==='A') S.boughtA = true; else S.boughtB = true;
+  } else {
+    if(S[sk]<=0) return;
+    const sh = S[sk]*f;
+    S.cash += sh*price*(1-feeRate()); S[ck] *= (1-f); S[sk] -= sh;
+    if(f===1 || S[sk]<1e-9){ S[sk]=0; S[ck]=0; }
+  }
+  S.manual = (S.manual||0) + 1;
+  if(navigator.vibrate && navigator.userActivation && navigator.userActivation.hasBeenActive) try{ navigator.vibrate(8); }catch(e){}
+  render(); ui.dirty = true;
+}
+/* 目標配分に合わせて売買（おまかせ用） */
+function rebalance(wA, wB){
+  const E = total(); if(E<=0) return;
+  const ta = wA*E, tb = wB*E, va = valA(), vb = valB(), fee = (Math.abs(ta-va) + Math.abs(tb-vb)) * feeRate();
+  if(ta > va + 1) S.boughtA = true;
+  if(tb > vb + 1) S.boughtB = true;
+  S.costA = ta>va ? S.costA + (ta-va) : (va>0 ? S.costA*ta/va : 0);
+  S.costB = tb>vb ? S.costB + (tb-vb) : (vb>0 ? S.costB*tb/vb : 0);
+  S.shA = ta/S.pA; S.shB = tb/S.pB; S.cash = E - ta - tb - fee;
+}
+/* おまかせAI：見出し（分析力があれば本当の向き）に応じて配分を傾ける。年初は45:45に戻す */
+function autoTrade(ev){
+  S.margin = false;
+  let a = 0, b = 0, w = .18;
+  if(ev){
+    a = S.skill.ana>=1 ? clamp(ev.a/.25, -1, 1) : ev.ia;
+    b = S.skill.ana>=2 ? clamp(ev.b/.25, -1, 1) : ev.ib;
+    if(ev.kind==='rumor') w = .08;
+  }
+  let wA = clamp(.45 + a*w, .05, .85), wB = clamp(.45 + b*w, .05, .85);
+  const s = wA + wB; if(s > .95){ wA *= .95/s; wB *= .95/s; }
+  const curE = Math.max(total(), 1);
+  if(Math.abs(valA()/curE - wA) < .03 && Math.abs(valB()/curE - wB) < .03) return;
+  rebalance(wA, wB);
+  if(!window.__fast) news('auto', tr('autoLog',{a:Math.round(wA*100), b:Math.round(wB*100)}));
+}
+function setAuto(on){
+  if(!S || S.over || !ui.running) return;
+  S.auto = on;
+  if(on){ S.autoEver = true; ui.paused = false; autoTrade(null); }
+  flash(tr(on ? 'autoOn' : 'autoOff'));
+  render(); ui.dirty = true;
+}
+
+/* ==================== ニュース・表示 ==================== */
+let toastTimer = 0;
+function news(kind, text){
+  if(window.__fast) return;
+  S.log.unshift({y:yearOf(S.age), age:S.age, k:kind, text});
+  if(S.log.length>60) S.log.length = 60;
+  const tt = $('tickerText');
+  tt.textContent = `【${D().kinds[kind]}】${text.replace(/\n/g, '　')}`;
+  tt.style.animation = 'none'; void tt.offsetWidth; tt.style.animation = '';
+  showToast(kind, text);
+  renderLog();
+}
+function showToast(kind, text){
+  const el = $('toast');
+  el.innerHTML = `<span class="badge k-${kind}">${D().kinds[kind]}</span>${escapeHtml(text)}`;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 4200);
+}
+function flash(msg){
+  if(window.__fast) return;
+  const d = document.createElement('div'); d.className = 'flashmsg'; d.textContent = msg;
+  document.body.appendChild(d);
+  setTimeout(() => { d.style.opacity = 0; setTimeout(() => d.remove(), 300); }, 1600);
+}
+function renderLog(){
+  $('log').innerHTML = S.log.map(l => `<li><em>${l.y} · ${l.age}</em><span class="badge k-${l.k}">${D().kinds[l.k]||''}</span>${escapeHtml(l.text)}</li>`).join('');
+}
+const karmaName = k => D().klbl[kIdx(k)];
+function setChg(el, v, prefix=''){ el.textContent = prefix + pct(v); el.className = 'num ' + (v>=0?'up':'down'); }
+function render(){
+  if(!S) return;
+  $('age').innerHTML = tr('ageFmt',{a:S.age});
+  $('year').textContent = tr('yearFmt',{y:yearOf(S.age)});
+  $('stage').textContent = stageName(S.age);
+  const sk = S.skill, skKey = [LANG, S.route, sk.ana, sk.trade, sk.earn, S.mode, S.auto].join();
+  if(ui.skKey !== skKey){
+    ui.skKey = skKey;
+    $('skills').innerHTML = `<span>🎓 ${escapeHtml(D().routeNames[S.route])}</span><span>${escapeHtml(txt(modeById(S.mode).name))}</span>`
+      + `<span class="${sk.ana?'':'off'}">${tr('skillAna',{n:sk.ana})}</span>`
+      + `<span class="${sk.trade?'':'off'}">${tr(sk.trade?'feeZero':'feeStd')}</span>`
+      + (sk.earn > 1 ? `<span>${tr('earn',{n:sk.earn})}</span>` : '')
+      + (S.auto ? `<span class="autoc">${tr('autoChip')}</span>` : '');
+  }
+  $('remain').textContent = tr('remain',{n:END_AGE-S.age});
+  const T = total();
+  $('total').textContent = money(T);
+  $('total').style.color = T<0 ? 'var(--danger)' : '';
+  setChg($('totalChg'), S.yearStart>0 ? T/S.yearStart-1 : 0, tr('chgPrefix'));
+  $('karmaV').textContent = Math.round(S.karma);
+  $('karmaMark').style.left = S.karma+'%';
+  const kk = kIdx(S.karma), ak = (T<=0 ? 0 : tierOf(T, kk)) + '-' + kk + LANG;
+  $('karmaLbl').textContent = `${karmaName(S.karma)}・${D().arch[kk]}`;
+  if(ui.avatar !== ak){ ui.avatar = ak; $('avatar').innerHTML = charSVG(T<=0 ? 0 : tierOf(T, kk), kk); }
+  const N = S.hA.length, back = Math.max(0, N-1-TPY);
+  for(const k of ['A','B']){
+    const p = S['p'+k];
+    $('p'+k).textContent = p>=1000 ? p.toFixed(0) : p.toFixed(1);
+    setChg($('c'+k), p/S['h'+k][back]-1, tr('y1'));
+    const v = S['sh'+k]*p, c = S['cost'+k];
+    $('v'+k).textContent = money(v);
+    const r = $('r'+k);
+    if(v>0 && c>0) setChg(r, v/c-1, tr('pnl')); else r.textContent = '';
+  }
+  $('vC').textContent = S.cash<0 ? tr('loan',{v:money(-S.cash)}) : money(S.cash);
+  $('vC').style.color = S.cash<0 ? 'var(--danger)' : '';
+  $('cDesc').textContent = tr('cDesc',{r:loanRate()*100});
+  const inc = income(S.age);
+  $('flow').textContent = tr('flow',{v:(inc>=0?'+':'−')+money(Math.abs(inc))});
+  const pw = power();
+  $('power').textContent = tr('power',{v:money(pw)});
+  document.querySelectorAll('[data-act="buy"]').forEach(b => b.disabled = pw<1);
+  document.querySelectorAll('[data-act="sell"]').forEach(b => b.disabled = S['sh'+b.dataset.k]<=0);
+  $('margin').checked = !!S.margin;
+  document.querySelectorAll('.spd').forEach(b => b.classList.toggle('on', +b.dataset.s===S.speed));
+  const bp = $('btnPause'); bp.textContent = ui.paused ? '▶' : '⏸'; bp.classList.toggle('paused', ui.paused);
+  $('btnAuto').classList.toggle('on', !!S.auto);
+}
+
+/* ==================== チャート ==================== */
+const cv = $('cv'), ctx = cv.getContext('2d');
+function fitCanvas(c){
+  const dpr = window.devicePixelRatio||1, W = c.clientWidth, H = c.clientHeight;
+  if(c.width!==Math.round(W*dpr) || c.height!==Math.round(H*dpr)){ c.width=Math.round(W*dpr); c.height=Math.round(H*dpr); }
+  const x = c.getContext('2d'); x.setTransform(dpr,0,0,dpr,0,0); x.clearRect(0,0,W,H);
+  return [W,H];
+}
+function drawChart(){
+  const [W,H] = fitCanvas(cv);
+  if(!S) return;
+  const N = S.hA.length, all = ui.range==='all';
+  const span = all ? Math.max(N-1, TPY) : TPY*3;
+  const start = all ? 0 : Math.max(0, N-1-span);
+  const L=8, R=50, T=24, B=18, pw=W-L-R, ph=H-T-B;
+  const X = i => L + (i-start)/span*pw;
+  const series = ui.mode==='price'
+    ? [{d:S.hA,c:COL.A,n:tr('legA')},{d:S.hB,c:COL.B,n:tr('legB')}]
+    : [{d:S.hT,c:COL.T,n:tr('legT'),fill:true}];
+  const lg = v => Math.log(Math.max(v, ui.mode==='price'?.5:1e3));
+  let mn=Infinity, mx=-Infinity;
+  for(const s of series) for(let i=start;i<N;i++){ const v=lg(s.d[i]); if(v<mn)mn=v; if(v>mx)mx=v; }
+  if(mx-mn<.06){ const c=(mx+mn)/2; mn=c-.03; mx=c+.03; }
+  const pad=(mx-mn)*.1; mn-=pad; mx+=pad;
+  const Y = v => T + (1-(lg(v)-mn)/(mx-mn))*ph;
+  ctx.font = '600 10px -apple-system,sans-serif'; ctx.textBaseline='middle';
+  for(let j=0;j<=4;j++){
+    const lv = mn+(mx-mn)*j/4, y = T+(1-j/4)*ph, v = Math.exp(lv);
+    ctx.strokeStyle='rgba(120,140,190,.10)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(L,y); ctx.lineTo(W-R,y); ctx.stroke();
+    ctx.fillStyle='#5b6580'; ctx.textAlign='left';
+    ctx.fillText(ui.mode==='price' ? (v>=100?v.toFixed(0):v.toFixed(1)) : moneyShort(v), W-R+6, y);
+  }
+  const yStep = all ? (span>TPY*30?10:5) : 1, y0 = yearOf(S.startAge);
+  ctx.textAlign='center';
+  for(let t=Math.ceil(start/TPY)*TPY; t<=start+span; t+=TPY){
+    const yr = y0 + t/TPY;
+    if(all && (yr - y0) % yStep !== 0) continue;
+    const x = X(t);
+    ctx.strokeStyle='rgba(120,140,190,.12)'; ctx.setLineDash([2,4]);
+    ctx.beginPath(); ctx.moveTo(x,T); ctx.lineTo(x,T+ph); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='#5b6580'; ctx.fillText(yr, x, H-8);
+  }
+  for(const mk of S.marks){
+    if(mk.t<start) continue;
+    const x = X(mk.t);
+    ctx.fillStyle = mk.k==='hist'?COL.gold : mk.k==='life'?COL.life : COL.rumor;
+    ctx.beginPath(); ctx.moveTo(x-3.5,T-6); ctx.lineTo(x+3.5,T-6); ctx.lineTo(x,T); ctx.closePath(); ctx.fill();
+  }
+  const stp = Math.max(1, Math.floor((N-start)/pw));
+  const path = s => { ctx.beginPath(); let first=true; for(let i=start;i<N;i+=stp){ const x=X(i), y=Y(s.d[i]); first?ctx.moveTo(x,y):ctx.lineTo(x,y); first=false; } ctx.lineTo(X(N-1), Y(s.d[N-1])); };
+  for(const s of series){
+    if(s.fill){
+      path(s); ctx.lineTo(X(N-1),T+ph); ctx.lineTo(X(start),T+ph); ctx.closePath();
+      const g = ctx.createLinearGradient(0,T,0,T+ph); g.addColorStop(0,'rgba(127,178,255,.30)'); g.addColorStop(1,'rgba(127,178,255,0)');
+      ctx.fillStyle=g; ctx.fill();
+    }
+    path(s);
+    ctx.strokeStyle=s.c; ctx.lineWidth=2; ctx.lineJoin='round';
+    ctx.shadowColor=s.c; ctx.shadowBlur=8; ctx.stroke(); ctx.shadowBlur=0;
+    const ex=X(N-1), ey=Y(s.d[N-1]);
+    const pulse = 3 + 2*Math.abs(Math.sin(performance.now()/300));
+    ctx.fillStyle=s.c; ctx.beginPath(); ctx.arc(ex,ey,pulse,0,Math.PI*2); ctx.fill();
+    const lbl = ui.mode==='price' ? (s.d[N-1]>=1000?s.d[N-1].toFixed(0):s.d[N-1].toFixed(1)) : moneyShort(s.d[N-1]);
+    ctx.fillStyle=s.c; ctx.fillRect(W-R+2, ey-8, R-4, 16);
+    ctx.fillStyle='#0a0d14'; ctx.textAlign='center'; ctx.fillText(lbl, W-R/2, ey);
+  }
+  ctx.textAlign='left'; let lx=L+2;
+  for(const s of series){
+    ctx.fillStyle=s.c; ctx.fillRect(lx, 9, 10, 3); ctx.fillStyle='#aab3c8'; ctx.fillText(s.n, lx+14, 11);
+    lx += ctx.measureText(s.n).width + 28;
+  }
+}
+/* 結果画面：資産（対数・左軸）と潔白さ（0〜100・右軸）の推移 */
+function drawResultChart(){
+  const c = $('rcv'); if(!c || !S) return;
+  const [W,H] = fitCanvas(c), x = c.getContext('2d');
+  const d = S.yearly.concat([Math.round(total())]), kd = S.yearlyK.concat([S.karma]), n = d.length;
+  const L=40, R=30, T=26, B=20, pw=W-L-R, ph=H-T-B;
+  const lg = v => Math.log10(Math.max(v, 1e4));
+  let mn = Math.min(...d.map(lg)), mx = Math.max(...d.map(lg)); if(mx-mn < .5){ mx += .25; mn -= .25; }
+  const X = i => L + i/(n-1||1)*pw, Ya = v => T + (1-(lg(v)-mn)/(mx-mn))*ph, Yk = k => T + (1-k/100)*ph;
+  x.font = '600 10px -apple-system,sans-serif'; x.textBaseline = 'middle';
+  for(let j=0;j<=2;j++){
+    const y = T + j*ph/2;
+    x.strokeStyle = 'rgba(120,140,190,.12)'; x.beginPath(); x.moveTo(L,y); x.lineTo(W-R,y); x.stroke();
+    x.fillStyle = COL.gold; x.textAlign = 'right'; x.fillText(moneyShort(Math.pow(10, mx - (mx-mn)*j/2)), L-4, y);
+    x.fillStyle = COL.K; x.textAlign = 'left'; x.fillText(String(100 - j*50), W-R+4, y);
+  }
+  x.fillStyle = '#5b6580'; x.textAlign = 'left'; x.fillText(String(yearOf(S.startAge)), L, H-8);
+  x.textAlign = 'right'; x.fillText(String(yearOf(S.age)), W-R, H-8);
+  x.beginPath(); kd.forEach((v,i) => i ? x.lineTo(X(i),Yk(v)) : x.moveTo(X(i),Yk(v)));
+  x.setLineDash([4,3]); x.strokeStyle = COL.K; x.lineWidth = 2; x.stroke(); x.setLineDash([]);
+  x.beginPath(); d.forEach((v,i) => i ? x.lineTo(X(i),Ya(v)) : x.moveTo(X(i),Ya(v)));
+  x.strokeStyle = COL.gold; x.lineWidth = 2.5; x.shadowColor = COL.gold; x.shadowBlur = 8; x.stroke(); x.shadowBlur = 0;
+  x.textAlign = 'left'; x.fillStyle = COL.gold; x.fillRect(L, 10, 12, 3); x.fillText(tr('chartAssets'), L+16, 12);
+  const w1 = x.measureText(tr('chartAssets')).width;
+  x.fillStyle = COL.K; x.fillRect(L+30+w1, 10, 12, 3); x.fillText(tr('chartKarma'), L+46+w1, 12);
+}
+
+/* ==================== セーブ ==================== */
+function save(){ try{ if(S && !S.over && ui.running && !window.__fast) localStorage.setItem(SAVE_KEY, JSON.stringify(S)); }catch(e){} }
+function loadSave(){ try{ const s = localStorage.getItem(SAVE_KEY); const o = s && JSON.parse(s); return o && o.v===2 && !o.over ? o : null; }catch(e){ return null; } }
+function clearSave(){ try{ localStorage.removeItem(SAVE_KEY); }catch(e){} }
+
+/* ==================== ゲームの流れ ==================== */
+function hideOverlays(){ ['titleScr','resultScr','setupScr','dexScr','subScr'].forEach(id => $(id).classList.add('hidden')); }
+function startGame(resume, routeId, mode){
+  if(!resume) newState(routeId, mode);
+  ui.running = true; ui.paused = resume && !S.auto; acc = 0; ui.avatar = null; ui.skKey = null;
+  hideOverlays();
+  $('tickerText').textContent = tr('tickerInit');
+  renderLog(); render(); ui.dirty = true;
+  if(resume){ showToast('sys', tr('resume',{age:S.age, y:yearOf(S.age)})); }
+  else {
+    news('sys', S.route==='high' ? tr('startHigh',{y:yearOf(18)}) : tr('startUni',{y:yearOf(22), plan:D().planShort[S.route]}));
+    save();
+  }
+}
+/* セットアップ（モード → 進路 → 大学の過ごし方） */
+const setup = { mode:'normal' };
+const card = (data, cls, item) => `<button class="rcard ${cls}" data-setup="${data}"><span class="rtag">${item.tag}</span><b>${item.name}</b>${item.sub ? `<div class="rsub">${item.sub}</div>` : ''}<ul>${(item.pts||[]).map(p => `<li>${p}</li>`).join('')}${item.minus ? `<li class="minus">${item.minus}</li>` : ''}</ul></button>`;
+function showSetup(stepName){
+  const P = $('setupPanel'), d = D();
+  if(stepName==='mode'){
+    const seasons = activeSeasons().filter(s => s.name);
+    P.innerHTML = `<div class="rq">${tr('modeQ')}</div><div class="rh2">${tr('modeTitle')}</div>`
+      + (seasons.length ? `<div class="trial win">${tr('seasonOn',{n:seasons.map(s => escapeHtml(txt(s.name))).join(' / ')})}</div>` : '')
+      + availableModes().map(m => card('mode:'+m.id, m.color || 'blue', {name:txt(m.name), tag:txt(m.tag) + (m.limited && m.to ? ` 〜${m.to.slice(5).replace('-','/')}` : ''), pts:txt(m.pts)})).join('');
+  } else if(stepName==='route'){
+    P.innerHTML = `<button class="rback" data-setup="go:mode">${tr('back')}</button><div class="rq">${tr('routeQ',{year:'30XX'})}</div><div class="rh2">${tr('routeTitle')}</div>`
+      + card('route:high', 'blue', {name:tr('highName'), tag:tr('highTag'), sub:tr('highSub'), pts:d.highPts, minus:tr('highMinus')})
+      + card('go:plan', 'gold', {name:tr('uniName'), tag:tr('uniTag'), sub:tr('uniSub'), pts:d.uniPts, minus:tr('uniMinus')});
+  } else {
+    P.innerHTML = `<button class="rback" data-setup="go:route">${tr('back')}</button><div class="rq">${tr('planQ')}</div><div class="rh2">${tr('planTitle')}</div>`
+      + Object.entries(d.plans).map(([id, p]) => card('route:'+id, 'gold', p)).join('');
+  }
+  ['titleScr','resultScr','dexScr'].forEach(id => $(id).classList.add('hidden'));
+  $('setupScr').classList.remove('hidden'); $('setupScr').scrollTop = 0;
+  ui.setupStep = stepName;
+}
+$('setupScr').addEventListener('click', e => {
+  const b = e.target.closest('[data-setup]'); if(!b) return;
+  const [kind, val] = b.dataset.setup.split(':');
+  if(kind==='mode'){ setup.mode = val; showSetup('route'); }
+  else if(kind==='go'){ showSetup(val); }
+  else if(kind==='route'){ startGame(false, val, setup.mode); }
+});
+
+function finish(bankrupt){
+  S.over = true; S.bankrupt = bankrupt; ui.running = false;
+  if(window.__fast) return;
+  S.final = judge();
+  clearSave(); render(); ui.dirty = true;
+  setTimeout(showResult, bankrupt ? 600 : 300);
+}
+function evaluate(){
+  const T = total(), k = kIdx(S.karma), t = S.bankrupt ? 0 : tierOf(T, k);
+  return {T, t, k};
+}
+function judge(){
+  const r = evaluate(), rare = RARE[r.t+'-'+r.k];
+  r.base = r.t+'-'+r.k;
+  if(rare){
+    r.trial = rare;
+    r.won = Math.random() < rare.q;
+    if(!r.won) [r.t, r.k] = rare.fb.split('-').map(Number);
+  }
+  r.key = r.t+'-'+r.k;
+  r.rarity = rarityOf(r.key);
+  return r;
+}
+function recordDex(r){
+  const d = loadDex(), e = d[r.key];
+  d[r.key] = { n:(e ? e.n : 0) + 1, best: Math.max(e ? e.best : -Infinity, Math.round(r.T)) };
+  saveDex(d);
+  return { isNew: !e, count: dexCount(d) };
+}
+/* 特別称号・実績・歴代記録（localStorage） */
+const SP_KEY = 'historyTrader_sp_v1', ACH_KEY = 'historyTrader_ach_v1', HIST_KEY = 'historyTrader_hist_v1', HIST_MAX = 10;
+const loadJSON = (k, d) => { try{ return JSON.parse(localStorage.getItem(k)) || d; }catch(e){ return d; } };
+const saveJSON = (k, v) => { try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} };
+const spById = id => CONST_TITLES.special.find(s => s.id===id);
+const achById = id => CONST_ACHIEVEMENTS.find(a => a.id===id);
+const ctxOf = r => ({ S, T:r.T, bankrupt:!!S.bankrupt, karma:S.karma, r, dex:loadDex(), recs:loadJSON(HIST_KEY, []) });
+const safeCheck = (f, c) => { try{ return !!f(c); }catch(e){ return false; } };
+function recordSpecials(r){
+  const got = loadJSON(SP_KEY, {}), c = ctxOf(r), out = [];
+  for(const sp of CONST_TITLES.special) if(safeCheck(sp.check, c)){ out.push({id:sp.id, isNew:!got[sp.id]}); got[sp.id] = (got[sp.id]||0) + 1; }
+  saveJSON(SP_KEY, got);
+  return out;
+}
+function addHistory(r){
+  const recs = loadJSON(HIST_KEY, []);
+  recs.unshift({d:today(), v:VERSION, mode:S.mode, route:S.route, y0:S.y0, start:S.startAge, age:S.age, T:Math.round(r.T), karma:Math.round(S.karma), key:r.key, rarity:r.rarity, bankrupt:!!S.bankrupt});
+  recs.length = Math.min(recs.length, HIST_MAX);
+  saveJSON(HIST_KEY, recs);
+  return recs;
+}
+function recordAchievements(r){
+  const un = loadJSON(ACH_KEY, {}), c = ctxOf(r), out = [];
+  for(const a of CONST_ACHIEVEMENTS) if(!un[a.id] && safeCheck(a.check, c)){ un[a.id] = today(); out.push(a.id); }
+  saveJSON(ACH_KEY, un);
+  return out;
+}
+const fill = (s, p) => s.replace(/\{(\w+)\}/g, (m, k) => p[k] !== undefined ? p[k] : m);
+function dramaLine(r){
+  const d = D().drama;
+  if(r.rarity==='LEGEND') return d.legend;
+  if(S.bankrupt) return S.karma < 35 ? d.boom : fill(d.broke, {age:S.age});
+  if(S.insured) return d.saved;
+  if(r.T >= 1e10) return d.rich;
+  if(S.karma >= 85) return d.saint;
+  return d.clear;
+}
+const evalIdx = (T, bankrupt) => bankrupt ? 0 : T<1e7 ? 1 : T<1e8 ? 2 : T<1e9 ? 3 : T<1e10 ? 4 : 5;
+const EVAL_COL = ['#ff4d6d','#8b95ad','#7fb2ff','#f5c451','#ff9a3c','#b48cff'];
+function showResult(){
+  const r = S.final || (S.final = judge()), karma = Math.round(S.karma), d = D();
+  if(!S.dex){ S.dex = recordDex(r); S.spGot = recordSpecials(r); addHistory(r); S.achNew = recordAchievements(r); }
+  const years = S.age - S.startAge, n = S.dex.count, ei = evalIdx(r.T, S.bankrupt), rare = r.rarity !== 'N';
+  const extras = (S.spGot||[]).map(s => `<div class="newach">${tr('spGot',{t:escapeHtml(txt(spById(s.id).name))})}${s.isNew ? ' <span class="rar r-SR">NEW</span>' : ''}</div>`).join('')
+    + ((S.achNew||[]).length ? `<div class="newach"><b>${tr('achNew')}</b><br>${S.achNew.map(id => { const a = achById(id); return `${a.icon} ${escapeHtml(txt(a.name))} — <small>${escapeHtml(txt(a.desc))}</small>`; }).join('<br>')}</div>` : '');
+  let trial = '';
+  if(r.trial) trial = r.won ? `<div class="trial win">${tr('trialWin')}</div>` : `<div class="trial lose">${tr('trialLose',{r:r.trial.r})}</div>`;
+  const shareBtn = rare
+    ? `<button id="btnX" class="bragbtn">${tr('brag')}<small>${tr('bragSub')}</small></button>`
+    : `<button id="btnX" class="bigbtn xbtn">${tr('share')}</button>`;
+  $('resultPanel').innerHTML = `
+    <div class="rhead">
+      <div class="rstatus ${S.bankrupt?'over':'clear'}">${tr(S.bankrupt?'over':'clear')}</div>
+      <div class="rk">${S.bankrupt ? tr('bankruptAt',{age:S.age, y:yearOf(S.age)}) : tr('retired',{y:yearOf(END_AGE)})}<span class="modetag">${escapeHtml(txt(modeById(S.mode).name))}</span></div>
+      <div><div class="evalcard" style="--c:${EVAL_COL[ei]}"><small>${tr('evalLbl')}</small><b>${d.evals[ei]}</b></div></div>
+      ${rare ? `<div class="rarebanner">${tr('rareBanner')}</div>` : ''}
+      ${trial}
+      <div class="rchar rare-${r.rarity}">${charSVG(r.t, r.k)}${S.dex.isNew ? '<span class="newb">NEW!</span>' : ''}</div>
+      ${rare ? shareBtn : ''}
+      <div class="rar r-${r.rarity}">${d.rarity[r.rarity]}</div>
+      <label class="rlbl">${tr('titleNo',{no:titleNo(r.t,r.k), rate:rateText(estOf(r.key))})}</label>
+      <div class="rtitle" style="color:${titleColor(r.k)}">『${escapeHtml(d.titles[r.t][r.k])}』</div>
+      <div class="rk">${tr('rankLine',{w:d.wlbl[r.t], k:d.klbl[r.k]})}</div>
+      <div class="rdesc" style="margin-top:8px">${d.wdesc[r.t]}${d.kdesc[r.k]}</div>
+    </div>
+    <div class="rmain">
+      <div><label>${tr('finalAssets')}</label><b class="num" style="color:${r.T<0?'var(--danger)':''}">${money(r.T)}</b></div>
+      <div><label>${tr('karma')}</label><b class="num">${karma}<small> / 100</small></b><span>${karmaName(S.karma)}</span></div>
+    </div>
+    ${extras}
+    ${rare ? '' : shareBtn}
+    <canvas id="rcv"></canvas>
+    <div class="dexbar"><span>${tr('dexBar',{n})}</span><div class="pbar"><i style="width:${n/64*100}%"></i></div><button id="btnDexR">${tr('dexView')}</button></div>
+    <div class="rstats">
+      <div><label>${tr('peak')}</label><b class="num">${money(S.peak)}</b></div>
+      <div><label>${tr('years')}</label><b class="num">${tr('yearsV',{n:years})}</b></div>
+      ${S.insured ? `<div><label>${tr('insuredN')}</label><b class="num">${tr('timesV',{n:S.insured})}</b></div>` : ''}
+    </div>
+    <div class="fbrow" style="grid-template-columns:1fr 1fr"><button class="bigbtn ghost" data-open="ach" style="font-size:13px">${tr('achTitle')}</button><button class="bigbtn ghost" data-open="hist" style="font-size:13px">${tr('histTitle')}</button></div>
+    <button id="btnAgain" class="bigbtn primary">${tr('again')}</button>
+    <div class="center"><button class="linkbtn" data-fb>${tr('feedbackBtn')}</button></div>
+    ${TIP_URL ? `<a class="tiplink" href="${escapeHtml(TIP_URL)}" target="_blank" rel="noopener">${tr('tip')}</a>` : ''}
+    <div class="streamok">${tr('streamOk')}</div>`;
+  $('resultScr').classList.remove('hidden');
+  $('resultScr').scrollTop = 0;
+  requestAnimationFrame(drawResultChart);
+  $('btnX').onclick = () => shareX(r, karma);
+  $('btnDexR').onclick = () => showDex(r.key);
+  $('btnAgain').onclick = () => showSetup('mode');
+}
+/* Xシェア本文：ドラマの一言／称号／最終総資産／最終潔白さ(%)／ハッシュタグ／URL */
+function shareX(r, karma){
+  const d = D(), L = d.shareLbls, lines = [];
+  lines.push(dramaLine(r));
+  if(r.rarity !== 'N') lines.push(tr('shareRare',{r:r.rarity, rate:rateText(estOf(r.key))}));
+  const en = LANG==='en';
+  lines.push(`${L.title}${en?'“':'『'}${d.titles[r.t][r.k]}${en?'”':'』'}` + (S.dex && S.dex.isNew ? tr('shareNew') : ''));
+  lines.push(`${L.assets}${money(r.T)}`);
+  lines.push(`${L.karma}${karma}%${en?' (':'（'}${karmaName(S.karma)}${en?')':'）'}`);
+  if(r.trial && !r.won) lines.push(tr('shareLose',{r:r.trial.r}));
+  lines.push(SHARE_HASHTAG);
+  const u = shareUrl(); if(u) lines.push(u);
+  window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
+}
+function shareUrl(){
+  if(GAME_URL) return GAME_URL;
+  return /^https?:/.test(location.protocol) ? location.origin + location.pathname : '';
+}
+
+/* ==================== 図鑑 ==================== */
+function showDex(sel){
+  const d = loadDex(), sp = dexSplit(d), L = D();
+  $('dexCnt').textContent = tr('dexCount',{n:sp.n, N:NORMAL_N, r:RARE_N - sp.r});
+  $('dexBar').style.width = (dexCount(d)/64*100)+'%';
+  let h = '<div></div>' + L.klbl.map(l => `<div class="dh">${l}</div>`).join('');
+  for(let t=7;t>=0;t--){
+    h += `<div class="dh">${L.wlbl[t]}</div>`;
+    for(let k=0;k<8;k++){
+      const key = t+'-'+k, own = d[key], rr = RARE[key];
+      const inner = own ? charSVG(t,k) : rr ? '★' : charSVG(t,k,true);
+      h += `<button data-dex="${key}" class="${own?'own':''} r-${rarityOf(key)}">${inner}</button>`;
+    }
+  }
+  $('dexGrid').innerHTML = h;
+  // スペシャル称号（CONST_TITLES.special に追加すると自動で枠が増える）
+  const sg = loadJSON(SP_KEY, {}), spl = CONST_TITLES.special;
+  $('dexSp').innerHTML = spl.length ? `<h4>${tr('spTitle')}　<small style="color:var(--gold)">${tr('spCount',{n:spl.filter(s => sg[s.id]).length, N:spl.length})}</small></h4><div class="sprow">`
+    + spl.map(s => `<button data-sp="${s.id}" class="${sg[s.id]?'own':''}">${charSVG(s.art[0], s.art[1], !sg[s.id])}<span>${sg[s.id] ? escapeHtml(txt(s.name)) : '？？？'}</span></button>`).join('') + `</div>` : '';
+  const rows = Object.keys(RARE).sort((a,b) => RARE[a].q - RARE[b].q || a.localeCompare(b)).map(key => {
+    const [t,k] = key.split('-').map(Number), own = d[key];
+    return `<tr><td><span class="rar r-${RARE[key].r}">${RARE[key].r}</span></td><td>${own ? escapeHtml(L.titles[t][k]) : '？？？'}</td><td>${rateText(estOf(key))}</td></tr>`;
+  }).join('');
+  $('dexRates').innerHTML = `<h4>${tr('ratesTitle')}</h4><table><tr><th>${tr('thRarity')}</th><th>${tr('thTitle')}</th><th>${tr('thRate')}</th></tr>${rows}</table><p>${tr('ratesNote',{lo:RATE_NORMAL[0], hi:RATE_NORMAL[1]})}</p>`;
+  dexDetail(sel || null);
+  $('dexScr').classList.remove('hidden');
+  ui.dexOpen = sel || true;
+}
+function dexDetail(key){
+  document.querySelectorAll('#dexGrid [data-dex]').forEach(b => b.classList.toggle('sel', b.dataset.dex===key));
+  const el = $('dexDetail'), L = D();
+  if(!key){ el.innerHTML = `<div class="dhint">${tr('dexHint',{N:NORMAL_N, R:RARE_N})}</div>`; return; }
+  const [t,k] = key.split('-').map(Number), e = loadDex()[key], rr = RARE[key], rar = rarityOf(key);
+  const rateLine = `<span class="rar r-${rar}">${L.rarity[rar]}</span> ${tr('estRate',{v:rateText(estOf(key))})}`;
+  const cond = tr('cond',{k:kRange(k), kl:L.klbl[k], w:wRange(t,k)});
+  if(e){
+    el.innerHTML = `<div class="dimg rare-${rar}">${charSVG(t,k)}</div><div><small>No.${titleNo(t,k)}・${L.arch[k]}</small><b style="color:${titleColor(k)}">${escapeHtml(L.titles[t][k])}</b><small>${rateLine}</small><p>${L.wdesc[t]}${L.kdesc[k]}</p><small>${rr ? '' : cond + '<br>'}${tr('got',{n:e.n, v:money(e.best)})}</small></div>`;
+  } else if(rr){
+    el.innerHTML = `<div class="dimg lock">★</div><div><small>No.${titleNo(t,k)}</small><b>？？？</b><small>${rateLine}</small><p>${tr('rareSecret')}</p></div>`;
+  } else {
+    el.innerHTML = `<div class="dimg">${charSVG(t,k,true)}</div><div><small>No.${titleNo(t,k)}・${L.arch[k]}</small><b>${escapeHtml(L.titles[t][k])}</b><small>${rateLine}</small><p>${tr('notYet')}</p><small>${cond}</small></div>`;
+  }
+}
+$('dexGrid').addEventListener('click', e => { const b = e.target.closest('[data-dex]'); if(b) dexDetail(b.dataset.dex); });
+$('dexSp').addEventListener('click', e => {
+  const b = e.target.closest('[data-sp]'); if(!b) return;
+  const s = spById(b.dataset.sp), n = loadJSON(SP_KEY, {})[s.id];
+  document.querySelectorAll('#dexGrid [data-dex]').forEach(x => x.classList.remove('sel'));
+  $('dexDetail').innerHTML = `<div class="dimg">${charSVG(s.art[0], s.art[1], !n)}</div><div><small>${tr('spTitle')}</small><b>${n ? escapeHtml(txt(s.name)) : '？？？'}</b><p>${escapeHtml(txt(s.desc))}</p>${n ? `<small>${tr('got',{n, v:'—'}).replace(/／.*$/, '')}</small>` : ''}</div>`;
+  $('dexDetail').scrollIntoView({behavior:'smooth', block:'center'});
+});
+$('dexClose').onclick = () => { $('dexScr').classList.add('hidden'); ui.dexOpen = false; };
+$('btnDex').onclick = () => showDex();
+
+/* ==================== 実績図鑑・歴代記録 ==================== */
+function showAch(){
+  const un = loadJSON(ACH_KEY, {}), N = CONST_ACHIEVEMENTS.length, n = CONST_ACHIEVEMENTS.filter(a => un[a.id]).length;
+  $('subPanel').innerHTML = `<div class="dexhead"><b>${tr('achTitle')}</b><span>${tr('achRate',{n, N, p:Math.floor(n/N*100)})}</span><button class="xclose" data-close>✕</button></div>
+    <div class="pbar"><i style="width:${n/N*100}%"></i></div>
+    <div class="achgrid">${CONST_ACHIEVEMENTS.map(a => `<div class="ach ${un[a.id]?'on':''}"><div class="ai">${a.icon}</div><b>${escapeHtml(txt(a.name))}</b><small>${escapeHtml(txt(a.desc))}</small><small>${un[a.id] ? '✔ ' + un[a.id] : tr('achLocked')}</small></div>`).join('')}</div>`;
+  $('subScr').classList.remove('hidden'); $('subScr').scrollTop = 0; ui.sub = 'ach';
+}
+function showHist(){
+  const recs = loadJSON(HIST_KEY, []), L = D();
+  $('subPanel').innerHTML = `<div class="dexhead"><b>${tr('histTitle')}</b><button class="xclose" data-close>✕</button></div><div class="note" style="text-align:left">${tr('histNote')}</div>`
+    + (recs.length ? `<ul class="hist">${recs.map(x => { const [t,k] = x.key.split('-').map(Number);
+        return `<li><div class="hi">${charSVG(t,k)}</div><div><b>${escapeHtml(L.titles[t][k])} ${x.rarity!=='N' ? `<span class="rar r-${x.rarity}">${x.rarity}</span>` : ''}</b>
+        <small>${money(x.T)} ・ ${L.klbl[kIdx(x.karma)]} ${x.karma} ・ ${x.bankrupt ? tr('bankruptAt',{age:x.age, y:x.y0 + x.age - START_AGE}) : tr('retired',{y:x.y0 + END_AGE - START_AGE})}</small>
+        <small>${escapeHtml(L.routeNames[x.route] || x.route)} ・ ${escapeHtml(txt(modeById(x.mode).name))} ・ ${x.d} ・ v${x.v}</small></div></li>`; }).join('')}</ul>`
+      : `<div class="dhint" style="margin-top:20px">${tr('histEmpty')}</div>`);
+  $('subScr').classList.remove('hidden'); $('subScr').scrollTop = 0; ui.sub = 'hist';
+}
+function closeSub(){ $('subScr').classList.add('hidden'); ui.sub = null; }
+
+/* ==================== 意見を送る ==================== */
+function showFeedback(){
+  const d = D();
+  $('fbPanel').innerHTML = `<div class="rh2" style="margin-bottom:6px">${tr('fbTitle')}</div><div class="tag" style="margin:0">${tr('fbIntro')}</div>
+    <label>${tr('fbCat')}</label><select id="fbCat">${d.fbCats.map((c,i) => `<option value="${i}">${c}</option>`).join('')}</select>
+    <label>${tr('fbMsg')}</label><textarea id="fbMsg" maxlength="2000" placeholder="${tr('fbMsgPh')}"></textarea>
+    <label>${tr('fbContact')}</label><input type="text" id="fbContact" maxlength="200">
+    <label class="chk"><input type="checkbox" id="fbAttach" checked> ${tr('fbAttach')}</label>
+    <div class="note" style="text-align:left">${tr('fbNote')}</div>
+    <div class="fbrow"><button class="bigbtn ghost" id="fbCancel">${tr('fbCancel')}</button><button class="bigbtn primary" id="fbSend">${tr('fbSend')}</button></div>`;
+  $('fbScr').classList.remove('hidden');
+  ui.fbWasPaused = ui.paused; ui.paused = true; if(S) render();
+  $('fbCancel').onclick = closeFeedback;
+  $('fbSend').onclick = sendFeedback;
+}
+function closeFeedback(){ $('fbScr').classList.add('hidden'); if(S && ui.running) { ui.paused = ui.fbWasPaused; render(); } }
+function feedbackMeta(){
+  const m = [`v${VERSION}`, `lang:${LANG}`, `ua:${navigator.userAgent.slice(0,120)}`];
+  if($('fbAttach') && $('fbAttach').checked && S){
+    m.push(`mode:${S.mode}`, `route:${S.route}`, `age:${S.age}`, `assets:${Math.round(total())}`, `karma:${Math.round(S.karma)}`);
+    if(S.final) m.push(`title:${S.final.key}`, `rarity:${S.final.rarity}`);
+  }
+  return m.join(' / ');
+}
+function sendFeedback(){
+  const msg = $('fbMsg').value.trim();
+  if(!msg){ flash(tr('fbEmpty')); return; }
+  const cat = D().fbCats[+$('fbCat').value], contact = $('fbContact').value.trim(), meta = feedbackMeta();
+  const body = `[${cat}]\n${msg}\n\n${contact ? 'contact: '+contact+'\n' : ''}${meta}`;
+  if(FEEDBACK_FORM){
+    const url = FEEDBACK_FORM.replace('{category}', encodeURIComponent(cat)).replace('{message}', encodeURIComponent(msg))
+      .replace('{contact}', encodeURIComponent(contact)).replace('{meta}', encodeURIComponent(meta));
+    window.open(url, '_blank', 'noopener'); flash(tr('fbOpened')); closeFeedback();
+  } else if(FEEDBACK_EMAIL){
+    location.href = `mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent('[HISTORY TRADER] ' + cat)}&body=${encodeURIComponent(body)}`;
+    flash(tr('fbOpened')); closeFeedback();
+  } else {
+    const done = () => { flash(tr('fbCopied')); closeFeedback(); };
+    if(navigator.clipboard) navigator.clipboard.writeText(body).then(done, done); else done();
+  }
+}
+
+/* ==================== 言語の切り替え ==================== */
+function applyLang(){
+  document.documentElement.lang = LANG==='zh' ? 'zh-Hans' : LANG;
+  document.querySelectorAll('[data-i]').forEach(el => { el.textContent = tr(el.dataset.i); });
+  $('langRow').innerHTML = Object.entries(LANGS).map(([c, n]) => `<button data-lang="${c}" class="${c===LANG?'on':''}">${n}</button>`).join('');
+  $('langSel').innerHTML = Object.entries(LANGS).map(([c, n]) => `<option value="${c}" ${c===LANG?'selected':''}>${n}</option>`).join('');
+  $('tagLine').innerHTML = tr('tag');
+  $('rulesList').innerHTML = D().rules.map(r => `<li>${r}</li>`).join('');
+  $('btnAuto').title = tr('autoChip');
+  $('verTitle').textContent = $('verGame').textContent = 'v' + VERSION;
+  $('chlogBody').innerHTML = CONST_CHANGELOG.map(c => `<p><b>v${c.v}</b>（${c.date}）<br>${escapeHtml(txt(c.text))}</p>`).join('');
+  refreshTitleButtons();
+  if(ui.sub === 'ach') showAch(); else if(ui.sub === 'hist') showHist();
+  if(!ui.running) $('tickerText').textContent = tr('tickerInit');
+  ui.skKey = null; ui.avatar = null;
+  if(S) render();
+  ui.dirty = true;
+  if(!$('setupScr').classList.contains('hidden')) showSetup(ui.setupStep || 'mode');
+  if(!$('dexScr').classList.contains('hidden')) showDex(typeof ui.dexOpen === 'string' ? ui.dexOpen : undefined);
+  if(!$('resultScr').classList.contains('hidden') && S && S.final) showResult();
+  if(!$('fbScr').classList.contains('hidden')) showFeedback();
+}
+function setLang(c){
+  if(!I18N[c]) return;
+  LANG = c; try{ localStorage.setItem(LANG_KEY, c); }catch(e){}
+  applyLang();
+}
+function refreshTitleButtons(){
+  $('btnDex').textContent = tr('dexBtn',{n:dexCount(loadDex())});
+  const un = loadJSON(ACH_KEY, {});
+  $('btnAch').textContent = tr('achBtn',{n:CONST_ACHIEVEMENTS.filter(a => un[a.id]).length, N:CONST_ACHIEVEMENTS.length});
+  const sv = loadSave(), bc = $('btnContinue');
+  if(sv){
+    bc.classList.remove('hidden');
+    bc.textContent = tr('continue',{age:sv.age, year:sv.y0 + sv.age - START_AGE});
+    $('btnNew').className = 'bigbtn ghost';
+  } else { bc.classList.add('hidden'); $('btnNew').className = 'bigbtn primary'; }
+}
+function showTitle(){ refreshTitleButtons(); $('titleScr').classList.remove('hidden'); }
+
+/* ==================== ループ ==================== */
+let last = 0, acc = 0;
+function loop(ts){
+  requestAnimationFrame(loop);
+  const dt = last ? Math.min(ts-last, 250) : 0; last = ts;
+  if(S && ui.running && !ui.paused && !S.over){
+    acc += dt;
+    const iv = BASE_MS / S.speed; let n = 0;
+    while(acc>=iv && n<16 && !S.over){ acc-=iv; step(); n++; }
+    if(n){ render(); ui.dirty = true; }
+    if(!S.over) $('yearFill').style.width = ((S.tick + acc/iv)/TPY*100)+'%';
+  }
+  if(S && (ui.dirty || (ui.running && !ui.paused))){ drawChart(); ui.dirty = false; }
+}
+
+/* ==================== 操作 ==================== */
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if(b){ trade(b.dataset.act, b.dataset.k, +b.dataset.f); return; }
+  const s = e.target.closest('.spd');
+  if(s && S){ S.speed = +s.dataset.s; ui.paused = false; render(); return; }
+  const m = e.target.closest('[data-m]');
+  if(m){ ui.mode = m.dataset.m; document.querySelectorAll('[data-m]').forEach(x=>x.classList.toggle('on',x===m)); ui.dirty=true; return; }
+  const r = e.target.closest('[data-r]');
+  if(r){ ui.range = r.dataset.r; document.querySelectorAll('[data-r]').forEach(x=>x.classList.toggle('on',x===r)); ui.dirty=true; return; }
+  const lb = e.target.closest('[data-lang]');
+  if(lb){ setLang(lb.dataset.lang); return; }
+  if(e.target.closest('[data-fb]')){ showFeedback(); return; }
+  const op = e.target.closest('[data-open]');
+  if(op){ op.dataset.open==='ach' ? showAch() : showHist(); return; }
+  if(e.target.closest('[data-close]')){ closeSub(); return; }
+});
+$('langSel').onchange = e => setLang(e.target.value);
+$('btnPause').onclick = () => { if(!S||S.over||!ui.running) return; ui.paused = !ui.paused; if(ui.paused) save(); render(); };
+$('btnAuto').onclick = () => { if(S && ui.running && !S.over) setAuto(!S.auto); };
+$('margin').onchange = e => {
+  if(!S || S.over || S.auto){ e.target.checked = !!(S && S.margin); return; }
+  S.margin = e.target.checked;
+  if(S.margin) S.marginEver = true;
+  if(S.margin) flash(tr('marginOn',{r:loanRate()*100}));
+  render();
+};
+$('btnNew').onclick = () => {
+  if(loadSave() && !confirm(tr('confirmNew'))) return;
+  clearSave(); showSetup('mode');
+};
+$('btnContinue').onclick = () => { const sv = loadSave(); if(sv){ S = sv; startGame(true); } };
+document.addEventListener('visibilitychange', () => {
+  if(document.hidden && S && ui.running){ if(!S.auto) ui.paused = true; save(); render(); }
+});
+window.addEventListener('pagehide', save);
+window.addEventListener('resize', () => { ui.dirty = true; });
+
+newState(); ui.running = false;
+applyLang(); render();
+showTitle();
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
