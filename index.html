@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#090c13">
 <title>TRADER HISTORY</title>
-<meta name="description" content="西暦30XX年、18歳・10万円から80歳まで。人生の節目で選び、未来の歴史で動く5つの投資先でお金を育てる無料ブラウザゲーム。FIREも可能。全64種の称号と隠しレア称号。日本語 / English / 中文 / 한국어">
+<meta name="description" content="株取引を中心とした人生ゲーム。西暦30XX年、18歳・10万円から。株でお金を育てながら、進学・就職・結婚・子ども・マイホームを選んで80歳へ。潔白さ×幸福度で「仕事の鬼」から「女神様」まで全64種の称号。無料・登録不要。日本語 / English / 中文 / 한국어">
 <!-- ===== OGP / Xカード ===== -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="TRADER HISTORY">
@@ -13,16 +13,16 @@
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:locale:alternate" content="zh_CN">
 <meta property="og:locale:alternate" content="ko_KR">
-<meta property="og:title" content="TRADER HISTORY｜未来史 × 投資で生きる人生シミュレーション">
-<meta property="og:description" content="人生の節目で選び、お金を育てて80歳へ。FIREもできる。富を取るか、潔白を取るか。無料・登録不要。※ゲーム内の架空の取引です。">
+<meta property="og:title" content="TRADER HISTORY｜株取引を中心とした人生ゲーム">
+<meta property="og:description" content="株でお金を育てながら、就職・結婚・子ども・マイホームを選んで80歳へ。潔白さ×幸福度で全64種の称号。無料・登録不要。※ゲーム内の架空の取引です。">
 <meta property="og:url" content="https://capital-and-soul.github.io/">
 <meta property="og:image" content="https://capital-and-soul.github.io/ogp.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="TRADER HISTORY — 死神から女神まで64種の称号">
+<meta property="og:image:alt" content="TRADER HISTORY — 仕事の鬼から女神様まで64種の称号">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="TRADER HISTORY｜未来史 × 投資で生きる人生シミュレーション">
-<meta name="twitter:description" content="人生の節目で選び、お金を育てて80歳へ。FIREもできる。#キャピタルアンドソウル">
+<meta name="twitter:title" content="TRADER HISTORY｜株取引を中心とした人生ゲーム">
+<meta name="twitter:description" content="株取引を中心とした人生ゲーム。仕事の鬼から女神様まで全64種の称号。#キャピタルアンドソウル">
 <meta name="twitter:image" content="https://capital-and-soul.github.io/ogp.jpg">
 <style>
 :root{
@@ -119,6 +119,11 @@ button{cursor:pointer}
 .amts button.on{border-color:var(--gold);color:var(--gold)}
 .up{color:var(--B)}.down{color:var(--A)}
 .stars{color:#ff9a3c;letter-spacing:-1px;font-size:10px}
+.focusbtn{display:block;width:100%;margin:0 0 8px;border:1px dashed #4a5a85;background:var(--panel2);border-radius:9px;padding:7px;font-size:12px;font-weight:800;color:#c7cfe2}
+.focusbtn.on{border-style:solid;border-color:var(--gold);color:var(--gold)}
+.prow.outdom{opacity:.55}
+.odtag{font-style:normal;font-size:9.5px;font-weight:900;margin-left:6px;padding:1px 6px;border-radius:5px;background:#2b3346;color:#aab3c8;vertical-align:1px}
+.k-q{background:#2b3a5c;color:#bcd0ff}
 .cashrow{display:flex;justify-content:space-between;font-size:12px;font-weight:800;padding-top:8px;border-top:1px dashed var(--line);margin-top:2px}
 .acts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
 .acts button{min-height:46px;border-radius:11px;border:1px solid #33405f;background:var(--panel2);font-size:12px;font-weight:800;line-height:1.2;padding:4px}
@@ -180,6 +185,8 @@ details.chlog p{margin:6px 0 0;line-height:1.55}
 .rcard .wbar{display:flex;height:8px;border-radius:4px;overflow:hidden;background:#1d2538;margin-top:7px}
 .rcard .wbar i{display:block;height:100%}
 .rcard.cur{border-color:var(--gold)}
+.rcard.dom.cur{border-color:var(--c);box-shadow:0 0 0 1px var(--c) inset}
+.rcard .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;vertical-align:1px}
 .rcard:disabled{opacity:.45;cursor:not-allowed}
 .rcard.blue{border-color:#4a6aa8}.rcard.blue .rtag{background:var(--C);color:#0a1020}
 .rcard.gold{border-color:#8a6a20}.rcard.gold .rtag{background:var(--gold);color:#2a1c00}
@@ -211,6 +218,9 @@ details.chlog p{margin:6px 0 0;line-height:1.55}
 .evalcard b{font-size:24px;font-weight:900;color:var(--c,#fff)}
 .rlbl{display:block;font-size:10.5px;color:var(--sub);font-weight:700;margin-top:10px;letter-spacing:1px}
 .rmain{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0 4px}
+.rmain div:first-child{grid-column:1/-1}
+.hbar{height:8px;border-radius:4px;background:#1d2538;overflow:hidden;margin:6px 0 4px}
+.hbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff8aa0,#ffd36b);transition:width .3s}
 .rmain div{background:#0d1220;border:1px solid #33405f;border-radius:14px;padding:10px 12px}
 .rmain label{display:block;font-size:11px;color:var(--sub);font-weight:800}
 .rmain b{display:block;font-size:21px;font-weight:900;margin-top:2px}
@@ -235,6 +245,7 @@ svg{display:block;width:100%;height:auto}
 .pbar{height:6px;background:#1d2538;border-radius:3px;overflow:hidden}
 .pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),#ffe9a0)}
 #rcv{width:100%;height:170px;display:block;margin-top:12px;background:#0d1220;border:1px solid var(--line);border-radius:12px}
+#rpcv{width:100%;height:170px;display:block;background:#0d1220;border:1px solid var(--line);border-radius:12px}
 .trial{margin:10px 0 4px;padding:9px 10px;border-radius:12px;font-size:12px;line-height:1.55;font-weight:700}
 .trial.win{background:linear-gradient(90deg,rgba(245,196,81,.25),rgba(180,140,255,.25));border:1px solid var(--gold);color:#fff3c0}
 .trial.lose{background:#151a28;border:1px dashed #4a5a85;color:#aab3c8}
@@ -374,10 +385,15 @@ svg{display:block;width:100%;height:auto}
           <div class="kbar"><div id="karmaMark"></div></div>
           <div id="karmaLbl" style="font-size:12px;font-weight:800"></div>
           <div class="ksub" data-i="karmaSub"></div>
+          <div class="boxh" style="justify-content:flex-start;margin:8px 0 0"><span data-i="happyL"></span><b id="happyV" class="num" style="color:var(--text);font-size:15px;margin-left:4px">50</b><button class="help" data-help="happy">?</button></div>
+          <div class="hbar"><i id="happyFill"></i></div>
+          <div id="happyLbl" style="font-size:12px;font-weight:800"></div>
+          <div class="ksub" data-i="happySub"></div>
         </div>
       </div>
       <div class="box" id="pfBox">
         <div class="boxh"><span><span data-i="pfTitle"></span><button class="help" data-help="assets">?</button></span><span id="allocNow" style="color:var(--gold)"></span></div>
+        <button id="btnFocus" class="focusbtn hidden"></button>
         <div class="stack" id="stack"></div>
         <div id="amts" class="amts hidden"></div>
         <div id="prows"></div>
@@ -447,7 +463,7 @@ const FEEDBACK_EMAIL = '';
 const FEEDBACK_FORM = '';   // 例 'https://docs.google.com/forms/d/e/XXXX/viewform?usp=pp_url&entry.1={category}&entry.2={message}&entry.3={contact}&entry.4={meta}'
 const TIP_URL = '';         // 投げ銭リンク（空なら非表示）
 const SHARE_HASHTAG = '#キャピタルアンドソウル';
-const VERSION = '3.0.1';
+const VERSION = '3.1.0';
 
 /* =====================================================================
    データ定義（データ駆動）：アップデートはこの下の配列に1行足すだけ。
@@ -456,6 +472,10 @@ const VERSION = '3.0.1';
 const L4 = (ja, en, zh, ko) => ({ja, en, zh, ko});
 
 const CONST_CHANGELOG = [
+  {v:'3.1.0', date:'2026-10-18', text:L4('「株取引を中心とした人生ゲーム」に。値動きは年4回（四半期）に／投資領域を複数選べて途中で追加OK・領域外を非表示にできる／ニュースのたびに「投資する？」の選択肢（戦争で儲けると悪魔度↑）／悪魔のささやき（インサイダー等）／称号を「潔白さ×幸福度」の64種に一新（仕事の鬼〜女神様）／就職・結婚・子ども・住まいの選択肢を全モードに',
+    'Now a “life game built around stock trading”: prices move 4 times a year / pick several sectors, add more later, hide the rest / “Invest?” choices on news (war profits make you devilish) / devil’s deals (insider tips etc.) / 64 new titles on Integrity × Happiness (Workaholic Demon → The Goddess) / job, marriage, kids and home choices in every mode',
+    '改为“以股票交易为中心的人生游戏”：价格每年变动4次／可多选投资领域、中途追加、隐藏领域外／每条新闻都会问“要投资吗？”（发战争财会提高恶魔度）／恶魔的低语（内幕消息等）／称号全新改为“清白度×幸福度”64种（工作狂魔～女神大人）／所有模式加入就业・结婚・孩子・住房选择',
+    '「주식 거래를 중심으로 한 인생 게임」으로. 가격은 1년에 4번／투자 영역 복수 선택・도중 추가・영역 밖 숨기기／뉴스마다 「투자할까?」 선택지(전쟁으로 벌면 악마도↑)／악마의 속삭임(내부자 정보 등)／칭호를 「결백도×행복도」 64종으로 새로(일벌레 악마～여신님)／모든 모드에 취업・결혼・자녀・주거 선택지')},
   {v:'3.0.1', date:'2026-10-18', text:L4('ゲーム名を「TRADER HISTORY」に変更／結果をXでシェアすると、獲得した称号のキャラクター画像がカードに表示されるように','Renamed to TRADER HISTORY / sharing a result on X now shows your title’s character card','游戏更名为“TRADER HISTORY”／在X分享结果时会显示所获称号的角色卡片','게임 이름을 「TRADER HISTORY」로 변경／X에 결과를 공유하면 획득한 칭호의 캐릭터 카드가 표시')},
   {v:'3.0.0', date:'2026-10-18', text:L4('選択肢で人生が進むイージー／ノーマル追加（従来の売買モードはハードに）／働き方（会社員・専業投資家）／FIRE／投資先を5種類に／用語の説明／PC対応',
     'Choice-based Easy/Normal modes (trading mode is now Hard) / work styles / FIRE / 5 asset classes / glossary / desktop layout',
@@ -521,7 +541,9 @@ const CONST_EVENTS = [
   {id:'robot', w:1, fx:{mil:-.3, tech:-.5, space:0, infra:0, green:.3}, text:L4('ロボット権利運動が世界に拡大。軍事AIへの批判強まる','The robot-rights movement goes global; backlash against military AI','机器人权利运动席卷全球，军事AI遭批评','로봇 권리 운동 전 세계 확산. 군사 AI 비판 고조')},
 ];
 const CONST_RUMORS = [
-  {id:'civil', w:1, fx:{mil:.6, green:-.1}, text:L4('{p}で内戦の兆しとの噂','Rumor: civil war is brewing in {p}','传闻{p}内战一触即发','{p}에 내전 조짐이 있다는 소문')},
+  {id:'marswar', w:1.4, fx:{mil:.7, space:.5, infra:-.2, green:-.3}, text:L4('火星と地球の間で戦争が始まるとの噂が広がっている','Rumor: war is about to break out between Mars and Earth','传闻火星与地球之间即将爆发战争','화성과 지구 사이에 전쟁이 시작된다는 소문이 퍼지고 있다')},
+  {id:'blockade', w:1, fx:{mil:.5, space:-.4, infra:-.3}, text:L4('月面航路が封鎖されるとの噂。物流の混乱は必至か','Rumor: lunar shipping lanes will be blockaded','传闻月面航线将被封锁，物流混乱在所难免','달 항로가 봉쇄된다는 소문. 물류 혼란은 불가피?')},
+  {id:'civil', w:1,fx:{mil:.6, green:-.1}, text:L4('{p}で内戦の兆しとの噂','Rumor: civil war is brewing in {p}','传闻{p}内战一触即发','{p}에 내전 조짐이 있다는 소문')},
   {id:'peace', w:1, fx:{mil:-.6, green:.3}, text:L4('{p}が和平交渉を始めたとの報道','Report: {p} has opened peace talks','据报{p}已开启和平谈判','{p}가 평화 협상을 시작했다는 보도')},
   {id:'drug', w:1, fx:{green:.6, tech:.2}, text:L4('大手医療企業が画期的な新薬を開発中との噂','Rumor: a medical giant has a breakthrough drug','传闻医疗巨头正研发突破性新药','대형 의료 기업이 획기적 신약을 개발 중이라는 소문')},
   {id:'arms', w:1, fx:{mil:.6}, text:L4('巨大な兵器輸出契約がまとまる見通し','A huge arms export deal is reportedly near','巨额武器出口合同据称即将达成','대형 무기 수출 계약 성사 전망')},
@@ -534,13 +556,11 @@ const CONST_RUMORS = [
 ];
 /* 人生の出来事（ランダム）：when(S, choiceMode) が true のときだけ起こる。cost＞0は出費（資産の半分が上限） */
 const CONST_LIFE = [
-  {id:'marry', min:25,max:34,p:.15,once:1,cost:3e6, when:(S,c)=>!c, text:L4('結婚！ 式と新生活の費用','Married! Wedding and new-home costs','结婚！婚礼和新生活开销','결혼! 예식과 신혼 비용')},
-  {id:'house', min:32,max:45,p:.12,once:1,cost:5e6, when:(S,c)=>!c, text:L4('住まいを購入。頭金とローン','Bought a home: down payment','购房，首付与贷款','집 구입. 계약금과 대출')},
-  {id:'edu',   min:40,max:55,p:.15,once:1,cost:3e6, when:(S,c)=>!c || S.flags.married, text:L4('子どもの進学。教育費','Your child goes to college: tuition','孩子升学，教育费用','자녀 진학. 교육비')},
-  {id:'care',  min:45,max:62,p:.10,once:1,cost:2e6, when:(S,c)=>!c, text:L4('親の介護が始まる','Caring for an aging parent','开始照顾年迈父母','부모님 간병 시작')},
-  {id:'sick',  min:18,max:79,p:.06,once:0,cost:1e6, text:L4('病気で入院。医療費','Hospitalized: medical bills','生病住院，医疗费','병으로 입원. 의료비')},
+  {id:'edu',   min:45,max:58,p:.15,once:1,cost:3e6, hap:2, when:S=>S.flags.kids, text:L4('子どもの進学。教育費','Your child goes to college: tuition','孩子升学，教育费用','자녀 진학. 교육비')},
+  {id:'care',  min:45,max:62,p:.10,once:1,cost:2e6, hap:-2, when:(S,c)=>!c, text:L4('親の介護が始まる','Caring for an aging parent','开始照顾年迈父母','부모님 간병 시작')},
+  {id:'sick',  min:18,max:79,p:.06,once:0,cost:1e6, hap:-2, text:L4('病気で入院。医療費','Hospitalized: medical bills','生病住院，医疗费','병으로 입원. 의료비')},
   {id:'vacancy', min:34,max:79,p:.08,once:0,cost:4.5e5, when:S=>S.flags.condo, text:L4('投資用マンションが空室に。今年の家賃収入が消えた','Your rental condo sat empty this year','投资公寓今年空置，租金收入泡汤','투자용 맨션이 공실. 올해 월세 수입이 사라졌다')},
-  {id:'lotto', min:18,max:79,p:.012,once:0,cost:-3e6, text:L4('宝くじが当たった！','Won the lottery!','中彩票了！','복권 당첨!')},
+  {id:'lotto', min:18,max:79,p:.012,once:0,cost:-3e6, hap:3, text:L4('宝くじが当たった！','Won the lottery!','中彩票了！','복권 당첨!')},
 ];
 
 /* ゲームモード：style 'choice'（節目で選択肢）| 'realtime'（自分で売買）。
@@ -560,10 +580,10 @@ const CONST_MODES = [
       ['인생의 갈림길에서 선택. 매매는 자동','힌트 없음. 설명을 읽고 스스로 판단','파산하면 빚이 탕감되고 50만 엔부터 재출발'])},
   {id:'hard', style:'realtime', bankrupt:'end', hints:false, speed:1, color:'red',
     name:L4('🔥 ハード','🔥 Hard','🔥 困难','🔥 하드'), tag:L4('自分で売買・破産あり','Trade yourself · bankruptcy','自己买卖・会破产','직접 매매・파산 있음'),
-    pts:L4(['ニュースを見ながら5つの投資先を自分で売買','信用取引（借金で2倍買い）も使える','資産0以下で即ゲームオーバー'],
-      ['Trade the five assets yourself as news breaks','Margin trading (2× with debt) available','Assets ≤ 0 = instant game over'],
-      ['看着新闻自己买卖5类资产','可以使用融资交易（借钱买2倍）','资产≤0立即游戏结束'],
-      ['뉴스를 보며 5개 투자처를 직접 매매','신용 거래(빚으로 2배 매수) 가능','자산 0 이하면 즉시 게임 오버'])},
+    pts:L4(['ニュースを見ながら5つの投資先を自分で売買','信用取引（借金で2倍買い）も使える','資産0以下で即ゲームオーバー','就職・結婚・子ども・住まいは選択肢で決める'],
+      ['Trade the five assets yourself as news breaks','Margin trading (2× with debt) available','Assets ≤ 0 = instant game over','Job, marriage, kids and home are still your choices'],
+      ['看着新闻自己买卖5类资产','可以使用融资交易（借钱买2倍）','资产≤0立即游戏结束','就业・结婚・孩子・住房仍由你选择'],
+      ['뉴스를 보며 5개 투자처를 직접 매매','신용 거래(빚으로 2배 매수) 가능','자산 0 이하면 즉시 게임 오버','취업・결혼・자녀・주거는 선택지로 결정'])},
   {id:'ch_ai_storm', style:'realtime', bankrupt:'end', hints:false, speed:1, color:'purple', limited:true, from:'2026-10-18', to:'2026-11-01',
     eventWeights:{aiwar:4, cyber:3, robot:2, disarm:2, chip:3},
     scripted:[{age:40, kind:'hist', fx:{tech:-.55, mil:-.2, space:-.3}, text:L4('AI株バブルが崩壊寸前との警告が相次ぐ','Warnings mount that the AI stock bubble is about to burst','接连有人警告AI股泡沫即将破裂','AI주 버블이 붕괴 직전이라는 경고가 잇따라')}],
@@ -581,76 +601,151 @@ const CONST_SEASON_EVENTS = [
 
 /* 人生の節目（イージー／ノーマル）：age の年に when が true なら選択肢が出る。
    opts の apply(S) で効果。hint はイージーだけ表示。req(S) が false の選択肢は出ない */
+const KIDS_OPTS = [
+  {id:'one', t:L4('子どもを1人','One child','要1个孩子','아이 1명'), d:L4('22年間、生活費が年40万円増える。そのぶん笑顔も増える','Living costs +¥400K/yr for 22 years — and more smiles','22年间每年生活费+40万円，笑容也随之增加','22년간 생활비가 연 40만 엔 늘지만 웃음도 는다'), hint:L4('👶 支出↑','👶 Costs↑','👶 支出↑','👶 지출↑'), hap:10, apply:S=>{ S.flags.kids = 1; S.flags.kidsUntil = S.age + 22; S.flags.kidsAsked = 1; }},
+  {id:'two', t:L4('子どもを2人','Two children','要2个孩子','아이 2명'), d:L4('22年間、生活費が年80万円増える。にぎやかな毎日','Living costs +¥800K/yr for 22 years — a lively home','22年间每年生活费+80万円，热热闹闹的每一天','22년간 생활비가 연 80만 엔 늘지만 북적이는 나날'), hint:L4('👶👶 支出↑↑','👶👶 Costs↑↑','👶👶 支出↑↑','👶👶 지출↑↑'), hap:16, apply:S=>{ S.flags.kids = 2; S.flags.kidsUntil = S.age + 22; S.flags.kidsAsked = 1; }},
+  {id:'none', t:L4('ふたりで生きる','Just the two of you','两个人过','둘이서 산다'), d:L4('お金も時間もふたりのために','Money and time for the two of you','把钱和时间留给两个人','돈도 시간도 둘을 위해'), hint:L4('💼 変化なし','💼 No change','💼 不变','💼 변화 없음'), hap:2, apply:S=>{ S.flags.kidsAsked = 1; }},
+];
 const CONST_TURNS = [
+  /* life:true の節目はハードでも出る（就職・結婚・子ども・住まい） */
+  {id:'job0', age:'start', life:true, when:S=>S.style==='work',
+    q:L4('就職','Your first job','就业','취업'),
+    text:L4('社会人としての第一歩。どんな仕事に就く？','Your first step into working life. What kind of job will you take?','踏入社会的第一步。要做什么样的工作？','사회인으로서의 첫걸음. 어떤 일을 할까?'),
+    opts:[
+      {id:'love', t:L4('好きな仕事に就く','Do what you love','做喜欢的工作','좋아하는 일을 한다'), d:L4('給料は15%低いが、毎日が楽しい','15% less pay, but you enjoy every day','工资低15%，但每天都很开心','급여는 15% 낮지만 매일이 즐겁다'), hint:L4('💰↓','💰↓','💰↓','💰↓'), hap:10, apply:S=>{ S.jobMul *= .85; }},
+      {id:'stable', t:L4('安定した大企業に入る','Join a stable big company','进入稳定的大企业','안정된 대기업에 들어간다'), d:L4('ほどほどの給料と、ほどほどの毎日','Decent pay, decent days','工资适中，日子也适中','적당한 급여, 적당한 나날'), hint:L4('💼 バランス','💼 Balanced','💼 平衡','💼 균형'), hap:4, apply:S=>{}},
+      {id:'grind', t:L4('高給だけど激務の会社','High pay, brutal hours','高薪但超累的公司','고연봉이지만 격무인 회사'), d:L4('給料+35%。ただし心と体はすり減る','+35% pay, but it wears you down','工资+35%，但身心俱疲','급여 +35%. 다만 몸과 마음이 닳는다'), hint:L4('💰 収入↑↑','💰 Income↑↑','💰 收入↑↑','💰 수입↑↑'), hap:-6, apply:S=>{ S.jobMul *= 1.35; }},
+    ]},
+  {id:'kids31', age:31, life:true, when:S=>S.flags.married && !S.flags.kidsAsked,
+    q:L4('子ども','Children','孩子','자녀'),
+    text:L4('パートナーと子どもの話になった。家族を増やす？','You and your partner talk about children. Grow your family?','和伴侣聊起了孩子。要扩大家庭吗？','파트너와 아이 이야기가 나왔다. 가족을 늘릴까?'),
+    opts:KIDS_OPTS},
+  {id:'marry34', age:34, life:true, when:S=>!S.flags.married && !S.flags.single,
+    q:L4('もう一度の出会い','Another chance at love','又一次邂逅','또 한 번의 만남'),
+    text:L4('友人の紹介で、気の合う人に出会った。結婚する？','A friend introduces you to someone you click with. Get married?','经朋友介绍，遇到了合得来的人。要结婚吗？','친구 소개로 마음이 맞는 사람을 만났다. 결혼할까?'),
+    opts:[
+      {id:'yes', t:L4('結婚する','Get married','结婚','결혼한다'), d:L4('式と新生活で最大300万円。共働きで年+30万円','Up to ¥3M now; dual income +¥300K/yr','婚礼和新生活最多300万円。双职工每年+30万円','예식・신혼에 최대 300만 엔. 맞벌이로 연 +30만 엔'), hint:L4('💍 出費→収入↑','💍 Cost now, income↑','💍 先花钱后收入↑','💍 지출 후 수입↑'), hap:12, apply:S=>{ spend(3e6); S.extra += 3e5; S.flags.married = 1; }},
+      {id:'no', t:L4('ひとりで生きる','Stay single','一个人过','혼자 산다'), d:L4('自分のペースを大切に','Keep your own pace','珍惜自己的节奏','내 페이스를 소중히'), hint:L4('💼 変化なし','💼 No change','💼 不变','💼 변화 없음'), hap:0, apply:S=>{ S.flags.single = 1; }},
+    ]},
+  {id:'kids36', age:36, life:true, when:S=>S.flags.married && !S.flags.kidsAsked,
+    q:L4('子ども','Children','孩子','자녀'),
+    text:L4('家族のこれからを考える時期。子どもを迎える？','Time to think about your family’s future. Welcome a child?','是时候考虑家庭的未来了。要迎接孩子吗？','가족의 앞날을 생각할 때. 아이를 맞이할까?'),
+    opts:KIDS_OPTS},
   {id:'job25', age:25, when:S=>S.style==='work',
     q:L4('転職のオファー','A job offer','跳槽邀请','이직 제안'),
     text:L4('急成長中のベンチャー企業から声がかかった。今の会社に残る？','A fast-growing startup wants you. Stay where you are?','一家快速成长的创业公司向你抛出橄榄枝。留在现在的公司吗？','급성장 중인 벤처 기업에서 연락이 왔다. 지금 회사에 남을까?'),
     opts:[
-      {id:'stay', t:L4('今の会社に残る','Stay','留下','남는다'), d:L4('給料はそのまま。安定した人生','Same pay, a stable life','工资不变，安稳的人生','급여 그대로. 안정된 인생'), hint:L4('💼 変化なし','💼 No change','💼 不变','💼 변화 없음'), apply:S=>{}},
-      {id:'venture', t:L4('ベンチャーに転職','Join the startup','跳槽到创业公司','벤처로 이직'), d:L4('給料は15%下がるが、7年後に上場すれば大金が入るかも','15% pay cut, but a big payout if it goes public in 7 years','工资降15%，7年后上市的话可能大赚一笔','급여 15% 감소, 7년 뒤 상장하면 큰돈이 들어올지도'), hint:L4('🎲 収入↓ 一発あり','🎲 Pay↓ jackpot chance','🎲 收入↓ 有机会暴富','🎲 수입↓ 한 방 있음'), apply:S=>{ S.jobMul *= .85; S.flags.venture = 1; }},
-      {id:'side', t:L4('副業を始める','Start a side hustle','开始副业','부업을 시작'), d:L4('休日を使って年+15万円','+¥150K a year using weekends','利用周末每年+15万円','휴일을 써서 연 +15만 엔'), hint:L4('💰 収入↑ 少し','💰 Income↑ a little','💰 收入略↑','💰 수입 조금↑'), apply:S=>{ S.extra += 1.5e5; }},
+      {id:'stay', hap:0, t:L4('今の会社に残る','Stay','留下','남는다'), d:L4('給料はそのまま。安定した人生','Same pay, a stable life','工资不变，安稳的人生','급여 그대로. 안정된 인생'), hint:L4('💼 変化なし','💼 No change','💼 不变','💼 변화 없음'), apply:S=>{}},
+      {id:'venture', hap:2, t:L4('ベンチャーに転職','Join the startup','跳槽到创业公司','벤처로 이직'), d:L4('給料は15%下がるが、7年後に上場すれば大金が入るかも','15% pay cut, but a big payout if it goes public in 7 years','工资降15%，7年后上市的话可能大赚一笔','급여 15% 감소, 7년 뒤 상장하면 큰돈이 들어올지도'), hint:L4('🎲 収入↓ 一発あり','🎲 Pay↓ jackpot chance','🎲 收入↓ 有机会暴富','🎲 수입↓ 한 방 있음'), apply:S=>{ S.jobMul *= .85; S.flags.venture = 1; }},
+      {id:'side', hap:-2, t:L4('副業を始める','Start a side hustle','开始副业','부업을 시작'), d:L4('休日を使って年+15万円','+¥150K a year using weekends','利用周末每年+15万円','휴일을 써서 연 +15만 엔'), hint:L4('💰 収入↑ 少し','💰 Income↑ a little','💰 收入略↑','💰 수입 조금↑'), apply:S=>{ S.extra += 1.5e5; }},
     ]},
-  {id:'marry28', age:28,
+  {id:'marry28', age:28, life:true,
     q:L4('結婚','Marriage','婚姻','결혼'),
     text:L4('長く付き合ってきた相手がいる。人生のパートナーになる？','You have a long-time partner. Make it official?','交往多年的恋人就在身边。要携手一生吗？','오래 사귄 상대가 있다. 인생의 파트너가 될까?'),
     opts:[
-      {id:'yes', t:L4('結婚する','Get married','结婚','결혼한다'), d:L4('式と新生活で最大300万円。共働きで年+30万円。のちに子どもの教育費も','Up to ¥3M now; dual income +¥300K/yr; tuition later','婚礼和新生活最多300万円。双职工每年+30万円，之后有教育费','예식・신혼에 최대 300만 엔. 맞벌이로 연 +30만 엔. 나중에 교육비도'), hint:L4('💍 出費→収入↑','💍 Cost now, income↑','💍 先花钱后收入↑','💍 지출 후 수입↑'), apply:S=>{ spend(3e6); S.extra += 3e5; S.flags.married = 1; }},
+      {id:'yes', t:L4('結婚する','Get married','结婚','결혼한다'), d:L4('式と新生活で最大300万円。共働きで年+30万円。のちに子どもの教育費も','Up to ¥3M now; dual income +¥300K/yr; tuition later','婚礼和新生活最多300万円。双职工每年+30万円，之后有教育费','예식・신혼에 최대 300만 엔. 맞벌이로 연 +30만 엔. 나중에 교육비도'), hint:L4('💍 出費→収入↑','💍 Cost now, income↑','💍 先花钱后收入↑','💍 지출 후 수입↑'), hap:14, apply:S=>{ spend(3e6); S.extra += 3e5; S.flags.married = 1; }},
+      {id:'single', t:L4('ひとりの人生を選ぶ','Choose life on your own','选择单身人生','혼자의 인생을 택한다'), d:L4('結婚はしない。自由気ままに生きる','No marriage — live freely','不结婚，自由自在地生活','결혼하지 않고 자유롭게 산다'), hint:L4('🕊 自由','🕊 Freedom','🕊 自由','🕊 자유'), hap:3, apply:S=>{ S.flags.single = 1; }},
       {id:'later', t:L4('今はまだ','Not yet','暂时不','아직은'), d:L4('お金も時間も自分のために','Keep your money and time for yourself','把钱和时间留给自己','돈도 시간도 나를 위해'), hint:L4('💼 変化なし','💼 No change','💼 不变','💼 변화 없음'), apply:S=>{}},
     ]},
-  {id:'home33', age:33,
+  {id:'home33', age:33, life:true,
     q:L4('住まい','Housing','住房','주거'),
     text:L4('将来を考えて、住まいをどうする？','Thinking about the future — where will you live?','考虑到将来，住房怎么办？','앞날을 생각해 집을 어떻게 할까?'),
     opts:[
-      {id:'buy', t:L4('家を買う','Buy a home','买房','집을 산다'), d:L4('頭金に最大800万円。老後の家賃がいらず、65歳からの赤字が年30万円減る','Up to ¥8M down; no rent later (−¥300K/yr less deficit after 65)','首付最多800万円。老后不用付房租，65岁后每年少亏30万円','계약금 최대 800만 엔. 노후 월세가 없어 65세부터 적자가 연 30만 엔 감소'), hint:L4('🏠 今↓ 老後↑','🏠 Now↓ later↑','🏠 现在↓ 老后↑','🏠 지금↓ 노후↑'), apply:S=>{ spend(8e6); S.flags.house = 1; }},
+      {id:'buy', t:L4('家を買う','Buy a home','买房','집을 산다'), d:L4('頭金に最大800万円。老後の家賃がいらず、65歳からの赤字が年30万円減る','Up to ¥8M down; no rent later (−¥300K/yr less deficit after 65)','首付最多800万円。老后不用付房租，65岁后每年少亏30万円','계약금 최대 800만 엔. 노후 월세가 없어 65세부터 적자가 연 30만 엔 감소'), hint:L4('🏠 今↓ 老後↑','🏠 Now↓ later↑','🏠 现在↓ 老后↑','🏠 지금↓ 노후↑'), hap:8, apply:S=>{ spend(8e6); S.flags.house = 1; }},
       {id:'rent', t:L4('賃貸のまま','Keep renting','继续租房','월세 그대로'), d:L4('身軽なまま、お金は投資に回せる','Stay flexible and invest the money','保持轻装，把钱拿去投资','가볍게, 돈은 투자로'), hint:L4('📈 投資に回せる','📈 More to invest','📈 可以拿去投资','📈 투자 여력'), apply:S=>{}},
-      {id:'condo', t:L4('投資用マンションを買う','Buy a rental condo','买投资公寓','투자용 맨션 구입'), d:L4('最大1,000万円。毎年+45万円の家賃収入。ただし空室になる年も','Up to ¥10M; +¥450K/yr rent, some empty years','最多1000万円。每年+45万円租金，偶尔空置','최대 1,000만 엔. 매년 +45만 엔 월세 수입. 공실인 해도'), hint:L4('🏢 収入↑ リスク中','🏢 Income↑ some risk','🏢 收入↑ 有风险','🏢 수입↑ 위험 중'), apply:S=>{ spend(1e7); S.extra += 4.5e5; S.flags.condo = 1; }},
+      {id:'condo', t:L4('投資用マンションを買う','Buy a rental condo','买投资公寓','투자용 맨션 구입'), d:L4('最大1,000万円。毎年+45万円の家賃収入。ただし空室になる年も','Up to ¥10M; +¥450K/yr rent, some empty years','最多1000万円。每年+45万円租金，偶尔空置','최대 1,000만 엔. 매년 +45만 엔 월세 수입. 공실인 해도'), hint:L4('🏢 収入↑ リスク中','🏢 Income↑ some risk','🏢 收入↑ 有风险','🏢 수입↑ 위험 중'), hap:1, apply:S=>{ spend(1e7); S.extra += 4.5e5; S.flags.condo = 1; }},
     ]},
   {id:'career40', age:40, when:S=>S.style==='work',
     q:L4('キャリアの岐路','A career crossroads','职业的十字路口','커리어의 갈림길'),
     text:L4('40歳。このまま会社員を続ける？ それとも――','You are 40. Keep going as an employee, or…?','40岁了。继续当上班族吗？还是——','40세. 이대로 회사원을 계속할까? 아니면――'),
     opts:[
-      {id:'promote', t:L4('出世を目指す','Aim for promotion','争取升职','출세를 노린다'), d:L4('給料+30%。ただし社内政治で手を汚すことも（潔白さ−3）','+30% pay, but office politics (Integrity −3)','工资+30%，但难免卷入办公室政治（清白度−3）','급여 +30%. 사내 정치로 손을 더럽히기도(결백도 −3)'), hint:L4('💰 収入↑ 🕊↓','💰 Income↑ 🕊↓','💰 收入↑ 🕊↓','💰 수입↑ 🕊↓'), apply:S=>{ S.jobMul *= 1.3; S.kBias -= 3; }},
-      {id:'startup', t:L4('独立して起業する','Start your own company','自主创业','독립해서 창업'), d:L4('五分五分の勝負。成功すれば給料2倍、失敗すれば半分','A coin flip: pay ×2 if it works, ×0.5 if not','一半一半的赌局。成功工资翻倍，失败减半','반반의 승부. 성공하면 급여 2배, 실패하면 절반'), hint:L4('🎲 ハイリスク','🎲 High risk','🎲 高风险','🎲 하이 리스크'), apply:S=>{ if(Math.random()<.5){ S.jobMul *= 2; logT('startupWin'); } else { S.jobMul *= .5; logT('startupLose'); } }},
+      {id:'promote', t:L4('出世を目指す','Aim for promotion','争取升职','출세를 노린다'), d:L4('給料+30%。ただし社内政治で手を汚すことも（潔白さ−3）','+30% pay, but office politics (Integrity −3)','工资+30%，但难免卷入办公室政治（清白度−3）','급여 +30%. 사내 정치로 손을 더럽히기도(결백도 −3)'), hint:L4('💰 収入↑ 🕊↓','💰 Income↑ 🕊↓','💰 收入↑ 🕊↓','💰 수입↑ 🕊↓'), hap:-4, apply:S=>{ S.jobMul *= 1.3; S.kBias -= 3; }},
+      {id:'startup', t:L4('独立して起業する','Start your own company','自主创业','독립해서 창업'), d:L4('五分五分の勝負。成功すれば給料2倍、失敗すれば半分','A coin flip: pay ×2 if it works, ×0.5 if not','一半一半的赌局。成功工资翻倍，失败减半','반반의 승부. 성공하면 급여 2배, 실패하면 절반'), hint:L4('🎲 ハイリスク','🎲 High risk','🎲 高风险','🎲 하이 리스크'), apply:S=>{ if(Math.random()<.5){ S.jobMul *= 2; S.hap += 6; logT('startupWin'); } else { S.jobMul *= .5; S.hap -= 4; logT('startupLose'); } }},
       {id:'keep', t:L4('今のまま','Stay the course','维持现状','지금 그대로'), d:L4('無理はしない','No need to push it','不勉强自己','무리하지 않는다'), hint:L4('💼 変化なし','💼 No change','💼 不变','💼 변화 없음'), apply:S=>{}},
-      {id:'pro', t:L4('会社を辞めて専業投資家になる','Quit to invest full-time','辞职成为专职投资者','회사를 그만두고 전업 투자가'), d:L4('給料はなくなる（生活費 年40万円）。分析力が上がり、大きなニュースのたびに売買を判断できる','No salary (living costs ¥400K/yr). Sharper analysis; act on every big news','没有工资（生活费每年40万円）。分析力提升，大新闻时可以决定买卖','급여 없음(생활비 연 40만 엔). 분석력이 오르고 큰 뉴스마다 매매 판단'), hint:L4('📈 専業投資家に','📈 Go full-time','📈 转为专职','📈 전업으로'), apply:S=>setStyle('invest')},
+      {id:'pro', hap:2, t:L4('会社を辞めて専業投資家になる','Quit to invest full-time','辞职成为专职投资者','회사를 그만두고 전업 투자가'), d:L4('給料はなくなる（生活費 年40万円）。分析力が上がり、大きなニュースのたびに売買を判断できる','No salary (living costs ¥400K/yr). Sharper analysis; act on every big news','没有工资（生活费每年40万円）。分析力提升，大新闻时可以决定买卖','급여 없음(생활비 연 40만 엔). 분석력이 오르고 큰 뉴스마다 매매 판단'), hint:L4('📈 専業投資家に','📈 Go full-time','📈 转为专职','📈 전업으로'), apply:S=>setStyle('invest')},
     ]},
   {id:'pro40', age:40, when:S=>S.style==='invest',
     q:L4('投資家としての岐路','An investor’s crossroads','投资者的十字路口','투자가로서의 갈림길'),
     text:L4('40歳。このまま専業投資家を続ける？','You are 40. Keep investing full-time?','40岁了。继续当专职投资者吗？','40세. 계속 전업 투자가로 살까?'),
     opts:[
       {id:'cont', t:L4('専業投資家を続ける','Keep going','继续','계속한다'), d:L4('自分の腕を信じる','Trust your skill','相信自己的实力','내 실력을 믿는다'), hint:L4('📈 変化なし','📈 No change','📈 不变','📈 변화 없음'), apply:S=>{}},
-      {id:'back', t:L4('会社員に戻る','Go back to work','回去上班','회사원으로 돌아간다'), d:L4('ブランクがあるので給料は8割から','Your gap means 80% pay','因为有空白期，工资只有8成','공백이 있어 급여는 80%부터'), hint:L4('💼 収入が戻る','💼 Salary returns','💼 恢复收入','💼 수입 복귀'), apply:S=>{ S.jobMul *= .8; setStyle('work'); }},
+      {id:'back', t:L4('会社員に戻る','Go back to work','回去上班','회사원으로 돌아간다'), d:L4('ブランクがあるので給料は8割から','Your gap means 80% pay','因为有空白期，工资只有8成','공백이 있어 급여는 80%부터'), hint:L4('💼 収入が戻る','💼 Salary returns','💼 恢复收入','💼 수입 복귀'), hap:-1, apply:S=>{ S.jobMul *= .8; setStyle('work'); }},
     ]},
   {id:'give45', age:45,
     q:L4('お金の使い道','What to do with your money','钱的用途','돈의 쓰임새'),
     text:L4('ある程度の余裕ができた。世の中のために何かする？','You have some room to spare. Do something for the world?','手头宽裕了一些。要为社会做点什么吗？','어느 정도 여유가 생겼다. 세상을 위해 뭔가 할까?'),
     opts:[
-      {id:'donate', t:L4('寄付する（資産の5%）','Donate 5% of your assets','捐出资产的5%','자산의 5%를 기부'), d:L4('困っている人のために使う（潔白さ+8）','Help people in need (Integrity +8)','帮助有困难的人（清白度+8）','어려운 사람을 위해 쓴다(결백도 +8)'), hint:L4('🕊 潔白さ↑ 💰↓','🕊 Integrity↑ 💰↓','🕊 清白↑ 💰↓','🕊 결백↑ 💰↓'), apply:S=>{ spendPct(.05); S.kBias += 8; S.flags.donations = (S.flags.donations||0) + 1; }},
-      {id:'care', t:L4('親の介護に時間を使う','Care for your parents','花时间照顾父母','부모님 간병에 시간을 쓴다'), d:L4('10年間、給料が15%下がる（潔白さ+4）','Pay −15% for 10 years (Integrity +4)','10年内工资下降15%（清白度+4）','10년간 급여 15% 감소(결백도 +4)'), hint:L4('🕊 潔白さ↑ 💰↓','🕊 Integrity↑ 💰↓','🕊 清白↑ 💰↓','🕊 결백↑ 💰↓'), apply:S=>{ S.kBias += 4; if(S.style==='work'){ S.jobMul *= .85; S.flags.careUntil = 55; } }},
-      {id:'self', t:L4('自分のために使う','Keep it for yourself','留给自己','나를 위해 쓴다'), d:L4('変化なし','No change','不变','변화 없음'), hint:L4('💼 変化なし','💼 No change','💼 不变','💼 변화 없음'), apply:S=>{}},
+      {id:'donate', t:L4('寄付する（資産の5%）','Donate 5% of your assets','捐出资产的5%','자산의 5%를 기부'), d:L4('困っている人のために使う（潔白さ+8）','Help people in need (Integrity +8)','帮助有困难的人（清白度+8）','어려운 사람을 위해 쓴다(결백도 +8)'), hint:L4('🕊 潔白さ↑ 💰↓','🕊 Integrity↑ 💰↓','🕊 清白↑ 💰↓','🕊 결백↑ 💰↓'), hap:4, apply:S=>{ spendPct(.05); S.kBias += 8; S.flags.donations = (S.flags.donations||0) + 1; }},
+      {id:'care', t:L4('親の介護に時間を使う','Care for your parents','花时间照顾父母','부모님 간병에 시간을 쓴다'), d:L4('10年間、給料が15%下がる（潔白さ+4）','Pay −15% for 10 years (Integrity +4)','10年内工资下降15%（清白度+4）','10년간 급여 15% 감소(결백도 +4)'), hint:L4('🕊 潔白さ↑ 💰↓','🕊 Integrity↑ 💰↓','🕊 清白↑ 💰↓','🕊 결백↑ 💰↓'), hap:3, apply:S=>{ S.kBias += 4; if(S.style==='work'){ S.jobMul *= .85; S.flags.careUntil = 55; } }},
+      {id:'self', hap:1, t:L4('自分のために使う','Keep it for yourself','留给自己','나를 위해 쓴다'), d:L4('変化なし','No change','不变','변화 없음'), hint:L4('💼 変化なし','💼 No change','💼 不变','💼 변화 없음'), apply:S=>{}},
     ]},
   {id:'early50', age:50, when:S=>S.style==='work',
     q:L4('早期退職の募集','Early retirement offer','提前退休招募','희망퇴직 모집'),
     text:L4('会社が早期退職者を募っている。割増退職金が出るらしい。','Your company offers early retirement with a bonus.','公司在招募提前退休者，据说有额外退休金。','회사가 희망퇴직을 받고 있다. 퇴직금을 더 준다고 한다.'),
     opts:[
-      {id:'take', t:L4('応じる（退職金＝年収3年分）','Take it (bonus = 3 years’ pay)','接受（退休金＝3年工资）','응한다(퇴직금＝연봉 3년분)'), d:L4('会社員を卒業して、専業投資家として生きる','Leave and live as a full-time investor','告别上班族，作为专职投资者生活','회사원을 졸업하고 전업 투자가로'), hint:L4('💰 一時金↑ 給料0','💰 Lump sum↑ no salary','💰 一次性↑ 无工资','💰 일시금↑ 급여 0'), apply:S=>{ S.cash += basePay(50) * S.skill.earn * S.jobMul * 3; setStyle('invest'); }},
+      {id:'take', t:L4('応じる（退職金＝年収3年分）','Take it (bonus = 3 years’ pay)','接受（退休金＝3年工资）','응한다(퇴직금＝연봉 3년분)'), d:L4('会社員を卒業して、専業投資家として生きる','Leave and live as a full-time investor','告别上班族，作为专职投资者生活','회사원을 졸업하고 전업 투자가로'), hint:L4('💰 一時金↑ 給料0','💰 Lump sum↑ no salary','💰 一次性↑ 无工资','💰 일시금↑ 급여 0'), hap:3, apply:S=>{ S.cash += basePay(50) * S.skill.earn * S.jobMul * 3; setStyle('invest'); }},
       {id:'stay', t:L4('会社に残る','Stay','留在公司','회사에 남는다'), d:L4('定年まで働く','Work until retirement','工作到退休','정년까지 일한다'), hint:L4('💼 変化なし','💼 No change','💼 不变','💼 변화 없음'), apply:S=>{}},
     ]},
   {id:'sixty', age:60, when:S=>S.style==='work',
     q:L4('還暦','Turning 60','花甲之年','환갑'),
     text:L4('定年が見えてきた。これからの働き方は？','Retirement is in sight. How will you work from now on?','退休在望。接下来怎么工作？','정년이 보인다. 앞으로 어떻게 일할까?'),
     opts:[
-      {id:'rehire', t:L4('70歳まで働く（再雇用）','Work until 70 (rehired)','工作到70岁（返聘）','70세까지 일한다(재고용)'), d:L4('65〜70歳も給料の6割が入る','60% of your pay from 65 to 70','65～70岁也能拿到6成工资','65～70세에도 급여의 60%'), hint:L4('💰 収入が長く続く','💰 Income lasts longer','💰 收入更持久','💰 수입이 오래간다'), apply:S=>{ S.flags.rehire = 1; }},
-      {id:'retire', t:L4('60歳で引退する','Retire at 60','60岁退休','60세에 은퇴'), d:L4('自由な時間を手に入れる。今から年金生活（年−150万円）','Free time from now; pension life (−¥1.5M/yr)','从现在起享受自由，开始养老生活（每年−150万円）','지금부터 자유 시간. 연금 생활(연 −150만 엔)'), hint:L4('⏳ 収入↓','⏳ Income↓','⏳ 收入↓','⏳ 수입↓'), apply:S=>{ S.retired = 1; }},
+      {id:'rehire', t:L4('70歳まで働く（再雇用）','Work until 70 (rehired)','工作到70岁（返聘）','70세까지 일한다(재고용)'), d:L4('65〜70歳も給料の6割が入る','60% of your pay from 65 to 70','65～70岁也能拿到6成工资','65～70세에도 급여의 60%'), hint:L4('💰 収入が長く続く','💰 Income lasts longer','💰 收入更持久','💰 수입이 오래간다'), hap:-1, apply:S=>{ S.flags.rehire = 1; }},
+      {id:'retire', t:L4('60歳で引退する','Retire at 60','60岁退休','60세에 은퇴'), d:L4('自由な時間を手に入れる。今から年金生活（年−150万円）','Free time from now; pension life (−¥1.5M/yr)','从现在起享受自由，开始养老生活（每年−150万円）','지금부터 자유 시간. 연금 생활(연 −150만 엔)'), hint:L4('⏳ 収入↓','⏳ Income↓','⏳ 收入↓','⏳ 수입↓'), hap:5, apply:S=>{ S.retired = 1; }},
       {id:'keep', t:L4('65歳まで働く','Work until 65','工作到65岁','65세까지 일한다'), d:L4('予定どおり','As planned','按计划','예정대로'), hint:L4('💼 変化なし','💼 No change','💼 不变','💼 변화 없음'), apply:S=>{}},
     ]},
   {id:'legacy70', age:70,
     q:L4('人生の締めくくり','Your legacy','人生的收尾','인생의 마무리'),
     text:L4('70歳。残りの人生と財産をどう使う？','You are 70. How will you use your remaining wealth?','70岁了。剩下的财产要怎么用？','70세. 남은 재산을 어떻게 쓸까?'),
     opts:[
-      {id:'charity', t:L4('財産の2割を寄付する','Donate 20% of your wealth','捐出20%的财产','재산의 20%를 기부'), d:L4('世の中に恩返し（潔白さ+12）','Give back to the world (Integrity +12)','回馈社会（清白度+12）','세상에 보답(결백도 +12)'), hint:L4('🕊 潔白さ↑↑ 💰↓','🕊 Integrity↑↑ 💰↓','🕊 清白↑↑ 💰↓','🕊 결백↑↑ 💰↓'), apply:S=>{ spendPct(.2); S.kBias += 12; S.flags.donations = (S.flags.donations||0) + 1; }},
-      {id:'heirs', t:L4('家族に残す','Leave it to family','留给家人','가족에게 남긴다'), d:L4('このまま穏やかに','Live out your days calmly','平静地度过','이대로 평온하게'), hint:L4('💼 変化なし','💼 No change','💼 不变','💼 변화 없음'), apply:S=>{}},
-      {id:'gamble', t:L4('最後のひと勝負','One last gamble','最后一搏','마지막 한판 승부'), d:L4('残りの人生、宇宙・フロンティア株に全力','All-in on space for the rest of your life','余生全押宇宙・前沿股','남은 인생, 우주・프런티어주에 올인'), hint:L4('🎲 ハイリスク','🎲 High risk','🎲 高风险','🎲 하이 리스크'), apply:S=>{ S.alloc = {space:1}; S.allocId = 'moon'; }},
+      {id:'charity', t:L4('財産の2割を寄付する','Donate 20% of your wealth','捐出20%的财产','재산의 20%를 기부'), d:L4('世の中に恩返し（潔白さ+12）','Give back to the world (Integrity +12)','回馈社会（清白度+12）','세상에 보답(결백도 +12)'), hint:L4('🕊 潔白さ↑↑ 💰↓','🕊 Integrity↑↑ 💰↓','🕊 清白↑↑ 💰↓','🕊 결백↑↑ 💰↓'), hap:5, apply:S=>{ spendPct(.2); S.kBias += 12; S.flags.donations = (S.flags.donations||0) + 1; }},
+      {id:'heirs', hap:4, t:L4('家族に残す','Leave it to family','留给家人','가족에게 남긴다'), d:L4('このまま穏やかに','Live out your days calmly','平静地度过','이대로 평온하게'), hint:L4('💼 変化なし','💼 No change','💼 不变','💼 변화 없음'), apply:S=>{}},
+      {id:'gamble', t:L4('最後のひと勝負','One last gamble','最后一搏','마지막 한판 승부'), d:L4('残りの人生、宇宙・フロンティア株に全力','All-in on space for the rest of your life','余生全押宇宙・前沿股','남은 인생, 우주・프런티어주에 올인'), hint:L4('🎲 ハイリスク','🎲 High risk','🎲 高风险','🎲 하이 리스크'), hap:-2, apply:S=>{ S.alloc = {space:1}; S.allocId = 'moon'; }},
+    ]},
+];
+/* 悪魔のささやき（イージー／ノーマル・年に2割ほど）：karma＝潔白さの増減、hap＝幸福度。apply は結果メッセージ（L4）を返せる */
+const dealGain = (S, p) => { const v = Math.max(0, total()) * p; S.cash += v; return v; };
+const CONST_DEALS = [
+  {id:'insider', min:25,
+    q:L4('😈 インサイダー情報','😈 Insider tip','😈 内幕消息','😈 내부자 정보'),
+    text:L4('知り合いの役員が、来月発表される合併情報を耳打ちしてきた。この株を今買えば、まず儲かる……。','An executive you know whispers news of a merger to be announced next month. Buy now and you will almost surely profit…','认识的高管悄悄透露了下个月要公布的合并消息。现在买进，几乎稳赚……','아는 임원이 다음 달 발표될 합병 정보를 귀띔했다. 지금 사면 거의 확실히 번다…'),
+    opts:[
+      {id:'buy', karma:-8, t:L4('こっそり買う','Buy quietly','偷偷买进','몰래 산다'), d:L4('資産が増えるかも。ただし2割の確率でバレて大損','Likely profit — but a 20% chance of getting caught and losing big','很可能赚钱，但有2成概率被查到而大亏','이득일지도. 단 20% 확률로 들켜 큰 손해'), hint:L4('💰↑ ⚠','💰↑ ⚠','💰↑ ⚠','💰↑ ⚠'),
+        apply:S=>{ if(Math.random() < .2){ S.cash -= Math.max(0, total()) * .3; S.hap -= 8; return L4('発覚！ 罰金で資産の3割を失った','Caught! A fine took 30% of your assets','被查到了！罚款损失了3成资产','발각! 벌금으로 자산의 30%를 잃었다'); } const v = dealGain(S, .15); return L4('情報どおり株価が急騰。+' + money(v),'The stock soared as tipped. +' + money(v),'股价如消息所说暴涨。+' + money(v),'정보대로 주가 급등. +' + money(v)); }},
+      {id:'refuse', karma:2, t:L4('聞かなかったことにする','Pretend you never heard it','当作没听见','못 들은 걸로 한다'), d:L4('手を汚さない','Keep your hands clean','不弄脏自己的手','손을 더럽히지 않는다'), hint:L4('','','',''), apply:S=>{}},
+      {id:'report', karma:5, hap:-2, t:L4('当局に通報する','Report it','向监管部门举报','당국에 신고한다'), d:L4('正しいことをする。ただし人間関係はぎくしゃく','Do the right thing — at the cost of some friendships','做正确的事，但人际关系会变僵','옳은 일을 한다. 다만 인간관계는 삐걱'), hint:L4('😢↓','😢↓','😢↓','😢↓'), apply:S=>{}},
+    ]},
+  {id:'armsfund', min:22,
+    q:L4('😈 兵器ファンドの誘い','😈 An arms fund pitch','😈 武器基金的邀约','😈 무기 펀드 권유'),
+    text:L4('紛争地域向けの兵器ファンドから出資の誘い。「戦争が続く限り、年利20%は固い」らしい。','A fund supplying weapons to conflict zones wants your money: “20% a year as long as the wars go on.”','向冲突地区供货的武器基金邀你出资：“只要战争持续，年利20%稳稳的。”','분쟁 지역에 무기를 대는 펀드에서 출자 권유. 「전쟁이 계속되는 한 연 20%는 확실」하다고 한다.'),
+    opts:[
+      {id:'invest', karma:-7, t:L4('出資する','Invest','出资','출자한다'), d:L4('7割の確率で資産+12%、3割で−10%','70%: assets +12%, 30%: −10%','7成概率资产+12%，3成−10%','70% 확률로 자산 +12%, 30%로 −10%'), hint:L4('💰↑ 🎲','💰↑ 🎲','💰↑ 🎲','💰↑ 🎲'),
+        apply:S=>{ if(Math.random() < .7){ const v = dealGain(S, .12); return L4('戦争特需で配当が出た。+' + money(v),'War profits paid out. +' + money(v),'战争特需带来分红。+' + money(v),'전쟁 특수로 배당. +' + money(v)); } S.cash -= Math.max(0, total()) * .1; return L4('停戦でファンドが暴落した','A ceasefire crashed the fund','停战导致基金暴跌','휴전으로 펀드 폭락'); }},
+      {id:'decline', karma:1, t:L4('断る','Decline','拒绝','거절한다'), d:L4('血で稼いだお金はいらない','No blood money for you','不要沾血的钱','피 묻은 돈은 필요 없다'), hint:L4('','','',''), apply:S=>{}},
+    ]},
+  {id:'pump', min:20,
+    q:L4('😈 SNSで株価をあおる','😈 Pump and dump','😈 在社交网络上炒作股价','😈 SNS로 주가 띄우기'),
+    text:L4('フォロワーの多い仲間から「小型株をSNSであおって、上がったところで売り抜けよう」と誘われた。','A friend with many followers suggests hyping a small stock on social media and selling at the top.','有很多粉丝的朋友邀你：“在社交网络上炒一只小盘股，涨了就抛。”','팔로워 많은 동료가 「SNS로 소형주를 띄우고 오르면 팔고 빠지자」고 권했다.'),
+    opts:[
+      {id:'join', karma:-6, t:L4('乗る','Join in','参与','참여한다'), d:L4('資産+10%。ただし25%の確率で摘発され資産−20%','Assets +10%, but a 25% chance of a −20% penalty','资产+10%，但有25%概率被查处、资产−20%','자산 +10%. 단 25% 확률로 적발되어 −20%'), hint:L4('💰↑ ⚠','💰↑ ⚠','💰↑ ⚠','💰↑ ⚠'),
+        apply:S=>{ if(Math.random() < .25){ S.cash -= Math.max(0, total()) * .2; S.hap -= 5; return L4('相場操縦で摘発された……','Busted for market manipulation…','因操纵市场被查处……','시세 조종으로 적발되었다……'); } const v = dealGain(S, .1); return L4('うまく売り抜けた。+' + money(v),'You sold at the top. +' + money(v),'成功高位抛出。+' + money(v),'고점에서 팔고 빠졌다. +' + money(v)); }},
+      {id:'no', karma:1, t:L4('断る','Say no','拒绝','거절한다'), d:L4('だまされる人のことを考える','Think of the people who would be fooled','想想会被骗的人','속을 사람들을 생각한다'), hint:L4('','','',''), apply:S=>{}},
+    ]},
+  {id:'disaster', min:25,
+    q:L4('😈 災害の直後に','😈 Right after a disaster','😈 灾难刚刚发生','😈 재해 직후에'),
+    text:L4('大地震で被災地のインフラが壊滅。復旧が遅れると見て、インフラ株を空売りすれば儲かりそうだ。','A huge quake wrecked a region’s infrastructure. Shorting infrastructure stocks on a slow recovery looks profitable.','大地震摧毁了灾区的基础设施。看准恢复缓慢做空基建股，似乎能赚一笔。','대지진으로 피해 지역의 인프라가 괴멸. 복구가 늦을 거라 보고 인프라주를 공매도하면 벌 것 같다.'),
+    opts:[
+      {id:'short', karma:-5, t:L4('空売りで儲ける','Profit from shorting','做空赚钱','공매도로 번다'), d:L4('資産+8%（うまくいけば）','Assets +8% (if it works)','资产+8%（顺利的话）','자산 +8%(잘 되면)'), hint:L4('💰↑','💰↑','💰↑','💰↑'),
+        apply:S=>{ if(Math.random() < .75){ const v = dealGain(S, .08); return L4('読みどおり株価は下がった。+' + money(v),'Prices fell as expected. +' + money(v),'股价如预期下跌。+' + money(v),'예상대로 주가 하락. +' + money(v)); } S.cash -= Math.max(0, total()) * .06; return L4('復旧が早く、空売りは失敗した','Recovery was fast — the short failed','恢复很快，做空失败','복구가 빨라 공매도 실패'); }},
+      {id:'donate', karma:4, hap:2, t:L4('被災地に寄付する（資産の3%）','Donate 3% to the victims','向灾区捐款（资产的3%）','피해 지역에 기부(자산의 3%)'), d:L4('困っている人を助ける','Help people in need','帮助有困难的人','어려운 사람을 돕는다'), hint:L4('😊↑ 💰↓','😊↑ 💰↓','😊↑ 💰↓','😊↑ 💰↓'), apply:S=>{ spendPct(.03); S.flags.donations = (S.flags.donations||0) + 1; }},
+      {id:'none', t:L4('何もしない','Do nothing','什么也不做','아무것도 안 한다'), d:L4('自分には関係ない','Not your business','与自己无关','나와는 상관없다'), hint:L4('','','',''), apply:S=>{}},
+    ]},
+  {id:'greenwash', min:30, when:S=>S.domains.includes('green'),
+    q:L4('😈 見せかけのグリーン','😈 Greenwashing','😈 虚假的绿色','😈 무늬만 그린'),
+    text:L4('「環境に優しい」と宣伝して人気の企業。実は裏で汚染を隠しているらしい。株価はまだ上がりそうだ。','A company sold as “eco-friendly” is said to be hiding pollution. Its stock still looks set to climb.','一家宣传“环保”而受欢迎的企业，据说暗中隐瞒污染。股价看起来还会涨。','「친환경」으로 홍보하는 인기 기업. 실은 뒤에서 오염을 숨긴다고 한다. 주가는 아직 오를 것 같다.'),
+    opts:[
+      {id:'hold', karma:-4, t:L4('知らないふりで買い増す','Look away and buy more','装作不知道继续加仓','모른 척 더 산다'), d:L4('資産+6%','Assets +6%','资产+6%','자산 +6%'), hint:L4('💰↑','💰↑','💰↑','💰↑'), apply:S=>{ const v = dealGain(S, .06); return L4('株価はまだ上がった。+' + money(v),'The stock kept rising. +' + money(v),'股价继续上涨。+' + money(v),'주가는 더 올랐다. +' + money(v)); }},
+      {id:'sell', karma:3, t:L4('売って手を引く','Sell and walk away','卖出抽身','팔고 손을 뗀다'), d:L4('儲けは逃すが、良心は守れる','Miss the gains, keep your conscience','错过收益，但守住良心','이익은 놓쳐도 양심은 지킨다'), hint:L4('','','',''), apply:S=>{}},
     ]},
 ];
 /* 配分を見直す節目（イージー／ノーマル） */
@@ -687,6 +782,9 @@ const CONST_ACHIEVEMENTS = [
   {id:'fire40', icon:'🚀', name:L4('早すぎる自由','Freedom at 40','过早的自由','너무 이른 자유'), desc:L4('40歳以下でFIREする','FIRE at 40 or younger','40岁以下FIRE','40세 이하에 FIRE'), check:c => c.S.fireAge && c.S.fireAge <= 40},
   {id:'pro', icon:'📈', name:L4('生涯投資家','Lifelong Investor','终身投资者','평생 투자가'), desc:L4('専業投資家のまま80歳を迎える','Reach 80 as a full-time investor','以专职投资者身份活到80岁','전업 투자가로 80세'), check:c => !c.bankrupt && c.S.style==='invest'},
   {id:'family', icon:'👪', name:L4('家族の城','Family Castle','家族之城','가족의 성'), desc:L4('結婚して家を買い、80歳を迎える','Marry, buy a home, and reach 80','结婚买房并活到80岁','결혼하고 집을 사서 80세'), check:c => !c.bankrupt && c.S.flags.married && c.S.flags.house},
+  {id:'bigfamily', icon:'👨‍👩‍👧‍👦', name:L4('にぎやかな食卓','A Full Table','热闹的餐桌','북적이는 식탁'), desc:L4('子ども2人を育てて80歳を迎える','Raise two children and reach 80','养育两个孩子并活到80岁','아이 둘을 키우고 80세'), check:c => !c.bankrupt && c.S.flags.kids === 2},
+  {id:'bliss', icon:'🌸', name:L4('至福の人生','A Blissful Life','至福人生','지복의 인생'), desc:L4('幸福度90以上で人生を終える','Finish with Happiness 90+','以幸福度90以上结束人生','행복도 90 이상으로 인생을 마친다'), check:c => c.r.H >= 90},
+  {id:'oni', icon:'👹', name:L4('仕事の鬼','Workaholic Demon','工作狂魔','일벌레 악마'), desc:L4('潔白さが低いまま幸福度80以上で人生を終える','Finish with low Integrity but Happiness 80+','以低清白度、幸福度80以上结束人生','낮은 결백도로 행복도 80 이상'), check:c => c.r.H >= 80 && c.r.k <= 1},
   {id:'donor', icon:'🎁', name:L4('篤志家','Philanthropist','慈善家','독지가'), desc:L4('2回寄付する','Donate twice','捐款两次','두 번 기부'), check:c => (c.S.flags.donations||0) >= 2},
   {id:'switcher', icon:'🔄', name:L4('二刀流','Switch Hitter','双面人生','이도류'), desc:L4('働き方を2回以上切り替える','Change work style twice or more','两次以上切换工作方式','일하는 방식을 2회 이상 변경'), check:c => (c.S.styleChanges||0) >= 2},
   {id:'hardclear', icon:'⚔', name:L4('ハード完走','Hard Survivor','困难通关','하드 완주'), desc:L4('ハードで80歳を迎える','Reach 80 in Hard','在困难模式活到80岁','하드에서 80세'), check:c => !c.bankrupt && modeById(c.S.mode).style==='realtime'},
@@ -723,11 +821,16 @@ const CONST_GLOSSARY = [
       'Retiring early once your assets can support you. Target = years left until 80 × ¥1.5M × 0.7. Once you reach it you can FIRE, and the rest of your life fast-forwards straight to the result.',
       '靠资产就能生活后提前辞职。所需金额＝距80岁的剩余年数×每年150万円×0.7。达到后即可FIRE，之后自动快进到80岁直接出结果。',
       '자산만으로 살 수 있게 되어 일찍 일을 그만두는 것. 필요액＝80세까지 남은 햇수 × 연 150만 엔 × 0.7. 달성하면 FIRE할 수 있고, 그 뒤 80세까지 자동으로 빨리감기되어 바로 결과가 나온다.')},
-  {id:'rank', term:L4('資産ランクと称号','Asset rank & titles','资产等级与称号','자산 랭크와 칭호'),
-    desc:L4('80歳の資産を、同じくらいの潔白さの人どうしで比べた順位（どん底〜頂点の8段階）。平和な投資はもうけが小さいので、基準額も低め。資産ランク×潔白さで全64種の称号が決まり、★の隠しレア称号は条件を満たしたうえで抽選に当たると手に入る。',
-      'Your assets at 80 ranked against players with similar Integrity (8 levels, Rock bottom → Apex). Peaceful investing earns less, so its bar is lower. Rank × Integrity gives 64 titles; hidden ★ rare titles also require winning a lottery.',
-      '把80岁时的资产与清白度相近的人比较得出的等级（谷底～巅峰8级）。和平投资收益小，所以门槛也低。资产等级×清白度决定64种称号，★隐藏稀有称号还需要抽中。',
-      '80세 자산을 결백도가 비슷한 사람끼리 비교한 순위(밑바닥～정점 8단계). 평화 투자는 수익이 작아 기준액도 낮다. 자산 랭크×결백도로 64종 칭호가 정해지고, ★숨겨진 레어 칭호는 추첨 당첨도 필요.')},
+  {id:'happy', term:L4('幸福度','Happiness','幸福度','행복도'),
+    desc:L4('人生にどれだけ満たされたかを表す0〜100の数字。進学・就職・結婚・子ども・マイホームなど節目の選択で大きく動き、早めのFIREや寄付、ほどほどの資産でも上がる。激務・破産・病気では下がる。お金が多すぎても幸せが増え続けるわけではない。',
+      'A 0–100 score for how fulfilling your life was. It moves most with turning-point choices — school, first job, marriage, kids, a home — and also rises with early FIRE, giving, and having enough money. Brutal work, bankruptcy and illness lower it. More money stops adding much happiness after a point.',
+      '表示人生有多满足的0～100分数。升学、就业、结婚、孩子、买房等节点的选择影响最大，提早FIRE、捐款和适度的资产也会让它上升。过劳、破产、生病会让它下降。钱再多，幸福也不会一直增加。',
+      '인생이 얼마나 충만했는지 나타내는 0～100 숫자. 진학・취업・결혼・자녀・내 집 같은 갈림길의 선택으로 크게 움직이고, 이른 FIRE・기부・적당한 자산으로도 오른다. 격무・파산・병으로 내려간다. 돈이 많다고 행복이 끝없이 늘지는 않는다.')},
+  {id:'rank', term:L4('称号のしくみ','How titles work','称号机制','칭호 구조'),
+    desc:L4('80歳（または破産）の時点の「潔白さ」と「幸福度」で、全64種の称号が決まる。潔白さが死神〜女神のキャラクターを、幸福度がその人生の明るさ（家族・ハート・花かんむり）を決める。仕事は悪魔でも家族に囲まれれば「仕事の鬼」に。★の隠しレア称号は条件を満たしたうえで抽選に当たると手に入る。',
+      'At 80 (or bankruptcy), your Integrity and Happiness decide one of 64 titles. Integrity picks the character (Reaper → Goddess); Happiness decides how bright that life looks (family, hearts, a flower crown). A demon at work surrounded by family becomes the “Workaholic Demon”. Hidden ★ rare titles also require winning a lottery.',
+      '到80岁（或破产）时，由“清白度”和“幸福度”决定64种称号之一。清白度决定角色（死神～女神），幸福度决定这段人生的明亮程度（家人、爱心、花冠）。工作上是恶魔、却被家人围绕的人会成为“工作狂魔”。★隐藏稀有称号还需要抽中。',
+      '80세(또는 파산) 시점의 「결백도」와 「행복도」로 64종 칭호가 정해진다. 결백도는 캐릭터(사신～여신)를, 행복도는 그 인생의 밝기(가족・하트・화관)를 정한다. 일에서는 악마라도 가족에 둘러싸이면 「일벌레 악마」. ★숨겨진 레어 칭호는 추첨 당첨도 필요.')},
   {id:'analysis', term:L4('分析力','Analysis','分析力','분석력'),
     desc:L4('ニュースの見出しの裏にある「本当の値動き」を読む力（Lv0〜3）。Lvが上がると、どの投資先が上がり下がりするか、噂が本当かが分かりやすくなる。大学で経済学を学ぶ・現場経験・専業投資家で上がる。',
       'Your skill at reading the real market move behind a headline (Lv0–3). Higher levels show which assets will rise or fall and whether rumors are true. Raised by studying economics, work experience, or investing full-time.',
@@ -743,7 +846,7 @@ const CONST_GLOSSARY = [
 ];
 
 /* ==================== 定数 ==================== */
-const START_AGE = 18, END_AGE = 80, TPY = 60, BASE_MS = 250; // 60tick × 250ms = 1年15秒（1x）
+const START_AGE = 18, END_AGE = 80, TPY = 4, BASE_MS = 2500; // 1年＝4回の値動き（四半期）。1xで1四半期2.5秒
 const SAVE_KEY = 'historyTrader_save_v3', DEX_KEY = 'historyTrader_dex_v1', LANG_KEY = 'historyTrader_lang';
 const SP_KEY = 'historyTrader_sp_v1', ACH_KEY = 'historyTrader_ach_v1', HIST_KEY = 'historyTrader_hist_v1', HIST_MAX = 10;
 const COL = { T:'#7fb2ff', gold:'#f5c451', rumor:'#6f8ff0', life:'#b48cff', K:'#b48cff' };
@@ -755,22 +858,22 @@ const ROUTES = {
   uni_abroad: { startAge:22, cash:3e5,   kBias:8, pay:[[22,8e5],[30,1.15e6],[50,1.4e6]], skill:{ana:0,trade:0,earn:1.1} },
 };
 
-/* ===== 称号：資産ランク8段階 × 潔白さ8段階 = 64種 =====
-   潔白さの帯ごとに資産ランクの基準額が違う（平和投資は利回りが低いぶん基準も低い）。
-   基準額と推定出現率は、さまざまな戦略のBotによる約2万2千回（v3）のシミュレーションで調整。 */
-const K_EDGES = [47, 51, 54, 58, 61, 66, 72];
-const W_TH = [
-  [3.2e5, 9.7e7, 3.4e8, 7.8e8, 1.6e9, 3.3e9, 8.6e9],
-  [9.5e5, 2.1e7, 1.1e8, 3.6e8, 8.1e8, 1.8e9, 5.0e9],
-  [1.0e5, 1.1e8, 3.9e8, 7.6e8, 1.3e9, 2.1e9, 4.1e9],
-  [2.4e6, 5.9e7, 1.4e8, 3.1e8, 5.7e8, 1.1e9, 2.6e9],
-  [5.3e6, 5.8e7, 1.3e8, 2.6e8, 4.6e8, 8.8e8, 2.2e9],
-  [2.9e6, 5.3e7, 1.3e8, 2.3e8, 4.1e8, 7.8e8, 1.7e9],
-  [1.8e6, 3.7e7, 8.2e7, 1.4e8, 2.5e8, 4.7e8, 1.0e9],
-  [4.9e5, 2.3e7, 7.3e7, 1.3e8, 2.1e8, 3.4e8, 7.8e8],
+/* ===== 称号：幸福度8段階 × 潔白さ8段階 = 64種 =====
+   潔白さの帯ごとに幸福度の区切りが違う（どの称号も出やすさがそろうように）。
+   区切りと推定出現率は、さまざまな生き方のBotによる約3万回（v3.1）のシミュレーションで調整。 */
+const K_EDGES = [10, 23, 33, 40, 46, 52, 62];
+const H_TH = [ // 潔白さの帯ごとの幸福度の区切り（Bot約3万回で調整）
+  [34, 44, 51, 57, 64, 71, 80],
+  [37, 47, 53, 60, 65, 72, 81],
+  [38, 47, 54, 60, 66, 73, 81],
+  [38, 47, 54, 59, 65, 72, 81],
+  [35, 44, 52, 58, 64, 71, 80],
+  [33, 43, 50, 57, 63, 69, 78],
+  [38, 47, 54, 59, 65, 72, 81],
+  [37, 47, 53, 60, 66, 73, 81],
 ];
-const RATE_EST = [0.000998,1.28,3.45,1.45,1.28,1.79,1.7,0.00102,1.54,1.35,1.82,1.47,1.29,1.81,1.67,3.14,1.52,1.22,1.83,1.39,1.23,1.9,1.74,1.59,1.57,1.27,1.88,1.57,1.29,1.72,1.6,1.6,1.49,1.27,1.84,1.41,1.3,1.85,1.8,1.59,1.6,1.35,2.89,1.46,1.27,1.78,1.71,2.56,0.511,1.23,3.43,1.48,1.26,1.74,3.22,0.522,0.000995,0.256,2.87,1.45,1.3,3.38,0.19,0.00102];
-const RATE_NORMAL = [1.22, 3.45]; // 通常称号の推定出現率の範囲（%）
+const RATE_EST = [0.000974,1.41,3.13,1.46,1.51,1.54,1.63,0.000966,1.54,1.42,1.6,1.4,1.49,1.54,1.58,3.06,1.61,1.25,1.66,1.57,1.7,1.4,1.78,1.41,1.41,1.63,1.64,1.33,1.45,1.66,1.51,1.83,1.67,1.22,1.53,1.5,1.57,1.49,1.7,1.52,1.54,1.5,2.89,1.57,1.57,1.45,1.7,2.64,0.523,1.56,3.21,1.53,1.67,1.66,3.39,0.511,0.00103,0.297,2.93,1.49,1.61,3.18,0.189,0.00105];
+const RATE_NORMAL = [1.22, 3.39]; // 通常称号の推定出現率の範囲（%）
 /* レア称号：条件のマスに到達し「運命の審判」に当選すると獲得。外れると fb の通常称号に */
 const RARE = {
   '7-0':{r:'LEGEND', q:1/1550, fb:'6-2'}, '7-7':{r:'LEGEND', q:1/1550, fb:'6-6'},
@@ -1334,6 +1437,238 @@ ko: {
 },
 };
 for(const l in I18N_PATCH) Object.assign(I18N[l], I18N_PATCH[l]);
+/* v3.1：称号を「潔白さ × 幸福度」に。株取引を中心とした人生ゲーム */
+const I18N_HAPPY = {
+ja: {
+  appSub:'株取引を中心とした人生ゲーム',
+  tag:'西暦30XX年、18歳・所持金10万円。<br>株でお金を育てながら、進学・就職・結婚・子ども・マイホーム――<br>人生を選んで80歳を目指そう。',
+  rules:[
+    '<b>株取引を中心とした人生ゲーム</b>。お金は5つの投資先と現金に分けて育てる（ニュースで値段が上下・毎回ランダム）。',
+    '<b>進学・就職・結婚・子ども・マイホーム</b>――人生の大きな節目で生き方を選ぶ（全モード共通）。',
+    '<b>イージー／ノーマル</b>：売買は自動。転職・独立なども選択肢で。<b>ハード</b>：自分で売買する本格派（破産あり）。',
+    '<b>潔白さ</b>：平和な投資ほど上がり、軍事に投資するほど下がる。<b>幸福度</b>：家族・やりがい・ゆとりで上がる。',
+    '資産が目標額に届いたら<b>🔥FIRE</b>して、80歳まで一気にスキップできる。',
+    '潔白さ×幸福度で<b>64種の称号</b>。「仕事の鬼」から「女神様」まで。隠された<b>★レア称号</b>も。「？」で用語の説明。',
+  ],
+  happyL:'幸福度', happySub:'家族・やりがい・ゆとりで上がる',
+  rankLine:'幸福度 {w} × 潔白さ {k}',
+  cond:'条件：潔白さ {k}（{kl}）で、幸福度 {w}', wUnder:'{v}未満', wOver:'{v}以上', wBetween:'{a}〜{b}',
+  shareLbls:{title:'【称号】', assets:'【最終総資産】', karma:'【最終潔白さ】', happy:'【幸福度】'},
+  ratesNote:'レア称号は、ある条件を満たしたうえで「運命の審判」（抽選）に当選すると獲得できます。推定出現率は、さまざまな生き方のプレイヤー（Bot）による約3万回のシミュレーションから求めた参考値で、遊び方によって変わります。通常称号の推定出現率は1種あたり約{lo}〜{hi}%です。',
+  titles:[
+    ['永遠の孤独を生きる死神王','見捨てられた悪魔','破滅の闇商人','落ちぶれた悪徳商人','途方に暮れた市民','報われぬ善人','翼を失った天使','涙の女神'],
+    ['さまよう死神','ひとりぼっちの悪魔','孤高の闇商人','寂しい成金','孤独な会社員','不器用な善人','はぐれ天使','孤高の聖女'],
+    ['虚ろな死神','退屈な小悪魔','心なき相場師','満たされぬ小金持ち','平凡な市民','遠慮がちな善人','迷える天使','祈りの修道女'],
+    ['死神見習い','いたずら小悪魔','裏通りの相場師','ちゃっかり者','ふつうの人','町のいい人','見習い天使','癒やしの聖女'],
+    ['のんきな死神','陽気な小悪魔','闇の趣味人','要領のいい商人','穏やかな市民','縁側の善人','のんびり天使','微笑みの女神'],
+    ['働き者の死神','やり手の悪魔','闇の名プロデューサー','抜け目ない社長','充実した市民','人望あつい善人','守護天使','慈愛の女神'],
+    ['子煩悩な死神','仕事の鬼','家族思いの闇商人','愛妻家の悪徳社長','幸せな家庭人','町一番のお人好し','祝福の天使','幸福の女神'],
+    ['冥府で笑う死神皇帝','家族を愛する魔王','幸せな闇の帝王','憎めない大悪党','人生の勝ち組','天寿を全うした聖人','大天使','女神様'],
+  ],
+  wdesc:['心から笑った日を、思い出せない。','誰とも深くつながれない人生だった。','何かが足りないまま、日々が過ぎた。','大きな幸せも不幸もない、ふつうの毎日。','穏やかで、満ち足りた日々を送った。','やりがいと人に恵まれた人生。','愛する家族に囲まれた、幸せな人生。','これ以上ないほど、幸せな一生だった。'],
+  wlbl:['絶望','孤独','空虚','平凡','穏やか','充実','幸福','至福'],
+  hapUp:'😊↑', hapDown:'😢↓',
+},
+en: {
+  appSub:'A life game built around stock trading',
+  tag:'Year 30XX. You are 18 with ¥100,000.<br>Grow your money in stocks while choosing school, work, marriage, kids and a home —<br>and make it to 80.',
+  rules:[
+    '<b>A life game built around stock trading.</b> Split your money across 5 assets and cash (prices move with random news).',
+    '<b>School, first job, marriage, kids, a home</b> — choose your way of life at the big turning points (all modes).',
+    '<b>Easy/Normal</b>: trading is automatic; career moves are choices too. <b>Hard</b>: trade yourself (bankruptcy ends it).',
+    '<b>Integrity</b> rises with peaceful investing and falls with military stocks. <b>Happiness</b> rises with family, purpose and room to breathe.',
+    'Reach your target and <b>🔥FIRE</b> to skip straight to 80.',
+    'Integrity × Happiness gives <b>64 titles</b>, from “Workaholic Demon” to “The Goddess”, plus hidden <b>★ rare titles</b>. Tap “?” for definitions.',
+  ],
+  happyL:'Happiness', happySub:'Rises with family, purpose and room to breathe',
+  rankLine:'Happiness: {w} × Integrity: {k}',
+  cond:'Condition: Integrity {k} ({kl}) and Happiness {w}', wUnder:'below {v}', wOver:'{v} or more', wBetween:'{a}–{b}',
+  shareLbls:{title:'[Title] ', assets:'[Final assets] ', karma:'[Final Integrity] ', happy:'[Happiness] '},
+  ratesNote:'Rare titles are earned by meeting a hidden condition and then winning the “Judgment of Fate” lottery. Estimated rates come from ~30,000 simulated lives played by bots with various life choices and will vary with your play style. Each normal title appears about {lo}–{hi}% of the time.',
+  titles:[
+    ['Reaper King of Eternal Solitude','Forsaken Demon','Ruined Black Marketeer','Fallen Crook','Lost Citizen','Unrewarded Good Soul','Wingless Angel','Goddess of Tears'],
+    ['Wandering Reaper','Lonely Demon','Aloof Black Marketeer','Lonely Upstart','Lonely Office Worker','Clumsy Good Soul','Stray Angel','Solitary Saint'],
+    ['Hollow Reaper','Bored Imp','Heartless Speculator','Unsatisfied Moneybags','Ordinary Citizen','Shy Good Soul','Lost Angel','Praying Nun'],
+    ['Apprentice Reaper','Mischievous Imp','Back-alley Speculator','Opportunist','Regular Person','Nice Neighbor','Apprentice Angel','Healing Saint'],
+    ['Easygoing Reaper','Cheerful Imp','Shady Hobbyist','Savvy Merchant','Peaceful Citizen','Porch-side Good Soul','Laid-back Angel','Smiling Goddess'],
+    ['Hardworking Reaper','Go-getter Demon','Underworld Producer','Shrewd CEO','Fulfilled Citizen','Beloved Good Soul','Guardian Angel','Goddess of Compassion'],
+    ['Doting Reaper','Workaholic Demon','Family-first Marketeer','Devoted Crooked CEO','Happy Family Person','Kindest Soul in Town','Angel of Blessings','Goddess of Happiness'],
+    ['Laughing Reaper Emperor of Hades','Family-loving Demon Lord','Happy Emperor of Darkness','Lovable Arch-villain','Winner at Life','Saint Who Lived a Full Life','Archangel','The Goddess'],
+  ],
+  wdesc:['You can’t remember the last time you truly laughed. ','A life without anyone close. ','The days passed with something always missing. ','No great joy, no great sorrow — just ordinary days. ','You lived calm, contented days. ','A life rich in purpose and people. ','A happy life surrounded by people you love. ','It could not have been a happier life. '],
+  wlbl:['Despair','Lonely','Empty','Ordinary','Calm','Fulfilled','Happy','Bliss'],
+  hapUp:'😊↑', hapDown:'😢↓',
+},
+zh: {
+  appSub:'以股票交易为中心的人生游戏',
+  tag:'公元30XX年，18岁，手头10万円。<br>一边用股票让钱增值，一边选择升学、就业、结婚、孩子、买房――<br>向80岁前进吧。',
+  rules:[
+    '<b>以股票交易为中心的人生游戏</b>。把钱分配到5类投资和现金中（价格随新闻涨跌，每次随机）。',
+    '<b>升学・就业・结婚・孩子・买房</b>――在人生的重大节点选择活法（所有模式）。',
+    '<b>简单／普通</b>：买卖自动，跳槽、创业等也是选择题。<b>困难</b>：自己买卖（会破产）。',
+    '<b>清白度</b>：和平投资越多越高，投资军事越多越低。<b>幸福度</b>：因家人、意义和余裕而上升。',
+    '资产达到目标后可以<b>🔥FIRE</b>，直接跳到80岁。',
+    '清白度×幸福度决定<b>64种称号</b>，从“工作狂魔”到“女神大人”。还有隐藏的<b>★稀有称号</b>。点“？”查看用语说明。',
+  ],
+  happyL:'幸福度', happySub:'因家人、意义和余裕而上升',
+  rankLine:'幸福度 {w} × 清白度 {k}',
+  cond:'条件：清白度 {k}（{kl}），幸福度 {w}', wUnder:'低于{v}', wOver:'{v}以上', wBetween:'{a}～{b}',
+  shareLbls:{title:'【称号】', assets:'【最终总资产】', karma:'【最终清白度】', happy:'【幸福度】'},
+  ratesNote:'稀有称号需满足特定条件，并在“命运审判”（抽签）中中签才能获得。推定出现率来自各种人生选择的Bot约3万次模拟，仅供参考，会随玩法变化。普通称号每种的推定出现率约为{lo}～{hi}%。',
+  titles:[
+    ['永恒孤独的死神王','被抛弃的恶魔','破灭的黑市商人','落魄的奸商','茫然的市民','得不到回报的好人','失去翅膀的天使','泪之女神'],
+    ['徘徊的死神','孤零零的恶魔','孤傲的黑市商人','寂寞的暴发户','孤独的上班族','笨拙的好人','离群的天使','孤高的圣女'],
+    ['空虚的死神','无聊的小恶魔','冷漠的投机客','不知足的小富翁','平凡的市民','拘谨的好人','迷途的天使','祈祷的修女'],
+    ['见习死神','淘气小恶魔','后巷投机客','机灵鬼','普通人','街坊好人','见习天使','治愈的圣女'],
+    ['悠闲的死神','快活的小恶魔','暗处的玩家','精明的商人','平和的市民','檐廊下的好人','慢悠悠的天使','微笑的女神'],
+    ['勤劳的死神','能干的恶魔','暗黑名制作人','精打细算的社长','充实的市民','德高望重的好人','守护天使','慈爱的女神'],
+    ['爱孩子的死神','工作狂魔','顾家的黑市商人','疼爱伴侣的奸商社长','幸福的居家人','全城最好的老好人','祝福的天使','幸福的女神'],
+    ['冥府中欢笑的死神皇帝','爱家的魔王','幸福的暗黑帝王','让人恨不起来的大恶人','人生赢家','寿终正寝的圣人','大天使','女神大人'],
+  ],
+  wdesc:['已经想不起上次发自内心地笑是什么时候。','一生没能与任何人深交。','日子在缺了点什么中流逝。','没有大喜也没有大悲，平凡的每一天。','度过了平和而满足的日子。','既有意义又有好人缘的人生。','被所爱的家人围绕的幸福人生。','再幸福不过的一生。'],
+  wlbl:['绝望','孤独','空虚','平凡','平和','充实','幸福','至福'],
+  hapUp:'😊↑', hapDown:'😢↓',
+},
+ko: {
+  appSub:'주식 거래를 중심으로 한 인생 게임',
+  tag:'서기 30XX년, 18세・소지금 10만 엔.<br>주식으로 돈을 불리며 진학・취업・결혼・자녀・내 집――<br>인생을 골라 80세를 향해 가자.',
+  rules:[
+    '<b>주식 거래를 중심으로 한 인생 게임</b>. 돈을 5개 투자처와 현금에 나눠 불린다(뉴스로 가격 변동・매번 랜덤).',
+    '<b>진학・취업・결혼・자녀・내 집</b>――인생의 큰 갈림길에서 삶의 방식을 고른다(모든 모드).',
+    '<b>이지／노멀</b>: 매매는 자동. 이직・창업도 선택지로. <b>하드</b>: 직접 매매(파산 있음).',
+    '<b>결백도</b>: 평화로운 투자일수록 오르고 군사 투자일수록 내려간다. <b>행복도</b>: 가족・보람・여유로 오른다.',
+    '자산이 목표액에 닿으면 <b>🔥FIRE</b>로 80세까지 단숨에 건너뛸 수 있다.',
+    '결백도×행복도로 <b>64종 칭호</b>. 「일벌레 악마」부터 「여신님」까지. 숨겨진 <b>★레어 칭호</b>도. 「？」로 용어 설명.',
+  ],
+  happyL:'행복도', happySub:'가족・보람・여유로 오른다',
+  rankLine:'행복도 {w} × 결백도 {k}',
+  cond:'조건: 결백도 {k}({kl}), 행복도 {w}', wUnder:'{v} 미만', wOver:'{v} 이상', wBetween:'{a}～{b}',
+  shareLbls:{title:'[칭호] ', assets:'[최종 총자산] ', karma:'[최종 결백도] ', happy:'[행복도] '},
+  ratesNote:'레어 칭호는 특정 조건을 만족한 뒤 「운명의 심판」(추첨)에 당첨되면 얻을 수 있습니다. 추정 출현율은 다양한 인생을 고른 Bot 약 3만 회 시뮬레이션에서 구한 참고값이며 플레이 방식에 따라 달라집니다. 일반 칭호는 1종당 약 {lo}～{hi}%입니다.',
+  titles:[
+    ['영원한 고독의 사신왕','버림받은 악마','파멸한 암상인','몰락한 악덕 상인','막막한 시민','보답받지 못한 선인','날개를 잃은 천사','눈물의 여신'],
+    ['떠도는 사신','외톨이 악마','고고한 암상인','쓸쓸한 벼락부자','고독한 회사원','서투른 선인','무리를 떠난 천사','고고한 성녀'],
+    ['공허한 사신','심심한 꼬마 악마','냉정한 투기꾼','채워지지 않는 부자','평범한 시민','조심스러운 선인','길 잃은 천사','기도하는 수녀'],
+    ['견습 사신','장난꾸러기 꼬마 악마','뒷골목 투기꾼','눈치 빠른 사람','보통 사람','동네 좋은 사람','견습 천사','치유의 성녀'],
+    ['느긋한 사신','명랑한 꼬마 악마','어둠의 취미인','요령 좋은 상인','온화한 시민','툇마루의 선인','느긋한 천사','미소의 여신'],
+    ['부지런한 사신','수완 좋은 악마','어둠의 명프로듀서','빈틈없는 사장','충실한 시민','신망 두터운 선인','수호천사','자애의 여신'],
+    ['자식 바보 사신','일벌레 악마','가족을 아끼는 암상인','배우자 바보 악덕 사장','행복한 가정인','동네 최고의 호인','축복의 천사','행복의 여신'],
+    ['명부에서 웃는 사신 황제','가족을 사랑하는 마왕','행복한 어둠의 제왕','미워할 수 없는 대악당','인생의 승자','천수를 누린 성인','대천사','여신님'],
+  ],
+  wdesc:['진심으로 웃었던 날이 기억나지 않는다. ','누구와도 깊이 이어지지 못한 인생이었다. ','무언가 모자란 채 하루하루가 흘렀다. ','큰 행복도 불행도 없는 평범한 나날. ','온화하고 만족스러운 나날을 보냈다. ','보람과 사람 복이 있는 인생. ','사랑하는 가족에 둘러싸인 행복한 인생. ','이보다 더 행복할 수 없는 일생이었다. '],
+  wlbl:['절망','고독','공허','평범','온화','충실','행복','지복'],
+  hapUp:'😊↑', hapDown:'😢↓',
+},
+};
+for(const l in I18N_HAPPY) Object.assign(I18N[l], I18N_HAPPY[l]);
+/* v3.1：四半期の値動き・投資領域・投資判断の選択肢・悪魔のささやき */
+const I18N_V31B = {
+ja: {
+  rules:[
+    '<b>株取引を中心とした人生ゲーム</b>。値動きは<b>年4回（四半期ごと）</b>。そのたびにニュースが届く。',
+    '最初に<b>投資領域</b>（5分野から複数）を選ぶ。途中で追加もOK。「領域外を見ない」で関係ない株価・ニュースを非表示に。',
+    '<b>イージー／ノーマル</b>：ニュースのたびに「投資する？」の選択肢。戦争で儲ければお金は増えるが<b>😈悪魔度</b>も上がる。',
+    '<b>進学・就職・結婚・子ども・マイホーム</b>も選択肢で（全モード）。<b>ハード</b>：自分で売買する本格派（破産あり）。',
+    '<b>潔白さ</b>：平和な投資・善い選択で上がる。<b>幸福度</b>：家族・やりがい・ゆとりで上がる。資産が貯まれば<b>🔥FIRE</b>も。',
+    '潔白さ×幸福度で<b>64種の称号</b>。「仕事の鬼」から「女神様」まで。隠された<b>★レア称号</b>も。「？」で用語の説明。',
+  ],
+  qLbl:'四半期', qReport:'第{q}四半期の値動き：{v}',
+  outDomain:'投資領域の外です。「＋投資分野」から加えられます', outDomTag:'領域外',
+  focusOn:'👁 投資領域以外の株価・ニュースを見ない', focusOff:'👁 投資領域以外も表示する',
+  focusOnMsg:'投資領域以外の株価・ニュースを非表示にしました', focusOffMsg:'すべての株価・ニュースを表示します',
+  btnDomain:'＋ 投資分野', domainAddTitle:'投資分野を追加する', domainAddText:'いまの投資領域：{a}\n新しく投資する分野を選ぼう。',
+  domainAdded:'投資分野に「{a}」を追加した',
+  domainQ:'STEP 4 ／ 投資領域', domainTitle:'どの分野に投資する？', domainNote:'複数選べます（あとから追加もできます）。選んだ分野のニュースが来るたびに、投資するかを選びます。',
+  domainOn:'選択中', domainPick:'タップで選択', domainStart:'この{n}分野で人生を始める',
+  devilUp:'😈 悪魔度↑', saintUp:'🕊 潔白さ↑',
+  invQ:'このニュース、投資する？', invQWar:'😈 戦争で儲ける？', invAsk:'→ {a}に投資しますか？', rumorTag:'【噂】',
+  invAll:'{a}に全力で投資する', invAllWar:'戦争特需に乗る：{a}に全力投資', invAllD:'資産の4割を{a}に移す。当たれば大きいが、外れると痛い',
+  invSome:'{a}に少しだけ投資する', invSomeD:'資産の15%だけ動かす',
+  invSell:'{a}を売って逃げる', invSellD:'値下がりしそうな株を手放して現金に',
+  invSkip:'見送る', invSkipD:'今の配分のまま様子を見る',
+  allocEven:'選んだ分野に均等に（{a}）', allocEvenD:'投資領域に同じ割合ずつ。資産の9割を投資', allocEvenShort:'均等',
+  resPriceTitle:'📈 株価の推移（投資領域）', showOther:'投資領域以外の値動きを見る', showMine:'投資領域だけ表示する',
+},
+en: {
+  rules:[
+    '<b>A life game built around stock trading.</b> Prices move <b>4 times a year (each quarter)</b>, and news arrives each time.',
+    'Pick your <b>investment sectors</b> (one or more of 5) at the start; add more later. “Hide other sectors” hides unrelated prices and news.',
+    '<b>Easy/Normal</b>: every relevant news story asks “Invest?”. Profiting from war grows your money — and your <b>😈 devilishness</b>.',
+    '<b>School, first job, marriage, kids, a home</b> are choices too (all modes). <b>Hard</b>: trade yourself (bankruptcy ends it).',
+    '<b>Integrity</b> rises with peaceful investing and good choices. <b>Happiness</b> rises with family, purpose and room to breathe. Save enough and <b>🔥FIRE</b>.',
+    'Integrity × Happiness gives <b>64 titles</b>, from “Workaholic Demon” to “The Goddess”, plus hidden <b>★ rare titles</b>. Tap “?” for definitions.',
+  ],
+  qLbl:'Quarter', qReport:'Q{q} moves: {v}',
+  outDomain:'Outside your sectors. Add it with “＋ Sector”.', outDomTag:'Other',
+  focusOn:'👁 Hide prices & news outside my sectors', focusOff:'👁 Show all sectors',
+  focusOnMsg:'Prices and news outside your sectors are now hidden', focusOffMsg:'Showing all prices and news',
+  btnDomain:'＋ Sector', domainAddTitle:'Add a sector', domainAddText:'Your sectors: {a}\nPick a new sector to invest in.',
+  domainAdded:'Added “{a}” to your sectors',
+  domainQ:'STEP 4 / Sectors', domainTitle:'Which sectors will you invest in?', domainNote:'Pick as many as you like (you can add more later). Each time news hits your sectors, you decide whether to invest.',
+  domainOn:'Selected', domainPick:'Tap to pick', domainStart:'Start life with these {n} sectors',
+  devilUp:'😈 Devilish↑', saintUp:'🕊 Integrity↑',
+  invQ:'Invest on this news?', invQWar:'😈 Profit from war?', invAsk:'→ Invest in {a}?', rumorTag:'[Rumor] ',
+  invAll:'Go all-in on {a}', invAllWar:'Ride the war boom: all-in on {a}', invAllD:'Move 40% of your assets into {a}. Big win if right, painful if wrong.',
+  invSome:'Invest a little in {a}', invSomeD:'Move just 15% of your assets',
+  invSell:'Sell {a} and get out', invSellD:'Dump the stocks likely to fall and hold cash',
+  invSkip:'Pass', invSkipD:'Keep your current mix and watch',
+  allocEven:'Evenly across my sectors ({a})', allocEvenD:'Same share in each of your sectors; 90% invested', allocEvenShort:'Even split',
+  resPriceTitle:'📈 Price history (your sectors)', showOther:'See the other sectors', showMine:'Show only my sectors',
+},
+zh: {
+  rules:[
+    '<b>以股票交易为中心的人生游戏</b>。价格<b>每年变动4次（每季度）</b>，每次都会有新闻。',
+    '开局选择<b>投资领域</b>（5类中可多选），中途也能追加。“不看领域外”可隐藏无关的股价和新闻。',
+    '<b>简单／普通</b>：每当相关新闻出现，都会问“要投资吗？”。靠战争赚钱，钱会变多，<b>😈恶魔度</b>也会上升。',
+    '<b>升学・就业・结婚・孩子・买房</b>也是选择（所有模式）。<b>困难</b>：自己买卖（会破产）。',
+    '<b>清白度</b>：和平投资与善良的选择会提高它。<b>幸福度</b>：因家人、意义和余裕而上升。攒够钱还能<b>🔥FIRE</b>。',
+    '清白度×幸福度决定<b>64种称号</b>，从“工作狂魔”到“女神大人”。还有隐藏的<b>★稀有称号</b>。点“？”查看用语说明。',
+  ],
+  qLbl:'季度', qReport:'第{q}季度涨跌：{v}',
+  outDomain:'不在你的投资领域内。可用“＋投资领域”添加', outDomTag:'领域外',
+  focusOn:'👁 不看投资领域以外的股价和新闻', focusOff:'👁 也显示领域外',
+  focusOnMsg:'已隐藏投资领域以外的股价和新闻', focusOffMsg:'显示全部股价和新闻',
+  btnDomain:'＋ 投资领域', domainAddTitle:'追加投资领域', domainAddText:'当前投资领域：{a}\n选择新的投资领域。',
+  domainAdded:'已将“{a}”加入投资领域',
+  domainQ:'STEP 4 ／ 投资领域', domainTitle:'投资哪些领域？', domainNote:'可多选（之后也能追加）。每当所选领域有新闻，你都要决定是否投资。',
+  domainOn:'已选择', domainPick:'点击选择', domainStart:'以这{n}个领域开始人生',
+  devilUp:'😈 恶魔度↑', saintUp:'🕊 清白度↑',
+  invQ:'这条新闻，要投资吗？', invQWar:'😈 发战争财？', invAsk:'→ 要投资{a}吗？', rumorTag:'【传闻】',
+  invAll:'全力投资{a}', invAllWar:'搭上战争特需：全力投资{a}', invAllD:'把4成资产转到{a}。押中大赚，押错很痛',
+  invSome:'少量投资{a}', invSomeD:'只动用15%的资产',
+  invSell:'卖掉{a}逃跑', invSellD:'抛掉可能下跌的股票换成现金',
+  invSkip:'观望', invSkipD:'维持现在的配置',
+  allocEven:'平均分配到所选领域（{a}）', allocEvenD:'每个投资领域相同比例，投资9成资产', allocEvenShort:'平均',
+  resPriceTitle:'📈 股价走势（投资领域）', showOther:'查看投资领域以外的走势', showMine:'只显示投资领域',
+},
+ko: {
+  rules:[
+    '<b>주식 거래를 중심으로 한 인생 게임</b>. 가격은 <b>1년에 4번(분기마다)</b> 움직이고, 그때마다 뉴스가 온다.',
+    '처음에 <b>투자 영역</b>(5분야 중 복수)을 고른다. 도중에 추가도 OK. 「영역 밖 보지 않기」로 관계없는 주가・뉴스를 숨긴다.',
+    '<b>이지／노멀</b>: 관련 뉴스마다 「투자할까?」 선택지. 전쟁으로 벌면 돈은 늘지만 <b>😈악마도</b>도 오른다.',
+    '<b>진학・취업・결혼・자녀・내 집</b>도 선택지로(모든 모드). <b>하드</b>: 직접 매매(파산 있음).',
+    '<b>결백도</b>: 평화로운 투자・선한 선택으로 오른다. <b>행복도</b>: 가족・보람・여유로 오른다. 돈이 모이면 <b>🔥FIRE</b>도.',
+    '결백도×행복도로 <b>64종 칭호</b>. 「일벌레 악마」부터 「여신님」까지. 숨겨진 <b>★레어 칭호</b>도. 「？」로 용어 설명.',
+  ],
+  qLbl:'분기', qReport:'{q}분기 등락: {v}',
+  outDomain:'투자 영역 밖입니다. 「＋ 투자 분야」로 더할 수 있습니다', outDomTag:'영역 밖',
+  focusOn:'👁 투자 영역 밖의 주가・뉴스 보지 않기', focusOff:'👁 영역 밖도 표시',
+  focusOnMsg:'투자 영역 밖의 주가・뉴스를 숨겼습니다', focusOffMsg:'모든 주가・뉴스를 표시합니다',
+  btnDomain:'＋ 투자 분야', domainAddTitle:'투자 분야 추가', domainAddText:'현재 투자 영역: {a}\n새로 투자할 분야를 고르자.',
+  domainAdded:'투자 분야에 「{a}」를 추가했다',
+  domainQ:'STEP 4 ／ 투자 영역', domainTitle:'어느 분야에 투자할까?', domainNote:'여러 개 고를 수 있다(나중에 추가 가능). 고른 분야에 뉴스가 올 때마다 투자할지 정한다.',
+  domainOn:'선택됨', domainPick:'탭해서 선택', domainStart:'이 {n}개 분야로 인생 시작',
+  devilUp:'😈 악마도↑', saintUp:'🕊 결백도↑',
+  invQ:'이 뉴스, 투자할까?', invQWar:'😈 전쟁으로 벌까?', invAsk:'→ {a}에 투자할까요?', rumorTag:'[소문] ',
+  invAll:'{a}에 전력 투자', invAllWar:'전쟁 특수에 올라탄다: {a}에 전력 투자', invAllD:'자산의 40%를 {a}로 옮긴다. 맞으면 크고, 틀리면 아프다',
+  invSome:'{a}에 조금만 투자', invSomeD:'자산의 15%만 움직인다',
+  invSell:'{a}를 팔고 빠진다', invSellD:'떨어질 것 같은 주식을 팔고 현금으로',
+  invSkip:'지켜본다', invSkipD:'지금 배분 그대로 관망',
+  allocEven:'고른 분야에 균등하게({a})', allocEvenD:'투자 영역마다 같은 비율, 자산의 90% 투자', allocEvenShort:'균등',
+  resPriceTitle:'📈 주가 추이(투자 영역)', showOther:'투자 영역 밖의 움직임 보기', showMine:'투자 영역만 표시',
+},
+};
+for(const l in I18N_V31B) Object.assign(I18N[l], I18N_V31B[l]);
 const I18N_PATCH2 = {
   ja:{reactL:'市場が反応：', autoLog2:'配分を調整：{v}', riskStars:'リスク', none:'なし'},
   en:{reactL:'Market reacts: ', autoLog2:'Rebalanced: {v}', riskStars:'Risk', none:'none'},
@@ -1392,8 +1727,8 @@ const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&l
 const yearOf = age => (S ? S.y0 : 3000) + (age - START_AGE);
 const kIdx = k => { k = Math.round(k); let c = 0; while(c<7 && k>=K_EDGES[c]) c++; return c; };
 const kRange = k => { const lo = k ? K_EDGES[k-1] : 0, hi = k<7 ? K_EDGES[k]-1 : 100; return lo===hi ? `${lo}` : `${lo}–${hi}`; };
-function tierOf(T, k){ let t = 0; for(let i=0;i<7;i++) if(T>=W_TH[k][i]) t = i+1; return t; }
-const wRange = (t, k) => t===0 ? tr('wUnder',{v:money(W_TH[k][0])}) : t===7 ? tr('wOver',{v:money(W_TH[k][6])}) : tr('wBetween',{a:money(W_TH[k][t-1]), b:money(W_TH[k][t])});
+function tierOf(H, k){ let t = 0; for(let i=0;i<7;i++) if(H>=H_TH[k][i]) t = i+1; return t; }
+const wRange = (t, k) => t===0 ? tr("wUnder",{v:H_TH[k][0]}) : t===7 ? tr("wOver",{v:H_TH[k][6]}) : tr("wBetween",{a:H_TH[k][t-1], b:H_TH[k][t]-1});
 const titleNo = (t,k) => String(t*8+k+1).padStart(2,'0');
 const rarityOf = key => RARE[key] ? RARE[key].r : 'N';
 const estOf = key => { const [t,k] = key.split('-').map(Number); return RATE_EST[t*8+k]; };
@@ -1417,10 +1752,13 @@ function charSVG(t, k, sil){
     P.push(`<g fill="#ffe27a" opacity=".22">${r}</g>`);
   }
   if(t>=6) P.push(`<circle cx="60" cy="72" r="58" fill="url(#${u}g)"/>`);
-  if(rich) [[16,30],[104,22],[100,58],[14,64],[26,16]].forEach(([x,y],i)=>
-    P.push(`<g opacity="${.5+i%2*.3}"><circle cx="${x}" cy="${y}" r="4" fill="${gold}" stroke="#b8862a"/><text x="${x}" y="${y+2}" font-size="5" text-anchor="middle" fill="#7a5418" font-weight="900">¥</text></g>`));
+  // 幸福度（t）が上がるほどハートが舞う
+  const heart = (x, y, s, c) => `<path transform="translate(${x} ${y}) scale(${s})" d="M0 3C-2-1-7 0-5 4L0 9L5 4C7 0 2-1 0 3Z" fill="${c}"/>`;
+  if(t>=3) [[16,30],[104,22],[100,58],[14,64],[26,16]].slice(0, t>=6 ? 5 : t>=5 ? 3 : 1).forEach(([x,y],i)=>
+    P.push(`<g opacity="${.55+i%2*.3}">${heart(x, y-4, .9, i%2 ? '#ffd36b' : '#ff8aa8')}</g>`));
   if(k===0) P.push(`<g fill="#5a1a40" opacity=".35"><ellipse cx="30" cy="110" rx="30" ry="10"/><ellipse cx="92" cy="118" rx="34" ry="9"/></g>`);
-  if(t===7) P.push(`<path d="M26 128V46Q26 28 40 28H80Q94 28 94 46V128Z" fill="#7a1a2a" stroke="${gold}" stroke-width="3"/><circle cx="26" cy="44" r="4" fill="${gold}"/><circle cx="94" cy="44" r="4" fill="${gold}"/><path d="M48 28L60 18L72 28Z" fill="${gold}"/>`);
+  // 至福：あたたかい我が家
+  if(t===7) P.push(`<g opacity=".8"><path d="M14 128V66L60 30L106 66V128Z" fill="#8a4a3a" stroke="${gold}" stroke-width="2"/><path d="M8 70L60 26L112 70" fill="none" stroke="#c0503a" stroke-width="6" stroke-linecap="round"/><rect x="20" y="76" width="14" height="12" rx="1" fill="#ffd36b"/><rect x="86" y="76" width="14" height="12" rx="1" fill="#ffd36b"/><path d="M27 76V88M20 82H34M93 76V88M86 82H100" stroke="#8a4a3a" stroke-width="1.2"/></g>`);
   P.push(`<ellipse cx="60" cy="130" rx="32" ry="5" fill="#000" opacity=".35"/>`);
   const bodyFrom = P.length; // ここから下がキャラ本体（シルエット用）
   const C = [
@@ -1540,11 +1878,23 @@ function charSVG(t, k, sil){
     P.push(`<circle cx="90" cy="38" r="6" fill="${sad?'#7a8494':'#bfe8ff'}" stroke="${gold}" stroke-width="1.5"/>`);
   }
   if(t>=4 && k!==0) P.push(`<path d="M50 64Q60 77 70 64" stroke="${gold}" stroke-width="1.8" fill="none"/><circle cx="60" cy="71" r="2.6" fill="#ff4d6d" stroke="${gold}"/>`);
-  const coinStack = (x, n) => { let s=''; for(let i=0;i<n;i++) s+=`<ellipse cx="${x}" cy="${126-i*3}" rx="7" ry="2.6" fill="${gold}" stroke="#b8862a" stroke-width=".8"/>`; return s; };
-  if(t>=3) P.push(coinStack(16, t>=5 ? 6 : 3));
-  if(t>=5) P.push(coinStack(104, t>=7 ? 7 : 4));
-  if(t>=4) P.push(`<path d="M${t>=5?92:96} 128Q88 112 ${t>=5?96:100} 108l-2-4h8l-2 4Q${t>=5?108:112} 112 ${t>=5?104:108} 128Z" fill="#c9a050" stroke="#7a5a20"/><text x="${t>=5?98:102}" y="122" font-size="8" text-anchor="middle" fill="#5a3a10" font-weight="900">¥</text>`);
-  if(crown) P.push(`<g transform="translate(0 ${headY})"><path d="M48 30V19L54 25L60 15L66 25L72 19V30Z" fill="${gold}" stroke="#b8862a"/><circle cx="60" cy="18" r="1.9" fill="#ff4d6d"/><circle cx="51" cy="27" r="1.3" fill="#4dd8ff"/><circle cx="69" cy="27" r="1.3" fill="#4dd8ff"/></g>`);
+  // 家族：幸福度5で子ども、6でパートナー、7でもう1人
+  const person = (x, h, cloth, hair) => {
+    const r = h * .2, top = 128 - h * .62;
+    return `<g><path d="M${x - h*.22} 128Q${x - h*.2} ${top + 2} ${x} ${top}Q${x + h*.2} ${top + 2} ${x + h*.22} 128Z" fill="${cloth}"/>`
+      + `<circle cx="${x}" cy="${top - r*.8}" r="${r}" fill="#f6d2b4"/><path d="M${x - r} ${top - r*.8}Q${x} ${top - r*2.3} ${x + r} ${top - r*.8}Q${x} ${top - r*1.4} ${x - r} ${top - r*.8}Z" fill="${hair}"/>`
+      + `<circle cx="${x - r*.38}" cy="${top - r*.75}" r="${r*.12}" fill="#2a1a14"/><circle cx="${x + r*.38}" cy="${top - r*.75}" r="${r*.12}" fill="#2a1a14"/>`
+      + `<path d="M${x - r*.35} ${top - r*.38}Q${x} ${top - r*.08} ${x + r*.35} ${top - r*.38}" stroke="#a04040" stroke-width="${r*.12}" fill="none"/></g>`;
+  };
+  if(t>=5) P.push(person(15, 30, '#ff9ab8', '#5a3a22'));
+  if(t>=6) P.push(person(105, 42, '#7fa8ff', '#2a1d14'));
+  if(t>=7) P.push(person(28, 24, '#ffd36b', '#2a1d14'));
+  // 花かんむり（幸福度6以上）
+  if(crown){
+    let fl = ''; [[46,28],[51,23],[56,20],[60,19],[64,20],[69,23],[74,28]].forEach(([x,y],i) => {
+      fl += `<circle cx="${x}" cy="${y}" r="2.8" fill="${['#ff8aa8','#fff','#ffd36b'][i%3]}"/><circle cx="${x}" cy="${y}" r="1" fill="#f5a623"/>`; });
+    P.push(`<g transform="translate(0 ${headY})"><path d="M45 29Q60 14 75 29" stroke="#6abf5a" stroke-width="2" fill="none"/>${fl}</g>`);
+  }
   if(t===7) [[18,44,'#4dd8ff'],[102,38,'#ff4d6d'],[12,86,'#2fd89c'],[108,80,'#b48cff']].forEach(([x,y,c]) =>
     P.push(`<path d="M${x} ${y-5}l4 5l-4 5l-4-5z" fill="${c}" stroke="#fff" stroke-width=".6"/>`));
   if(sad){
@@ -1597,14 +1947,15 @@ const route = () => ROUTES[S.route] || ROUTES.high;
 const mode = () => modeById(S.mode);
 const isChoice = () => mode().style === 'choice';
 
-function newState(routeId = 'high', modeId = 'easy', style = 'work'){
+function newState(routeId = 'high', modeId = 'easy', style = 'work', domains){
   const R = ROUTES[routeId] || ROUTES.high, M = modeById(modeId);
   S = { v:3, route:routeId, mode:M.id, startAge:R.startAge, skill:{...R.skill}, kBias:R.kBias, y0:3000 + rint(10, 89),
         age:R.startAge, tick:0, t:0, cash:R.cash, sh:{}, cost:{}, px:{}, hp:{}, hT:[R.cash],
         style:'work', jobMul:1, extra:0, alloc:null, allocId:null, retired:0,
         karma:50+R.kBias, kAcc:0, kN:0, margin:false, auto:false, insured:0, restarts:0, styleChanges:0, speed:M.speed || 1,
         marks:[], pending:[], log:[], queue:[], yearly:[R.cash], yearlyK:[50+R.kBias], yearStart:R.cash, peak:R.cash,
-        lifeDone:{}, flags:{}, turnsDone:{}, sched:[], over:false };
+        lifeDone:{}, flags:{}, turnsDone:{}, sched:[], over:false, hap:0,
+        domains:(domains && domains.length ? domains : AIDS).slice(), focus:false, qStart:{} };
   for(const id of AIDS){ S.sh[id] = 0; S.cost[id] = 0; S.px[id] = 100; S.hp[id] = [100]; }
   if(style === 'invest') setStyle('invest', true);
   S.sched = scheduleYear(S.age);
@@ -1625,6 +1976,7 @@ function income(age){
   else if(S.style === 'invest') v = total() < 2e6 ? 0 : -4e5; // 資産200万円未満はバイトで食いつなぐ
   else v = basePay(age) * S.skill.earn * S.jobMul;
   if(age < 65 && S.style === 'work' && !S.retired) v += S.extra;
+  if(S.flags.kids && age < S.flags.kidsUntil) v -= 4e5 * S.flags.kids; // 子育ての生活費
   if(age >= 65 && S.flags.house) v += 3e5;
   if(S.flags.condo) v += 4.5e5;
   return v;
@@ -1641,39 +1993,62 @@ function curWeights(){ const E = Math.max(total(), 1), w = {}; for(const id of A
 function spend(x){ const amt = Math.min(x, Math.max(0, total()) * .5); S.cash -= amt; return amt; }
 function spendPct(p){ const amt = Math.max(0, total()) * p; S.cash -= amt; return amt; }
 function logT(key, p){ news('sys', tr(key, p)); }
+/* 幸福度（0〜100）：節目の選択（S.hap）＋進路＋ほどほどの資産＋早めのFIRE − 破産 */
+const KARMA_DRIFT = .21;
+const HAP_ROUTE = { high:2, uni_study:5, uni_work:4, uni_invest:4, uni_abroad:8 };
+function happy(){
+  const T = total();
+  let h = 35 + (HAP_ROUTE[S.route] || 0) + (S.hap || 0);
+  h += T <= 0 ? -12 : clamp(5 * Math.log10(T / 2e7), -12, 12); // お金は増えるほど効きが鈍る
+  if(S.fireAge) h += clamp((65 - S.fireAge) * .5, 0, 12);
+  if(S.bankrupt) h -= 15;
+  return Math.round(clamp(h, 0, 100));
+}
 
 /* 出来事を毎回ランダムに生成 */
 function scheduleYear(age){
-  const ev = [], r = Math.random(), M = modeById(S.mode), seasons = activeSeasons();
+  const ev = [], M = modeById(S.mode), seasons = activeSeasons();
   const mult = [M.eventWeights, ...seasons.map(s => s.weights)];
   const scale = fx => { const o = {}; for(const id in fx){ const a = assetById(id); if(a) o[id] = fx[id] * a.ev; } return o; };
-  const nMajor = r < .35 ? 0 : r < .85 ? 1 : 2;
-  for(let i=0;i<nMajor;i++){
-    const d = weightedPick(CONST_EVENTS, mult), Mg = .12 + Math.random()*.38;
-    const f = Math.random() < .2 ? (-.6 + Math.random()*.9) : 1; // 2割は見出しと違う動き
-    const s = scale(d.fx), fx = {}; for(const id in s) fx[id] = s[id] * Mg * f;
-    ev.push({tk:rint(3,50), kind:'hist', id:d.id, p:rint(0,7), imp:d.fx, fx, real:true});
-  }
-  const nR = rint(0, 2);
-  for(let i=0;i<nR;i++){
-    const d = weightedPick(CONST_RUMORS, mult), m = .1 + Math.random()*.15;
-    const s = scale(d.fx), fx = {}; for(const id in s) fx[id] = s[id] * m;
-    ev.push({tk:rint(3,50), kind:'rumor', id:d.id, p:rint(0,7), imp:d.fx, fx, real:Math.random() < .7});
+  // 四半期ごとに最大1本のニュース（時代ニュース45%・噂30%・平穏25%）
+  for(let q=1;q<=TPY;q++){
+    const x = Math.random();
+    if(x < .45){
+      const d = weightedPick(CONST_EVENTS, mult), Mg = .12 + Math.random()*.38;
+      const f = Math.random() < .2 ? (-.6 + Math.random()*.9) : 1; // 2割は見出しと違う動き
+      const s = scale(d.fx), fx = {}; for(const id in s) fx[id] = s[id] * Mg * f;
+      ev.push({tk:q, kind:'hist', id:d.id, p:rint(0,7), imp:d.fx, fx, real:true});
+    } else if(x < .75){
+      const d = weightedPick(CONST_RUMORS, mult), m = .1 + Math.random()*.15;
+      const s = scale(d.fx), fx = {}; for(const id in s) fx[id] = s[id] * m;
+      ev.push({tk:q, kind:'rumor', id:d.id, p:rint(0,7), imp:d.fx, fx, real:Math.random() < .7});
+    }
   }
   for(const sc of [...(M.scripted||[]), ...seasons.flatMap(s => s.scripted||[])]){
     if(sc.age !== age) continue;
-    ev.push({tk:rint(8,40), kind:sc.kind || 'hist', custom:sc.text, p:rint(0,7), imp:sc.fx, fx:{...sc.fx}, real:sc.real !== false});
+    const q = rint(1, TPY), i = ev.findIndex(e => e.tk === q); if(i >= 0) ev.splice(i, 1);
+    ev.push({tk:q, kind:sc.kind || 'hist', custom:sc.text, p:rint(0,7), imp:sc.fx, fx:{...sc.fx}, real:sc.real !== false});
   }
   const choice = M.style === 'choice';
   for(const L of CONST_LIFE){
     if(age>=L.min && age<=L.max && !(L.once && S.lifeDone[L.id]) && (!L.when || L.when(S, choice)) && Math.random() < L.p){
-      ev.push({tk:rint(5,55), kind:'life', id:L.id, cost:L.cost * (L.id==='sick' && age>=60 ? 2 : 1)});
+      ev.push({tk:rint(1,TPY), kind:'life', id:L.id, cost:L.cost * (L.id==='sick' && age>=60 ? 2 : 1)});
       if(L.once) S.lifeDone[L.id] = 1;
     }
   }
   return ev;
 }
-const findDef = ev => (ev.kind==='hist' ? CONST_EVENTS : CONST_RUMORS).find(d => d.id===ev.id);
+/* 投資領域：選んだ分野だけに投資できる。focus中は領域外の株価・ニュースを隠す */
+const inDom = id => S.domains.includes(id);
+const evAssets = imp => Object.keys(imp || {}).filter(id => Math.abs(imp[id]) >= .3);
+const visibleNews = l => !S || !S.focus || !l.a || !l.a.length || l.a.some(inDom);
+function domFilter(w){
+  const o = {}; let out = 0, inSum = 0;
+  for(const id of AIDS){ const v = w[id] || 0; if(inDom(id)){ o[id] = v; inSum += v; } else out += v; }
+  if(out > 0 && inSum > 0) for(const id in o) o[id] += out * o[id] / inSum; // 領域外のぶんは領域内に振り分け（なければ現金）
+  return o;
+}
+const findDef = ev =>(ev.kind==='hist' ? CONST_EVENTS : CONST_RUMORS).find(d => d.id===ev.id);
 const evText = ev => (ev.custom ? txt(ev.custom) : txt((findDef(ev) || {}).text)).replace('{p}', D().places[ev.p || 0]);
 const arrow = x => x > .02 ? '▲' : x < -.02 ? '▼' : '→';
 function moversText(fx, n = 3, withSize){
@@ -1696,21 +2071,27 @@ function step(){
   S.t++; S.tick++;
   const m = gauss(), r = {};
   for(const a of CONST_ASSETS) r[a.id] = a.mu/TPY + a.sig/Math.sqrt(TPY)*(.4*m + .92*gauss());
+  const fakes = [];
   for(const p of S.pending){
-    if(S.t === p.s){
-      if(p.real) news('flash', tr('reactL') + moversText(p.raw, 4));
-      else news('fake', tr('fake', {t:evText(p.ev)}));
-    }
+    if(S.t === p.s && !p.real) fakes.push(p);
     if(S.t >= p.s && S.t < p.e) for(const id in p.fx) r[id] += p.fx[id] / (p.e - p.s);
   }
   S.pending = S.pending.filter(p => S.t < p.e);
+  const prev = {...S.px};
   for(const id of AIDS) S.px[id] = Math.max(.5, S.px[id] * Math.exp(r[id]));
+  // 四半期レポート：この3か月の値動き（投資領域の分）
+  if(!window.__fast && !S.ff){
+    const ids = S.focus ? S.domains : AIDS;
+    news('q', tr('qReport', {q:S.tick, v:ids.map(id => `${txt(assetById(id).short)} ${pct(S.px[id]/prev[id]-1)}`).join('　')}));
+    for(const p of fakes) news('fake', tr('fake', {t:evText(p.ev)}), evAssets(p.raw));
+  }
   S.cash *= 1 + (S.cash >= 0 ? .005 : loanRate()) / TPY;
   S.cash += income(S.age) / TPY;
 
   // 潔白さ＝人生全体の平均（最初の10年分は中立として加重）
   const E = Math.max(total(), 1); let ks = 0;
-  for(const a of CONST_ASSETS) ks += clamp(valOf(a.id) / E, 0, 2) * a.k;
+  let inv = 0; for(const a of CONST_ASSETS){ const w = clamp(valOf(a.id) / E, 0, 2); ks += w * a.k; inv += w; }
+  ks -= KARMA_DRIFT * Math.min(inv, 1); // 投資そのものは少しだけ潔白さを下げる（現金だけなら中立）
   S.kAcc += clamp(ks, -1, 1); S.kN++;
   S.karma = clamp(50 + (S.kBias||0) + 50 * S.kAcc / (S.kN + 10*TPY), 0, 100);
 
@@ -1719,17 +2100,21 @@ function step(){
     if(ev.kind === 'life'){
       const cost = ev.cost > 0 ? Math.min(ev.cost, Math.max(0, total()) * .5) : ev.cost;
       S.cash -= cost;
+      S.hap += (CONST_LIFE.find(l => l.id===ev.id) || {}).hap || 0;
       if(ev.id === 'lotto') S.lotto = true;
       news('life', `${txt((CONST_LIFE.find(l => l.id===ev.id) || {}).text)} ${cost>0?'−':'+'}${money(Math.abs(cost))}`);
     } else {
-      const d = ev.kind==='hist' ? rint(8,16) : rint(6,12), dur = rint(14,28), lf = {};
+      // 値動きは次の四半期から（時代ニュースは1〜2四半期、噂は1四半期かけて反映）
+      const dur = ev.kind==='hist' ? rint(1,2) : 1, lf = {};
       for(const id in ev.fx){ const v = Math.log(1 + clamp(ev.fx[id], -.9, 3)); lf[id] = ev.real ? v : -.3 * v; }
-      S.pending.push({s:S.t+d, e:S.t+d+dur, real:ev.real, ev:{kind:ev.kind, id:ev.id, p:ev.p, custom:ev.custom}, fx:lf, raw:ev.fx});
-      const hint = analysis(ev);
-      news(ev.kind, evText(ev) + (hint ? '\n' + hint : ''));
+      S.pending.push({s:S.t+1, e:S.t+1+dur, real:ev.real, ev:{kind:ev.kind, id:ev.id, p:ev.p, custom:ev.custom}, fx:lf, raw:ev.fx});
+      const hint = analysis(ev), rel = evAssets(ev.imp);
+      news(ev.kind, evText(ev) + (hint ? '\n' + hint : ''), rel);
       if(S.auto && !isChoice()) autoTrade(ev);
-      if(isChoice() && S.style === 'invest' && ev.kind === 'hist' && !S.ff && Math.max(...Object.values(ev.imp).map(Math.abs)) >= .5 && Math.random() < .45)
-        queueChoice({type:'news', ev:{kind:ev.kind, id:ev.id, p:ev.p, custom:ev.custom, imp:ev.imp, fx:ev.fx, real:ev.real}});
+      // 投資判断の選択肢（イージー／ノーマル）：自分の投資領域に関わるニュースのとき
+      const sides = invSides(ev);
+      if(isChoice() && !S.ff && S.style !== 'fire' && S.invAge !== S.age && (sides.up.length || sides.dn.length) && Math.random() < (S.style === 'invest' ? .4 : .28) * (ev.kind === 'rumor' ? .8 : 1) && (S.invAge = S.age))
+        queueChoice({type:'invest', ev:{kind:ev.kind, id:ev.id, p:ev.p, custom:ev.custom, imp:ev.imp, fx:ev.fx, real:ev.real}});
     }
     S.marks.push({t:S.t, k:ev.kind});
   }
@@ -1754,9 +2139,9 @@ function bankruptRescue(b){
   let base;
   if(b === 'insure'){ S.insured++; base = Math.max(1e5, (S.yearStart||0) * .5); news('sys', tr('insured', {v:money(base), n:S.insured})); }
   else { S.restarts++; base = 5e5; news('sys', tr('restart', {v:money(base), n:S.restarts})); }
-  S.cash = base;
+  S.cash = base; S.hap -= 6;
   if(S.age < 65 && (S.style !== 'work' || S.retired)){ S.retired = 0; if(S.style==='fire') S.style = 'invest'; setStyle('work', true); logT('forcedWork'); }
-  else if(S.age >= 65){ S.flags.welfare = 1; logT('welfare'); }
+  else if(S.age >= 65){ if(!S.flags.welfare) S.hap -= 4; S.flags.welfare = 1; logT('welfare'); }
   if(!window.__fast && !S.ff) flash(S.log[0] ? S.log[0].text : '');
 }
 function yearEnd(T){
@@ -1775,13 +2160,19 @@ function yearEnd(T){
   S.sched = scheduleYear(S.age);
   if((isChoice() || S.style === 'fire') && S.alloc) rebalanceTo(S.alloc);
   if(S.auto && !isChoice() && S.style !== 'fire') autoTrade(null);
-  if(isChoice() && !S.ff) checkTurns();
+  // 悪魔のささやき（イージー／ノーマル）：たまに怪しい儲け話が来る
+  if(isChoice() && !S.ff && S.style !== 'fire' && Math.random() < .12){
+    const list = CONST_DEALS.filter(d => (!d.min || S.age >= d.min) && (!d.when || d.when(S)));
+    if(list.length) queueChoice({type:'deal', id:list[Math.floor(Math.random() * list.length)].id});
+  }
+  if(!S.ff) checkTurns();
   save();
 }
 
 /* ==================== 売買 ==================== */
 function rebalanceTo(w){
   const E = total(); if(E <= 0) return;
+  w = domFilter(w);
   let fee = 0, used = 0;
   for(const id of AIDS){
     const tgt = (w[id] || 0) * E, cur = valOf(id);
@@ -1796,6 +2187,7 @@ function trade(act, id, f){
   if(!ui.running || S.over || isChoice() || S.style === 'fire') return;
   if(act === 'cashall'){ for(const a of AIDS) trade('sell', a, 1); return; }
   if(act === 'buy'){
+    if(!inDom(id)){ flash(tr('outDomain')); return; }
     const amt = power() * f;
     if(amt < 1){ flash(tr('noPower')); return; }
     S.sh[id] += amt * (1 - feeRate()) / S.px[id]; S.cost[id] += amt; S.cash -= amt;
@@ -1831,16 +2223,19 @@ function setAuto(on){
 }
 
 /* ==================== 選択肢（人生の節目・配分・働き方・FIRE・ニュース） ==================== */
-function checkTurns(){
+/* 節目：イージー／ノーマルは全部、ハードは life:true（就職・結婚・子ども・住まい）だけ */
+function checkTurns(age = S.age){
   for(const T of CONST_TURNS){
     if(S.over || S.ff) return;
-    if(S.turnsDone[T.id] || T.age !== S.age) continue;
+    if(S.turnsDone[T.id] || T.age !== age) continue;
+    if(!isChoice() && !T.life) continue;
     if(T.when && !T.when(S)) continue;
     S.turnsDone[T.id] = 1;
     queueChoice({type:'turn', id:T.id});
   }
-  if(!S.over && !S.ff && CONST_ALLOC_REVIEWS.includes(S.age)) queueChoice({type:'alloc', reason:'review'});
+  if(isChoice() && !S.over && !S.ff && CONST_ALLOC_REVIEWS.includes(S.age)) queueChoice({type:'alloc', reason:'review'});
 }
+const startTurns = () => checkTurns('start'); // 社会に出た年（就職）
 function queueChoice(item){
   if(!S || S.over || S.ff) return;
   if(window.__fast){ botResolve(item); return; }
@@ -1851,11 +2246,16 @@ function choiceOptions(item){
   const d = D(), hints = modeById(S.mode).hints;
   if(item.type === 'turn'){
     const T = turnById(item.id);
-    return T.opts.filter(o => !o.req || o.req(S)).map(o => ({id:o.id, t:txt(o.t), d:txt(o.d), hint:hints ? txt(o.hint) : ''}));
+    const hm = o => o.hap >= 3 ? ' ' + tr('hapUp') : o.hap <= -3 ? ' ' + tr('hapDown') : '';
+    return T.opts.filter(o => !o.req || o.req(S)).map(o => ({id:o.id, t:txt(o.t), d:txt(o.d), hint:hints ? txt(o.hint) + hm(o) : ''}));
   }
   if(item.type === 'alloc'){
-    const list = CONST_ALLOCS.map(a => ({id:a.id, t:txt(a.name), d:txt(a.d), alloc:a, cur:S.allocId === a.id}));
-    if(S.alloc && item.reason !== 'start') list.unshift({id:'keep', t:tr('allocKeep'), d:tr('allocNow', {a:S.allocId ? txt(allocById(S.allocId).name) : '—'})});
+    // 投資領域と重なる方針だけ（重ならない分は領域内に振り分けた形で表示）＋「選んだ分野に均等」
+    const ev = evenAlloc();
+    const list = [{id:'even', t:tr('allocEven', {a:names(S.domains)}), d:tr('allocEvenD'), alloc:ev, cur:S.allocId === 'even'}]
+      .concat(CONST_ALLOCS.filter(a => a.id === 'none' || AIDS.some(id => inDom(id) && (a.w[id] || 0) > 0))
+        .map(a => ({id:a.id, t:txt(a.name), d:txt(a.d), alloc:{...a, w:domFilter(a.w)}, cur:S.allocId === a.id})));
+    if(S.alloc && item.reason !== 'start') list.unshift({id:'keep', t:tr('allocKeep'), d:tr('allocNow', {a:allocName(S.allocId)})});
     return list;
   }
   if(item.type === 'style'){
@@ -1868,27 +2268,65 @@ function choiceOptions(item){
   if(item.type === 'fire'){
     return [{id:'safe', t:tr('fireSafe'), d:txt(allocById('safe').d)}, {id:'keep', t:tr('fireKeep'), d:''}, {id:'cancel', t:tr('fireCancel'), d:''}];
   }
-  if(item.type === 'news'){
-    const best = Object.entries(item.ev.imp).sort((a, b) => b[1] - a[1])[0];
-    return [
-      {id:'ride', t:tr('newsRide'), d:tr('newsRideD', {a:txt(assetById(best[0]).name)}), hint:''},
-      {id:'defend', t:tr('newsDefend'), d:tr('newsDefendD'), hint:''},
-      {id:'hold', t:tr('newsHold'), d:tr('newsHoldD'), hint:''},
-    ];
+  if(item.type === 'invest'){
+    const {up, dn, war} = invSides(item.ev), o = [], nm = names(up);
+    const mk = f => { const k = investKarma(item.ev, up, f); return k <= -1 ? tr('devilUp') : k >= 1 ? tr('saintUp') : ''; };
+    if(up.length){
+      o.push({id:'all', t:tr(war ? 'invAllWar' : 'invAll', {a:nm}), d:tr('invAllD', {a:nm}), hint:mk(1)});
+      o.push({id:'some', t:tr('invSome', {a:nm}), d:tr('invSomeD'), hint:mk(.5)});
+    }
+    if(dn.length) o.push({id:'sell', t:tr('invSell', {a:names(dn)}), d:tr('invSellD'), hint:''});
+    o.push({id:'skip', t:tr('invSkip'), d:tr('invSkipD'), hint:''});
+    return o;
+  }
+  if(item.type === 'deal'){
+    const Dl = dealById(item.id);
+    const mk = o => (o.karma <= -3 ? tr('devilUp') : o.karma >= 3 ? tr('saintUp') : '') + (hints && o.hint ? ' ' + txt(o.hint) : '');
+    return Dl.opts.map(o => ({id:o.id, t:txt(o.t), d:txt(o.d), hint:mk(o).trim()}));
+  }
+  if(item.type === 'domain'){
+    return AIDS.filter(id => !inDom(id)).map(id => { const a = assetById(id); return {id, t:txt(a.name), d:txt(a.desc), hint:(a.k < 0 ? tr('devilUp') : a.k > 0 ? tr('saintUp') : '')}; })
+      .concat([{id:'cancel', t:tr('fireCancel'), d:''}]);
   }
   return [];
+}
+/* 選んだ分野に均等（9割投資） */
+function evenAlloc(){
+  const w = {}, n = S.domains.length; for(const id of S.domains) w[id] = .9 / n;
+  const avg = f => Math.round(S.domains.reduce((s, id) => s + f(assetById(id)), 0) / n);
+  return {id:'even', w, risk:Math.max(1, avg(a => a.risk)), ret:Math.max(1, avg(a => a.ret || a.risk))};
+}
+const allocName = id => id === 'even' ? tr('allocEvenShort') : id ? txt((allocById(id) || {}).name) : '—';
+const names = ids =>ids.map(id => txt(assetById(id).short)).join('・');
+const dealById = id => CONST_DEALS.find(d => d.id === id);
+/* 投資判断：上がりそうな領域（up）、下がりそうで持っている領域（dn）、戦争がらみか */
+function invSides(ev){
+  const imp = ev.imp || {};
+  const up = AIDS.filter(id => inDom(id) && (imp[id] || 0) >= .3);
+  const dn = AIDS.filter(id => inDom(id) && (imp[id] || 0) <= -.3 && valOf(id) > 0);
+  return {up, dn, war:(imp.mil || 0) >= .4};
+}
+/* 悪魔度：軍事に乗るほど・戦争で儲けるほど潔白さが下がる。グリーンに乗ると少し上がる */
+function investKarma(ev, ids, f){
+  const war = ((ev.imp || {}).mil || 0) >= .4; let k = 0;
+  for(const id of ids){
+    k += assetById(id).k * (assetById(id).k < 0 ? 1.5 : .8) * f;
+    if(war && (id === 'mil' || id === 'space')) k -= (id === 'mil' ? 1.5 : .7) * f;
+  }
+  return Math.round(k * 10) / 10;
 }
 function resolveChoice(item, optId){
   if(item.type === 'turn'){
     const T = turnById(item.id), o = T.opts.find(x => x.id === optId);
     if(!window.__fast) news('pick', tr('turnPicked', {q:txt(T.q), o:txt(o.t)}));
+    S.hap += o.hap || 0;
     o.apply(S);
     if(S.alloc && !S.over) rebalanceTo(S.alloc);
   } else if(item.type === 'alloc'){
     if(optId !== 'keep'){
-      const a = allocById(optId); S.alloc = {...a.w}; S.allocId = a.id;
+      const a = optId === 'even' ? evenAlloc() : allocById(optId); S.alloc = {...a.w}; S.allocId = optId;
       rebalanceTo(S.alloc);
-      if(!window.__fast) logT('allocChanged', {a:txt(a.name)});
+      if(!window.__fast) logT('allocChanged', {a:allocName(optId)});
     }
   } else if(item.type === 'style'){
     if(optId === 'work'){ if(S.style === 'invest') S.jobMul *= .8; S.retired = 0; setStyle('work'); }
@@ -1898,16 +2336,32 @@ function resolveChoice(item, optId){
     if(optId === 'safe'){ S.alloc = {...allocById('safe').w}; S.allocId = 'safe'; }
     else if(!S.alloc || !isChoice()){ S.alloc = curWeights(); S.allocId = null; }
     doFire();
-  } else if(item.type === 'news'){
+  } else if(item.type === 'invest'){
     const E = total(); if(E <= 0) return;
-    if(optId === 'ride'){
-      const best = Object.entries(item.ev.imp).sort((a, b) => b[1] - a[1])[0][0], w = curWeights();
-      for(const id in w) w[id] *= .75; w[best] = (w[best] || 0) + .25; rebalanceTo(w);
-    } else if(optId === 'defend'){
-      const w = curWeights(); let mv = 0;
-      for(const id of ['mil','tech','space']){ mv += (w[id]||0) * .5; w[id] = (w[id]||0) * .5; }
-      w.infra = (w.infra||0) + mv/2; w.green = (w.green||0) + mv/2; rebalanceTo(w);
+    const {up, dn, war} = invSides(item.ev);
+    if((optId === 'all' || optId === 'some') && up.length){
+      const f = optId === 'all' ? .4 : .15, w = curWeights();
+      for(const id in w) w[id] *= (1 - f);
+      for(const id of up) w[id] = (w[id] || 0) + f / up.length;
+      rebalanceTo(w);
+      S.kBias += investKarma(item.ev, up, optId === 'all' ? 1 : .5);
+      if(war && up.includes('mil')) S.warProfit = (S.warProfit || 0) + 1;
+      S.invRide = (S.invRide || 0) + 1;
+    } else if(optId === 'sell'){
+      const w = curWeights(); for(const id of dn) w[id] = 0; rebalanceTo(w);
     }
+    if(!window.__fast){ const o = choiceOptions(item).find(x => x.id === optId); if(o) news('pick', tr('turnPicked', {q:tr('invQ'), o:o.t})); }
+  } else if(item.type === 'deal'){
+    const Dl = dealById(item.id), o = Dl.opts.find(x => x.id === optId);
+    if(!window.__fast) news('pick', tr('turnPicked', {q:txt(Dl.q), o:txt(o.t)}));
+    S.kBias += o.karma || 0; S.hap += o.hap || 0;
+    if(o.apply){ const msg = o.apply(S); if(msg && !window.__fast) news('sys', txt(msg)); }
+    if((o.karma || 0) <= -3) S.dealsTaken = (S.dealsTaken || 0) + 1;
+  } else if(item.type === 'domain'){
+    if(optId === 'cancel' || inDom(optId)) return;
+    S.domains.push(optId); ui.rowsKey = null;
+    if(S.alloc) rebalanceTo(S.alloc);
+    if(!window.__fast) logT('domainAdded', {a:txt(assetById(optId).name)});
   }
 }
 function botResolve(item){
@@ -1938,7 +2392,14 @@ function showChoice(){
   else if(item.type === 'alloc'){ head = tr('allocTitle'); text = item.reason === 'start' ? tr('allocStart') : tr('allocReview'); }
   else if(item.type === 'style'){ head = tr('styleSwitchTitle'); text = tr('styleSwitchText', {s:D().styleNames[S.style]}); }
   else if(item.type === 'fire'){ head = tr('fireTitle'); text = tr('fireText'); }
-  else if(item.type === 'news'){ head = tr('newsQ'); text = evText(item.ev) + (S.skill.ana ? '\n' + analysis(item.ev) : hints ? '\n' + tr('newsHint', {v:moversText(item.ev.imp, 2)}) : ''); }
+  else if(item.type === 'invest'){
+    const {up, dn, war} = invSides(item.ev);
+    head = tr(war ? 'invQWar' : 'invQ');
+    text = (item.ev.kind === 'rumor' ? tr('rumorTag') : '') + evText(item.ev) + '\n' + tr('invAsk', {a:names(up.length ? up : dn)})
+      + (S.skill.ana ? '\n' + analysis(item.ev) : hints ? '\n' + tr('newsHint', {v:moversText(item.ev.imp, 2)}) : '');
+  }
+  else if(item.type === 'deal'){ const Dl = dealById(item.id); head = txt(Dl.q); text = txt(Dl.text); }
+  else if(item.type === 'domain'){ head = tr('domainAddTitle'); text = tr('domainAddText', {a:names(S.domains)}); }
   const kk = kIdx(S.karma), T = total();
   const card = o => {
     let extra = '';
@@ -1950,12 +2411,12 @@ function showChoice(){
     return `<button class="rcard ${o.cur ? 'cur' : ''}" data-opt="${o.id}"><b>${escapeHtml(o.t)}</b>${o.d ? `<div class="rsub">${escapeHtml(o.d)}</div>` : ''}${o.hint ? `<span class="hint">${escapeHtml(o.hint)}</span>` : ''}${extra}</button>`;
   };
   let foot = '';
-  if(item.type === 'turn' || item.type === 'news'){
+  if(item.type === 'turn' || item.type === 'invest' || item.type === 'deal'){
     const need = fireNeed(), ok = canFire();
-    foot = `<div class="cfoot"><button data-sub="alloc">${tr('btnAlloc')}</button><button data-sub="style">${tr('btnStyle')}</button>`
+    foot = `<div class="cfoot">${isChoice() ? `<button data-sub="alloc">${tr("btnAlloc")}</button>` : ""}<button data-sub="style">${tr('btnStyle')}</button>`
       + `<button data-sub="fire" ${ok ? '' : 'disabled'}>${tr('btnFire')}<small>${ok ? tr('fireReady') : tr('fireNeed', {v:moneyShort(need - T)})}</small></button></div>`;
   }
-  P.innerHTML = `<div class="cbanner"><div class="cav">${charSVG(T <= 0 ? 0 : tierOf(T, kk), kk)}</div><div><div class="cage">${tr('choiceAge', {age:S.age, y:yearOf(S.age)})}</div><div class="rh2" style="margin:2px 0 0">${escapeHtml(head)}</div></div></div>`
+  P.innerHTML = `<div class="cbanner"><div class="cav">${charSVG(tierOf(happy(), kk), kk)}</div><div><div class="cage">${tr('choiceAge', {age:S.age, y:yearOf(S.age)})}</div><div class="rh2" style="margin:2px 0 0">${escapeHtml(head)}</div></div></div>`
     + `<div class="ctext">${escapeHtml(text)}</div>` + opts.map(card).join('') + foot;
   $('choiceScr').classList.remove('hidden'); $('choiceScr').scrollTop = 0;
   render();
@@ -1978,15 +2439,18 @@ function openSub(type){
 
 /* ==================== ニュース・表示 ==================== */
 let toastTimer = 0;
-const kindLbl = k => (D().kinds || {})[k] || (k === 'pick' ? '✔' : '');
-function news(kind, text){
+const kindLbl = k => (D().kinds || {})[k] || (k === 'pick' ? '✔' : k === 'q' ? tr('qLbl') : '');
+function news(kind, text, assets){
   if(window.__fast || !S || S.ff) return;
-  S.log.unshift({y:yearOf(S.age), age:S.age, k:kind, text});
-  if(S.log.length > 80) S.log.length = 80;
+  const l = {y:yearOf(S.age), age:S.age, k:kind, text, a:assets};
+  S.log.unshift(l);
+  if(S.log.length > 120) S.log.length = 120;
+  if(!visibleNews(l)) return; // 投資領域以外のニュースは表示しない
+  if(kind === 'q'){ ui.lastQ = {t:S.t, text}; }
   const tt = $('tickerText');
   tt.textContent = `【${kindLbl(kind)}】${text.replace(/\n/g, '　')}`;
   tt.style.animation = 'none'; void tt.offsetWidth; tt.style.animation = '';
-  showToast(kind, text);
+  showToast(kind, text + (kind !== 'q' && ui.lastQ && ui.lastQ.t === S.t ? '\n' + ui.lastQ.text : ''));
   renderLog();
 }
 function showToast(kind, text){
@@ -2003,7 +2467,7 @@ function flash(msg){
   setTimeout(() => { d.style.opacity = 0; setTimeout(() => d.remove(), 300); }, 1800);
 }
 function renderLog(){
-  $('log').innerHTML = S.log.map(l => `<li><em>${l.y} · ${l.age}</em><span class="badge k-${l.k}">${kindLbl(l.k)}</span>${escapeHtml(l.text)}</li>`).join('');
+  $("log").innerHTML = S.log.filter(visibleNews).map(l => `<li><em>${l.y} · ${l.age}</em><span class="badge k-${l.k}">${kindLbl(l.k)}</span>${escapeHtml(l.text)}</li>`).join('');
 }
 const karmaName = k => D().klbl[kIdx(k)];
 function setChg(el, v, prefix=''){ el.textContent = prefix + pct(v); el.className = 'num ' + (v >= 0 ? 'up' : 'down'); }
@@ -2047,21 +2511,28 @@ function render(){
   // 潔白さ
   $('karmaV').textContent = Math.round(S.karma);
   $('karmaMark').style.left = S.karma + '%';
-  const kk = kIdx(S.karma), ak = (T <= 0 ? 0 : tierOf(T, kk)) + '-' + kk + LANG;
+  const kk = kIdx(S.karma), ak = tierOf(happy(), kk) + "-" + kk + LANG;
   $('karmaLbl').textContent = `${karmaName(S.karma)}・${d.arch[kk]}`;
-  if(ui.avatar !== ak){ ui.avatar = ak; $('avatar').innerHTML = charSVG(T <= 0 ? 0 : tierOf(T, kk), kk); }
+  const H = happy();
+  $('happyV').textContent = H; $('happyFill').style.width = H + '%';
+  $('happyLbl').textContent = d.wlbl[tierOf(H, kk)];
+  if(ui.avatar !== ak){ ui.avatar = ak; $('avatar').innerHTML = charSVG(tierOf(happy(), kk), kk); }
   // ポートフォリオ
   const E = Math.max(T, 1), N = S.hT.length, back = Math.max(0, N - 1 - TPY);
   $('stack').innerHTML = AIDS.map(id => `<i style="width:${Math.max(0, valOf(id)/E*100)}%;background:${assetById(id).color}"></i>`).join('') + `<i style="width:${Math.max(0, S.cash/E*100)}%;background:#3a4560"></i>`;
-  $('allocNow').textContent = hard ? '' : (S.allocId ? tr('allocNow', {a:txt(allocById(S.allocId).name)}) : tr('allocNone'));
-  const rowsKey = [LANG, hard, S.style].join();
+  $('allocNow').textContent = hard ? '' : (S.allocId ? tr("allocNow", {a:allocName(S.allocId)}) : tr('allocNone'));
+  const rowsKey = [LANG, hard, S.style, S.domains.join(), S.focus].join();
   if(ui.rowsKey !== rowsKey){
     ui.rowsKey = rowsKey;
-    $('prows').innerHTML = CONST_ASSETS.map(a => `<div class="prow" style="--c:${a.color}">
-      <div class="pn"><i style="background:${a.color}"></i>${escapeHtml(txt(a.name))}<small><span class="stars">${stars(a.risk)}</span> ${escapeHtml(txt(a.desc))}</small></div>
+    $('prows').innerHTML = CONST_ASSETS.map(a => { const dom = inDom(a.id);
+      return `<div class="prow ${S.focus && !dom ? 'hidden' : ''} ${dom ? '' : 'outdom'}" style="--c:${a.color}">
+      <div class="pn"><i style="background:${a.color}"></i>${escapeHtml(txt(a.name))}${dom ? '' : `<em class="odtag">${tr('outDomTag')}</em>`}<small><span class="stars">${stars(a.risk)}</span> ${escapeHtml(txt(a.desc))}</small></div>
       <div class="pp num"><span id="px_${a.id}"></span><small id="pc_${a.id}"></small></div>
       <div class="ph num"><span id="hv_${a.id}"></span><small id="hs_${a.id}"></small></div>
-      ${hard && S.style !== 'fire' ? `<div class="tradebtns"><button class="buy" data-act="buy" data-k="${a.id}">${tr('buy')}</button><button data-act="sell" data-k="${a.id}">${tr('sell')}</button></div>` : ''}</div>`).join('');
+      ${hard && S.style !== 'fire' && dom ? `<div class="tradebtns"><button class="buy" data-act="buy" data-k="${a.id}">${tr('buy')}</button><button data-act="sell" data-k="${a.id}">${tr('sell')}</button></div>` : ''}</div>`; }).join('');
+    $('btnFocus').textContent = S.focus ? tr('focusOff') : tr('focusOn');
+    $('btnFocus').classList.toggle('on', !!S.focus);
+    $('btnFocus').classList.toggle('hidden', S.domains.length >= AIDS.length);
     $('amts').innerHTML = `<span>${tr('tradeAmt')}</span>` + [[1,'amtAll'],[.5,'amtHalf'],[.25,'amtQ']].map(([v, k]) => `<button data-amt="${v}" class="${ui.amt===v?'on':''}">${tr(k)}</button>`).join('');
     $('amts').classList.toggle('hidden', !hard || S.style === 'fire');
     $('hardx').classList.toggle('hidden', !hard || S.style === 'fire');
@@ -2080,10 +2551,11 @@ function render(){
     $('margin').checked = !!S.margin;
   }
   // 行動ボタン
-  const actKey = [LANG, hard, ok, S.style, Math.round((need - T) / 1e5)].join();
+  const actKey = [LANG, hard, ok, S.style, Math.round((need - T) / 1e5), S.domains.length].join();
   if(ui.actKey !== actKey){
     ui.actKey = actKey;
     $('acts').innerHTML = (hard ? '' : `<button data-sub="alloc">${tr('btnAlloc')}</button>`)
+      + (S.style !== 'fire' && S.domains.length < AIDS.length ? `<button data-sub="domain">${tr('btnDomain')}</button>` : '')
       + (S.style !== 'fire' ? `<button data-sub="style">${tr('btnStyle')}</button>` : '')
       + (S.style !== 'fire' ? `<button data-sub="fire" class="fire ${ok ? 'ready' : ''}">${tr('btnFire')}<small>${ok ? tr('fireReady') : tr('fireNeed', {v:moneyShort(Math.max(0, need - T))})}</small></button>` : '');
     $('acts').style.gridTemplateColumns = `repeat(${$('acts').children.length || 1},1fr)`;
@@ -2110,7 +2582,7 @@ function drawChart(){
   const L = 8, R = 50, T = 26, B = 18, pw = W-L-R, ph = H-T-B;
   const X = i => L + (i-start)/span*pw;
   const series = ui.mode === 'price'
-    ? CONST_ASSETS.map(a => ({d:S.hp[a.id], c:a.color, n:txt(a.short)}))
+    ? CONST_ASSETS.filter(a => !S.focus || inDom(a.id)).map(a => ({d:S.hp[a.id], c:a.color, n:txt(a.short)}))
     : [{d:S.hT, c:COL.T, n:tr('legT'), fill:true}];
   const lg = v => Math.log(Math.max(v, ui.mode === 'price' ? .5 : 1e3));
   let mn = Infinity, mx = -Infinity;
@@ -2168,6 +2640,30 @@ function drawChart(){
     lx += w;
   }
 }
+/* 結果画面：投資領域の値動き（ボタンで領域外も） */
+function drawResultPrices(){
+  const c = $('rpcv'); if(!c || !S) return;
+  const [W, H] = fitCanvas(c), x = c.getContext('2d');
+  const list = CONST_ASSETS.filter(a => ui.resAll || inDom(a.id)), n = S.hp[AIDS[0]].length;
+  const L = 8, R = 44, T = 22, B = 18, pw = W-L-R, ph = H-T-B;
+  const lg = v => Math.log(Math.max(v, .5));
+  let mn = Infinity, mx = -Infinity;
+  for(const a of list) for(const v of S.hp[a.id]){ const l = lg(v); if(l < mn) mn = l; if(l > mx) mx = l; }
+  if(mx - mn < .1){ mx += .05; mn -= .05; }
+  const X = i => L + i/(n-1||1)*pw, Y = v => T + (1-(lg(v)-mn)/(mx-mn))*ph;
+  x.font = '600 10px -apple-system,sans-serif'; x.textBaseline = 'middle';
+  for(let j=0;j<=2;j++){ const y = T + j*ph/2, v = Math.exp(mx - (mx-mn)*j/2);
+    x.strokeStyle = 'rgba(120,140,190,.12)'; x.beginPath(); x.moveTo(L,y); x.lineTo(W-R,y); x.stroke();
+    x.fillStyle = '#5b6580'; x.textAlign = 'left'; x.fillText(v >= 100 ? v.toFixed(0) : v.toFixed(1), W-R+4, y); }
+  x.fillStyle = '#5b6580'; x.textAlign = 'left'; x.fillText(String(yearOf(S.startAge)), L, H-8);
+  x.textAlign = 'right'; x.fillText(String(yearOf(S.age)), W-R, H-8);
+  for(const a of list){
+    const d = S.hp[a.id]; x.beginPath(); d.forEach((v,i) => i ? x.lineTo(X(i),Y(v)) : x.moveTo(X(i),Y(v)));
+    x.strokeStyle = a.color; x.lineWidth = inDom(a.id) ? 2 : 1.2; x.globalAlpha = inDom(a.id) ? 1 : .55; x.stroke(); x.globalAlpha = 1;
+  }
+  let lx = L + 2; x.textAlign = 'left';
+  for(const a of list){ const nm = txt(a.short); x.fillStyle = a.color; x.fillRect(lx, 9, 9, 3); x.fillStyle = '#aab3c8'; x.fillText(nm, lx+12, 11); lx += x.measureText(nm).width + 22; }
+}
 function drawResultChart(){
   const c = $('rcv'); if(!c || !S) return;
   const [W, H] = fitCanvas(c), x = c.getContext('2d');
@@ -2203,7 +2699,7 @@ function clearSave(){ try{ localStorage.removeItem(SAVE_KEY); }catch(e){} }
 /* ==================== ゲームの流れ ==================== */
 function hideOverlays(){ ['titleScr','resultScr','setupScr','dexScr','subScr','menuScr','choiceScr'].forEach(id => $(id).classList.add('hidden')); }
 function startGame(resume){
-  if(!resume) newState(setup.route, setup.mode, setup.style);
+  if(!resume) newState(setup.route, setup.mode, setup.style, setup.domains);
   ui.running = true; ui.paused = resume; acc = 0; ui.avatar = ui.chipKey = ui.rowsKey = ui.actKey = null;
   hideOverlays();
   $('tickerText').textContent = tr('tickerInit');
@@ -2214,11 +2710,12 @@ function startGame(resume){
     news('sys', S.route === 'high' ? tr('startHigh', {y:yearOf(18)}) : tr('startUni', {y:yearOf(22), plan:D().planShort[S.route]}));
     if(isChoice()){ ui.paused = false; queueChoice({type:'alloc', reason:'start'}); }
     else { ui.paused = false; showToast('sys', tr('hardTradeHint')); }
+    startTurns();
     save();
   }
 }
 /* セットアップ：モード → 進路 →（大学の過ごし方）→ 働き方 */
-const setup = { mode:'easy', route:'high', style:'work' };
+const setup = { mode:'easy', route:'high', style:'work', domains:[] };
 const scard = (data, cls, item) => `<button class="rcard ${cls}" data-setup="${data}"><span class="rtag">${item.tag}</span><b>${item.name}</b>${item.sub ? `<div class="rsub">${item.sub}</div>` : ''}<ul>${(item.pts||[]).map(p => `<li>${p}</li>`).join('')}${item.minus ? `<li class="minus">${item.minus}</li>` : ''}</ul></button>`;
 function showSetup(stepName){
   const P = $('setupPanel'), d = D();
@@ -2232,6 +2729,12 @@ function showSetup(stepName){
   } else if(stepName === 'plan'){
     P.innerHTML = `<button class="rback" data-setup="go:route">${tr('back')}</button><div class="rq">${tr('planQ')}</div><div class="rh2">${tr('planTitle')}</div>`
       + Object.entries(d.plans).map(([id, p]) => scard('route:' + id, 'gold', p)).join('');
+  } else if(stepName === 'domain'){
+    // 投資領域：5つから複数選べる（あとから追加もできる）
+    P.innerHTML = `<button class="rback" data-setup="go:style">${tr('back')}</button><div class="rq">${tr('domainQ')}</div><div class="rh2">${tr('domainTitle')}</div><div class="tag" style="margin:0 0 4px">${tr('domainNote')}</div>`
+      + CONST_ASSETS.map(a => { const on = setup.domains.includes(a.id);
+        return `<button class="rcard dom ${on ? 'cur' : ''}" data-setup="dom:${a.id}" style="--c:${a.color}"><span class="rtag" style="background:${on ? a.color : '#2b3a5c'};color:${on ? '#0a1020' : '#dfe'}">${on ? '✔ ' + tr('domainOn') : tr('domainPick')}</span><b><i class="dot" style="background:${a.color}"></i>${escapeHtml(txt(a.name))}</b><div class="rsub">${escapeHtml(txt(a.desc))}</div><div class="meter"><span>${tr('allocRisk')} <span class="stars">${stars(a.risk)}</span></span><span>${a.k < 0 ? tr('devilUp') : a.k > 0 ? tr('saintUp') : '🕊 →'}</span></div></button>`; }).join('')
+      + `<button class="bigbtn primary" data-setup="go:start" ${setup.domains.length ? '' : 'disabled style="opacity:.4"'}>${tr('domainStart', {n:setup.domains.length})}</button>`;
   } else {
     P.innerHTML = `<button class="rback" data-setup="go:route">${tr('back')}</button><div class="rq">${tr('styleQ')}</div><div class="rh2">${tr('styleTitle')}</div>`
       + scard('style:work', 'blue', {name:tr('styleWork'), tag:tr('styleWorkTag'), pts:d.styleWorkPts})
@@ -2239,16 +2742,19 @@ function showSetup(stepName){
       + `<div class="center"><button class="linkbtn" data-help="style">${tr('btnHelp')}</button></div>`;
   }
   ['titleScr','resultScr','dexScr'].forEach(id => $(id).classList.add('hidden'));
-  $('setupScr').classList.remove('hidden'); $('setupScr').scrollTop = 0;
+  $('setupScr').classList.remove('hidden');
+  if(stepName !== ui.setupStep) $('setupScr').scrollTop = 0;
   ui.setupStep = stepName;
 }
 $('setupScr').addEventListener('click', e => {
   const b = e.target.closest('[data-setup]'); if(!b) return;
   const [kind, val] = b.dataset.setup.split(':');
   if(kind === 'mode'){ setup.mode = val; showSetup('route'); }
+  else if(kind === 'go' && val === 'start'){ if(setup.domains.length) startGame(false); }
   else if(kind === 'go'){ showSetup(val); }
   else if(kind === 'route'){ setup.route = val; showSetup('style'); }
-  else if(kind === 'style'){ setup.style = val; startGame(false); }
+  else if(kind === 'style'){ setup.style = val; showSetup('domain'); }
+  else if(kind === 'dom'){ const i = setup.domains.indexOf(val); i >= 0 ? setup.domains.splice(i, 1) : setup.domains.push(val); showSetup('domain'); }
 });
 
 function finish(bankrupt){
@@ -2261,8 +2767,8 @@ function finish(bankrupt){
   setTimeout(showResult, bankrupt ? 600 : 300);
 }
 function evaluate(){
-  const T = total(), k = kIdx(S.karma), t = S.bankrupt ? 0 : tierOf(T, k);
-  return {T, t, k};
+  const T = total(), H = happy(), k = kIdx(S.karma), t = tierOf(H, k);
+  return {T, H, t, k};
 }
 function judge(){
   const r = evaluate(), rare = RARE[r.t + '-' + r.k];
@@ -2290,7 +2796,7 @@ function recordSpecials(r){
 }
 function addHistory(r){
   const recs = loadJSON(HIST_KEY, []);
-  recs.unshift({d:today(), v:VERSION, mode:S.mode, route:S.route, style:S.style, fire:S.fireAge||0, y0:S.y0, start:S.startAge, age:S.age, T:Math.round(r.T), karma:Math.round(S.karma), key:r.key, rarity:r.rarity, bankrupt:!!S.bankrupt});
+  recs.unshift({d:today(), v:VERSION, mode:S.mode, route:S.route, style:S.style, fire:S.fireAge||0, y0:S.y0, start:S.startAge, age:S.age, T:Math.round(r.T), karma:Math.round(S.karma), H:r.H, key:r.key, rarity:r.rarity, bankrupt:!!S.bankrupt});
   recs.length = Math.min(recs.length, HIST_MAX);
   saveJSON(HIST_KEY, recs);
   return recs;
@@ -2343,10 +2849,13 @@ function showResult(){
     <div class="rmain">
       <div><label>${tr('finalAssets')}</label><b class="num" style="color:${r.T<0?'var(--danger)':''}">${money(r.T)}</b></div>
       <div><label>${tr('karma')}</label><b class="num">${karma}<small> / 100</small></b><span>${karmaName(S.karma)}</span></div>
+      <div><label>${tr('happyL')}</label><b class="num">${r.H}<small> / 100</small></b><span>${d.wlbl[r.t]}</span></div>
     </div>
     ${extras}
     ${rare ? '' : shareBtn}
     <canvas id="rcv"></canvas>
+    <div class="boxh" style="margin-top:12px"><span>${tr("resPriceTitle")}</span>${S.domains.length < AIDS.length ? `<button id="btnAllPx" class="linkbtn" style="padding:0">${tr("showOther")}</button>` : ""}</div>
+    <canvas id="rpcv"></canvas>
     <div class="dexbar"><span>${tr('dexBar', {n})}</span><div class="pbar"><i style="width:${n/64*100}%"></i></div><button id="btnDexR">${tr('dexView')}</button></div>
     <div class="rstats">
       <div><label>${tr('peak')}</label><b class="num">${money(S.peak)}</b></div>
@@ -2360,7 +2869,9 @@ function showResult(){
     ${TIP_URL ? `<a class="tiplink" href="${escapeHtml(TIP_URL)}" target="_blank" rel="noopener">${tr('tip')}</a>` : ''}
     <div class="streamok">${tr('streamOk')}</div>`;
   $('resultScr').classList.remove('hidden'); $('resultScr').scrollTop = 0;
-  requestAnimationFrame(drawResultChart);
+  ui.resAll = false;
+  requestAnimationFrame(() => { drawResultChart(); drawResultPrices(); });
+  if($("btnAllPx")) $("btnAllPx").onclick = () => { ui.resAll = !ui.resAll; $("btnAllPx").textContent = tr(ui.resAll ? "showMine" : "showOther"); drawResultPrices(); };
   $('btnX').onclick = () => shareX(r, karma);
   $('btnDexR').onclick = () => showDex(r.key);
   $('btnAgain').onclick = () => showSetup('mode');
@@ -2372,6 +2883,7 @@ function shareX(r, karma){
   lines.push(`${L.title}${en?'“':'『'}${d.titles[r.t][r.k]}${en?'”':'』'}` + (S.dex && S.dex.isNew ? tr('shareNew') : ''));
   lines.push(`${L.assets}${money(r.T)}`);
   lines.push(`${L.karma}${karma}%${en?' (':'（'}${karmaName(S.karma)}${en?')':'）'}`);
+  lines.push(`${L.happy}${r.H}${en?' (':'（'}${d.wlbl[r.t]}${en?')':'）'}`);
   if(r.trial && !r.won) lines.push(tr('shareLose', {r:r.trial.r}));
   lines.push(SHARE_HASHTAG);
   const u = GAME_URL ? GAME_URL + 'r/' + r.key + '.html' : shareUrl(); if(u) lines.push(u); // 称号ごとのOGPカード付きページ
@@ -2439,7 +2951,7 @@ function showHist(){
   $('subPanel').innerHTML = `<div class="dexhead"><b>${tr('histTitle')}</b><button class="xclose" data-close>✕</button></div><div class="note" style="text-align:left">${tr('histNote')}</div>`
     + (recs.length ? `<ul class="hist">${recs.map(x => { const [t,k] = x.key.split('-').map(Number);
         return `<li><div class="hi">${charSVG(t,k)}</div><div><b>${escapeHtml(L.titles[t][k])} ${x.rarity !== 'N' ? `<span class="rar r-${x.rarity}">${x.rarity}</span>` : ''}</b>
-        <small>${money(x.T)} ・ ${L.klbl[kIdx(x.karma)]} ${x.karma} ・ ${x.bankrupt ? tr('bankruptAt', {age:x.age, y:x.y0 + x.age - START_AGE}) : x.fire ? tr('resFire', {age:x.fire}) : tr('retired', {y:x.y0 + END_AGE - START_AGE})}</small>
+        <small>${money(x.T)} ・ ${L.klbl[kIdx(x.karma)]} ${x.karma} ・ ${tr('happyL')} ${x.H ?? '—'} ・ ${x.bankrupt ? tr('bankruptAt', {age:x.age, y:x.y0 + x.age - START_AGE}) : x.fire ? tr('resFire', {age:x.fire}) : tr('retired', {y:x.y0 + END_AGE - START_AGE})}</small>
         <small>${escapeHtml(L.routeNames[x.route] || x.route)} ・ ${escapeHtml(txt(modeById(x.mode).name))} ・ ${x.d} ・ v${x.v}</small></div></li>`; }).join('')}</ul>`
       : `<div class="dhint" style="margin-top:20px">${tr('histEmpty')}</div>`);
   $('subScr').classList.remove('hidden'); $('subScr').scrollTop = 0; ui.sub = 'hist';
@@ -2459,6 +2971,7 @@ function showMenu(){
   const choice = S && isChoice(), live = S && ui.running && !S.over && S.style !== 'fire';
   $('menuPanel').innerHTML = `<div class="dexhead"><b>${tr('menuTitle')}</b><button class="xclose" data-closemenu>✕</button></div>`
     + (choice && live ? `<button data-menu="alloc">${tr('btnAlloc')}</button>` : '')
+    + (live && S.domains.length < AIDS.length ? `<button data-menu="domain">${tr("btnDomain")}</button><button data-menu="focus">${S.focus ? tr("focusOff") : tr("focusOn")}</button>` : "")
     + (live ? `<button data-menu="style">${tr('btnStyle')}</button><button data-menu="fire" ${canFire() ? '' : 'disabled'}>${tr('btnFire')}　<small>${canFire() ? tr('fireReady') : tr('fireNeed', {v:money(Math.max(0, fireNeed() - total()))})}</small></button>` : '')
     + `<button data-menu="help">${tr('btnHelp')}</button><button data-menu="dex">${tr('dexBtn', {n:dexCount(loadDex())})}</button><button data-menu="ach">${tr('achTitle')}</button><button data-menu="hist">${tr('histTitle')}</button><button data-menu="fb">${tr('feedbackBtn')}</button><button data-menu="title">${tr('btnTitle')}</button>`;
   $('menuScr').classList.remove('hidden');
@@ -2469,8 +2982,9 @@ $('menuScr').addEventListener('click', e => {
   if(e.target.closest('[data-closemenu]')){ closeMenu(); return; }
   const b = e.target.closest('[data-menu]'); if(!b) return;
   const m = b.dataset.menu;
-  closeMenu(!['alloc','style','fire'].includes(m));
-  if(m === 'alloc' || m === 'style' || m === 'fire') openSub(m);
+  closeMenu(!['alloc','style','fire','domain'].includes(m));
+  if(m === 'alloc' || m === 'style' || m === 'fire' || m === 'domain') openSub(m);
+  else if(m === 'focus') $('btnFocus').onclick();
   else if(m === 'help') showHelp('karma');
   else if(m === 'dex') showDex();
   else if(m === 'ach') showAch();
@@ -2597,6 +3111,12 @@ document.addEventListener('click', e => {
 $('langSel').onchange = e => setLang(e.target.value);
 $('btnMenu').onclick = () => showMenu();
 $('btnPause').onclick = () => { if(!S || S.over || !ui.running || (S.queue && S.queue.length)) return; ui.paused = !ui.paused; if(ui.paused) save(); render(); };
+$('btnFocus').onclick = () => {
+  if(!S) return;
+  S.focus = !S.focus; ui.rowsKey = null;
+  flash(tr(S.focus ? 'focusOnMsg' : 'focusOffMsg'));
+  renderLog(); render(); ui.dirty = true;
+};
 $('btnAuto').onclick = () => { if(S && ui.running && !S.over) setAuto(!S.auto); };
 $('margin').onchange = e => {
   if(!S || S.over || S.auto || isChoice()){ e.target.checked = !!(S && S.margin); return; }
