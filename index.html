@@ -4,26 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#090c13">
-<title>HISTORY TRADER</title>
+<title>TRADER HISTORY</title>
 <meta name="description" content="西暦30XX年、18歳・10万円から80歳まで。人生の節目で選び、未来の歴史で動く5つの投資先でお金を育てる無料ブラウザゲーム。FIREも可能。全64種の称号と隠しレア称号。日本語 / English / 中文 / 한국어">
 <!-- ===== OGP / Xカード ===== -->
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="HISTORY TRADER">
+<meta property="og:site_name" content="TRADER HISTORY">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:locale:alternate" content="en_US">
 <meta property="og:locale:alternate" content="zh_CN">
 <meta property="og:locale:alternate" content="ko_KR">
-<meta property="og:title" content="HISTORY TRADER｜未来史 × 投資で生きる人生シミュレーション">
+<meta property="og:title" content="TRADER HISTORY｜未来史 × 投資で生きる人生シミュレーション">
 <meta property="og:description" content="人生の節目で選び、お金を育てて80歳へ。FIREもできる。富を取るか、潔白を取るか。無料・登録不要。※ゲーム内の架空の取引です。">
 <meta property="og:url" content="https://capital-and-soul.github.io/">
-<meta property="og:image" content="https://capital-and-soul.github.io/ogp.png">
+<meta property="og:image" content="https://capital-and-soul.github.io/ogp.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="HISTORY TRADER — 死神から女神まで64種の称号">
+<meta property="og:image:alt" content="TRADER HISTORY — 死神から女神まで64種の称号">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="HISTORY TRADER｜未来史 × 投資で生きる人生シミュレーション">
+<meta name="twitter:title" content="TRADER HISTORY｜未来史 × 投資で生きる人生シミュレーション">
 <meta name="twitter:description" content="人生の節目で選び、お金を育てて80歳へ。FIREもできる。#キャピタルアンドソウル">
-<meta name="twitter:image" content="https://capital-and-soul.github.io/ogp.png">
+<meta name="twitter:image" content="https://capital-and-soul.github.io/ogp.jpg">
 <style>
 :root{
   --bg:#090c13; --panel:#111725; --panel2:#161e30; --line:#232d45; --text:#e8ecf5; --sub:#8b95ad; --dim:#5b6580;
@@ -403,7 +403,7 @@ svg{display:block;width:100%;height:auto}
 <div id="titleScr" class="overlay">
   <div class="panel">
     <div class="langs" id="langRow"></div>
-    <div class="logo">HISTORY<br>TRADER</div>
+    <div class="logo">TRADER<br>HISTORY</div>
     <div class="appsub" data-i="appSub"></div>
     <div class="tag" id="tagLine"></div>
     <ul class="rules" id="rulesList"></ul>
@@ -447,7 +447,7 @@ const FEEDBACK_EMAIL = '';
 const FEEDBACK_FORM = '';   // 例 'https://docs.google.com/forms/d/e/XXXX/viewform?usp=pp_url&entry.1={category}&entry.2={message}&entry.3={contact}&entry.4={meta}'
 const TIP_URL = '';         // 投げ銭リンク（空なら非表示）
 const SHARE_HASHTAG = '#キャピタルアンドソウル';
-const VERSION = '3.0.0';
+const VERSION = '3.0.1';
 
 /* =====================================================================
    データ定義（データ駆動）：アップデートはこの下の配列に1行足すだけ。
@@ -456,7 +456,8 @@ const VERSION = '3.0.0';
 const L4 = (ja, en, zh, ko) => ({ja, en, zh, ko});
 
 const CONST_CHANGELOG = [
-  {v:'3.0.0', date:'2026-10-19', text:L4('選択肢で人生が進むイージー／ノーマル追加（従来の売買モードはハードに）／働き方（会社員・専業投資家）／FIRE／投資先を5種類に／用語の説明／PC対応',
+  {v:'3.0.1', date:'2026-10-18', text:L4('ゲーム名を「TRADER HISTORY」に変更／結果をXでシェアすると、獲得した称号のキャラクター画像がカードに表示されるように','Renamed to TRADER HISTORY / sharing a result on X now shows your title’s character card','游戏更名为“TRADER HISTORY”／在X分享结果时会显示所获称号的角色卡片','게임 이름을 「TRADER HISTORY」로 변경／X에 결과를 공유하면 획득한 칭호의 캐릭터 카드가 표시')},
+  {v:'3.0.0', date:'2026-10-18', text:L4('選択肢で人生が進むイージー／ノーマル追加（従来の売買モードはハードに）／働き方（会社員・専業投資家）／FIRE／投資先を5種類に／用語の説明／PC対応',
     'Choice-based Easy/Normal modes (trading mode is now Hard) / work styles / FIRE / 5 asset classes / glossary / desktop layout',
     '新增以选择推进人生的简单／普通模式（原交易模式改为困难）／工作方式／FIRE／5类投资／用语说明／支持电脑',
     '선택지로 진행하는 이지／노멀 추가(기존 매매 모드는 하드로)／일하는 방식／FIRE／투자처 5종／용어 설명／PC 대응')},
@@ -2373,7 +2374,7 @@ function shareX(r, karma){
   lines.push(`${L.karma}${karma}%${en?' (':'（'}${karmaName(S.karma)}${en?')':'）'}`);
   if(r.trial && !r.won) lines.push(tr('shareLose', {r:r.trial.r}));
   lines.push(SHARE_HASHTAG);
-  const u = shareUrl(); if(u) lines.push(u);
+  const u = GAME_URL ? GAME_URL + 'r/' + r.key + '.html' : shareUrl(); if(u) lines.push(u); // 称号ごとのOGPカード付きページ
   window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
 }
 function shareUrl(){ if(GAME_URL) return GAME_URL; return /^https?:/.test(location.protocol) ? location.origin + location.pathname : ''; }
@@ -2511,7 +2512,7 @@ function sendFeedback(){
     const url = FEEDBACK_FORM.replace('{category}', encodeURIComponent(cat)).replace('{message}', encodeURIComponent(msg)).replace('{contact}', encodeURIComponent(contact)).replace('{meta}', encodeURIComponent(meta));
     window.open(url, '_blank', 'noopener'); flash(tr('fbOpened')); closeFeedback();
   } else if(FEEDBACK_EMAIL){
-    location.href = `mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent('[HISTORY TRADER] ' + cat)}&body=${encodeURIComponent(body)}`;
+    location.href = `mailto:${FEEDBACK_EMAIL}?subject=${encodeURIComponent('[TRADER HISTORY] ' + cat)}&body=${encodeURIComponent(body)}`;
     flash(tr('fbOpened')); closeFeedback();
   } else {
     const done = () => { flash(tr('fbCopied')); closeFeedback(); };
