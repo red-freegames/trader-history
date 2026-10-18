@@ -336,6 +336,17 @@ svg{display:block;width:100%;height:auto}
   #dexScr .panel,#subScr .panel{max-width:640px}
 }
 </style>
+<script>
+/* アクセス解析（Googleアナリティクス4）。測定IDを入れると本番（github.io）でだけ計測する。画面には何も出さない */
+const GA_ID = "G-FC7LD0DJTQ";
+if (GA_ID && /\.github\.io$/.test(location.hostname)) {
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { dataLayer.push(arguments); };
+  gtag("js", new Date()); gtag("config", GA_ID, { page_title: "TRADER HISTORY" });
+  const s = document.createElement("script"); s.async = true;
+  s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(GA_ID); document.head.appendChild(s);
+}
+</script>
 </head>
 <body>
 <div id="game">
@@ -412,6 +423,7 @@ svg{display:block;width:100%;height:auto}
     <button class="linkbtn" data-fb data-i="feedbackBtn"></button>
   </div>
   <div class="streamok" data-i="streamOk"></div>
+  <a class="pvlink" href="https://red-freegames.github.io/privacy.html" target="_blank" rel="noopener" style="display:block;text-align:center;font-size:10px;opacity:.6;color:inherit;margin-top:2px">プライバシー / Privacy</a>
   <div class="verline" id="verGame"></div>
 </div>
 
@@ -431,6 +443,7 @@ svg{display:block;width:100%;height:auto}
     <details class="chlog"><summary data-i="changelog"></summary><div id="chlogBody"></div></details>
     <div class="note" data-i="offline"></div>
     <div class="streamok" data-i="streamOk"></div>
+    <a class="pvlink" href="https://red-freegames.github.io/privacy.html" target="_blank" rel="noopener" style="display:block;text-align:center;font-size:10px;opacity:.6;color:inherit;margin-top:2px">プライバシー / Privacy</a>
     <div class="verline" id="verTitle"></div>
   </div>
 </div>
