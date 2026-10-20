@@ -161,6 +161,7 @@ details.log summary{font-size:12px;font-weight:800;color:var(--sub);cursor:point
 .rules{font-size:12.5px;line-height:1.7;color:#c7cfe2;padding-left:18px;margin:0 0 14px}
 .rules b{color:var(--text)}
 .bigbtn{display:block;width:100%;min-height:52px;border-radius:14px;border:0;font-size:16px;font-weight:900;margin-top:10px;padding:8px}
+a.bigbtn{display:flex;align-items:center;justify-content:center;text-decoration:none;color:inherit}
 .primary{background:linear-gradient(90deg,#4f7cff,#7d5cff);color:#fff;box-shadow:0 8px 24px rgba(90,100,255,.35)}
 .ghost{background:var(--panel2);border:1px solid #33405f!important}
 .xbtn{background:#000;color:#fff;border:1px solid #444!important}
@@ -439,6 +440,7 @@ if (GA_ID && /\.github\.io$/.test(location.hostname)) {
     <button id="btnNew" class="bigbtn primary" data-i="newGame"></button>
     <button id="btnDex" class="bigbtn ghost"></button>
     <div class="row2"><button id="btnAch" class="bigbtn ghost" data-open="ach" style="font-size:13px"></button><button class="bigbtn ghost" data-open="hist" data-i="histBtn" style="font-size:13px"></button></div>
+    <a id="btnMore" class="bigbtn ghost" href="https://red-freegames.github.io/" data-i="moreGames"></a>
     <div class="center"><button class="linkbtn" data-help="karma" data-i="btnHelp"></button><button class="linkbtn" data-fb data-i="feedbackBtn"></button></div>
     <details class="chlog"><summary data-i="changelog"></summary><div id="chlogBody"></div></details>
     <div class="note" data-i="offline"></div>
@@ -912,7 +914,7 @@ ja: {
     '資産ランク×潔白さで<b>64種の称号</b>。名前の出ていない<b>★レア称号</b>を探し出せ！',
     '進行は1年ごとに自動セーブ。',
   ],
-  continue:'つづきから（{age}歳・{year}年）', newGame:'はじめから', dexBtn:'称号図鑑（{n} / 64）',
+  continue:'つづきから（{age}歳・{year}年）', newGame:'はじめから', moreGames:'🎮 他のゲームを見る', dexBtn:'称号図鑑（{n} / 64）',
   feedbackBtn:'💬 意見を送る', offline:'ゲームは完全オフラインで動作します（通信なし）', confirmNew:'セーブデータを消して最初から始めますか？',
   modeQ:'STEP 1 ／ ゲームモード', modeTitle:'難易度を選ぼう',
   routeQ:'STEP 2 ／ 西暦{year}年・18歳・所持金10万円', routeTitle:'最初の進路を選ぼう',
@@ -1012,7 +1014,7 @@ en: {
     'Asset rank × Integrity = <b>64 titles</b>. Hunt for the <b>★ hidden rare titles</b>!',
     'Progress is auto-saved every year.',
   ],
-  continue:'Continue (age {age}, {year})', newGame:'New game', dexBtn:'Title collection ({n} / 64)',
+  continue:'Continue (age {age}, {year})', newGame:'New game', moreGames:'🎮 More games', dexBtn:'Title collection ({n} / 64)',
   feedbackBtn:'💬 Send feedback', offline:'The game runs fully offline (no network access).', confirmNew:'Delete your saved game and start over?',
   modeQ:'STEP 1 / Game mode', modeTitle:'Choose a difficulty',
   routeQ:'STEP 2 / Year {year} · age 18 · ¥100K', routeTitle:'Choose your first path',
@@ -1112,7 +1114,7 @@ zh: {
     '资产等级×清白度＝<b>64种称号</b>。去寻找<b>★隐藏稀有称号</b>吧！',
     '每年自动存档。',
   ],
-  continue:'继续游戏（{age}岁・{year}年）', newGame:'新游戏', dexBtn:'称号图鉴（{n} / 64）',
+  continue:'继续游戏（{age}岁・{year}年）', newGame:'新游戏', moreGames:'🎮 查看其他游戏', dexBtn:'称号图鉴（{n} / 64）',
   feedbackBtn:'💬 发送意见', offline:'游戏完全离线运行（不联网）', confirmNew:'删除存档并重新开始吗？',
   modeQ:'第1步 ／ 游戏模式', modeTitle:'选择难度',
   routeQ:'第2步 ／ 公元{year}年・18岁・本金10万円', routeTitle:'选择你的第一条路',
@@ -1212,7 +1214,7 @@ ko: {
     '자산 랭크×결백도로 <b>64종 칭호</b>. <b>★숨겨진 레어 칭호</b>를 찾아내라!',
     '진행은 1년마다 자동 저장.',
   ],
-  continue:'이어하기（{age}세・{year}년）', newGame:'처음부터', dexBtn:'칭호 도감（{n} / 64）',
+  continue:'이어하기（{age}세・{year}년）', newGame:'처음부터', moreGames:'🎮 다른 게임 보기', dexBtn:'칭호 도감（{n} / 64）',
   feedbackBtn:'💬 의견 보내기', offline:'게임은 완전히 오프라인으로 동작합니다(통신 없음)', confirmNew:'저장 데이터를 지우고 처음부터 시작할까요?',
   modeQ:'STEP 1 ／ 게임 모드', modeTitle:'난이도를 고르세요',
   routeQ:'STEP 2 ／ 서기 {year}년・18세・소지금 10만 엔', routeTitle:'첫 진로를 고르세요',
